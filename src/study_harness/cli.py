@@ -20,6 +20,7 @@ from .knowledge import Unit, draft_units, load_units, save_unit
 from .outline import build_outline, load_outline, save_outline
 from .render import load_glossary, load_notes, render_document
 from .figures import add_figure, load_figures, request_figure
+from .templates import TemplateSet
 from .state import State
 
 EXIT_OK, EXIT_GATE, EXIT_USAGE, EXIT_INPUT, EXIT_INTERNAL, EXIT_CONFIRM = 0, 1, 2, 3, 4, 5
@@ -266,6 +267,11 @@ def cmd_build(args) -> int:
 
     # ---- outline ----
     existing_outline = load_outline(cfg.workspace)
+    if existing_outline and alias_index:
+        # a renamed unit keeps its hand-placed position instead of jumping to the end
+        for part in existing_outline.get("parts", []):
+            for sec in part.get("sections", []):
+                sec["units"] = [alias_index.get(u, u) for u in sec.get("units", [])]
     outline, conflicts = build_outline(
         units, lecture_titles=lecture_titles, src_to_lecture=src_to_lecture,
         existing=existing_outline if existing_outline and not args.no_merge else None,
@@ -277,6 +283,11 @@ def cmd_build(args) -> int:
     # ---- render + gates ----
     rc = _do_render(cfg, args, state)
     return rc
+
+
+def _templates(cfg: Config) -> TemplateSet:
+    rel = cfg.get("render", "template", default=None)
+    return TemplateSet.load((cfg.workspace / rel) if rel else None)
 
 
 def _do_render(cfg: Config, args, state: State) -> int:
@@ -298,6 +309,7 @@ def _do_render(cfg: Config, args, state: State) -> int:
         assets_src=p["assets"], assets_dst=p["out"] / "book.assets",
         notes=notes, glossary=load_glossary(cfg.workspace),
         figures=load_figures(cfg.workspace),
+        templates=_templates(cfg),
     )
 
     p["out"].mkdir(parents=True, exist_ok=True)
@@ -310,6 +322,7 @@ def _do_render(cfg: Config, args, state: State) -> int:
         "scope": "semester",
         "source_references": mode,
         "unit_count": len(units),
+        "template_hash": _templates(cfg).hash,
     }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     report: GateReport = run_gates(units=units, outline=outline, blocks=blocks,

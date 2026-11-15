@@ -49,24 +49,39 @@ options = {
 
 ### 3.1 目录
 
+v0.1 实现的是 **manifest 模式**（布局即数据），文件级模板为后续阶段：
+
 ```
 templates/
 └── learn/
-    ├── md/
-    │   ├── manifest.yaml        # 层级装配顺序与占位符定义
-    │   ├── document.md          # 文档级骨架
-    │   ├── part.md              # 讲次/章节级
-    │   ├── section.md           # 节级
-    │   ├── unit.md              # 知识点级
-    │   └── blocks/
-    │       ├── formula.md
-    │       ├── table.md
-    │       ├── image.md
-    │       └── code.md
-    └── tex/
+    └── md/
+        └── manifest.yaml        # 标题格式、节顺序、折叠规则
 ```
 
-`manifest.yaml` 声明各层模板文件、占位符白名单与装配顺序。未在 manifest 中声明的占位符视为错误。
+```yaml
+version: 1
+document:
+  title: "# {title}"
+  toc_heading: "## 目录"
+  toc_part: "- 第 {label} 讲 {title}"
+  toc_section: "  - {label}.{index} {title}"
+  toc_unit: "    - {number} {title}"
+part:
+  lecture: "# 第 {label} 讲 {title}"
+section:
+  heading: "## {label}.{index} {title}"
+unit:
+  heading: "### {number} {title}"
+  section_label: "**{name}**"
+  omit_heading_if_same: true
+section_order:
+  learn: [定义, 陈述, 说明, ...]
+  review: [陈述, 定义, 要点, ...]
+```
+
+`{...}` 占位符由渲染器填充，未声明的键回退到内置默认值。manifest 的哈希参与缓存键（`template_hash`）并写入 `meta.json`，因此换模板必然重建。
+
+文件级模板（每个层级一个 `.md` 骨架 + 块级模板）留待后续；届时 manifest 只负责声明层级文件的位置，不改动本节其余约束。
 
 ### 3.2 占位符语法
 

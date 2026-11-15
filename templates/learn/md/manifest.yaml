@@ -1,0 +1,27 @@
+# Layout is data: change this file, not the renderer.
+# Placeholders use {name} and are filled by the renderer.
+version: 1
+
+document:
+  title: "# {title}"
+  toc_heading: "## 目录"
+  toc_part: "- 第 {label} 讲 {title}"
+  toc_part_other: "- {title}"
+  toc_section: "  - {label}.{index} {title}"
+  toc_unit: "    - {number} {title}"
+
+part:
+  lecture: "# 第 {label} 讲 {title}"
+  other: "# {title}"
+
+section:
+  heading: "## {label}.{index} {title}"
+
+unit:
+  heading: "### {number} {title}"
+  section_label: "**{name}**"
+  omit_heading_if_same: true
+
+section_order:
+  learn: [定义, 陈述, 说明, 问题, 步骤, 复杂度, 依据, 用途, 算式, 表格, 图示, 图示标注, 例子, 示例, 验证, 易错, 错误说法, 正确说法, 原因, 要点, 备注]
+  review: [陈述, 定义, 要点, 易错, 错误说法, 正确说法, 原因, 用途, 依据, 说明, 问题, 步骤, 复杂度, 算式, 表格, 图示, 图示标注, 例子, 示例, 验证, 备注]

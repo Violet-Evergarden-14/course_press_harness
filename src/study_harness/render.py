@@ -14,6 +14,7 @@ from typing import Any
 import yaml
 
 from .knowledge import Unit
+from .templates import TemplateSet
 
 REF_RE = re.compile(r"\[\[([^\]|]+)(?:\|([^\]]+))?\]\]")
 
@@ -39,8 +40,9 @@ class Rendered:
     numbering: dict[str, str]
 
 
-def _ordered_sections(unit: Unit, profile: str) -> list[tuple[str, list[str]]]:
-    order = SECTION_ORDER.get(profile, SECTION_ORDER["learn"])
+def _ordered_sections(unit: Unit, profile: str,
+                      templates: "TemplateSet | None" = None) -> list[tuple[str, list[str]]]:
+    order = templates.order(profile) if templates is not None else SECTION_ORDER.get(profile, SECTION_ORDER["learn"])
     known = [(name, unit.sections[name]) for name in order if name in unit.sections]
     extra = [(name, lines) for name, lines in unit.sections.items()
              if name not in order]
@@ -84,7 +86,9 @@ def render_document(
     notes: list[dict[str, Any]] | None = None,
     glossary: dict[str, Any] | None = None,
     figures: dict[str, Any] | None = None,
+    templates: "TemplateSet | None" = None,
 ) -> Rendered:
+    templates = templates or TemplateSet()
     by_id = {u.id: u for u in units}
     numbers = number_units(outline)
     notes = notes or []
@@ -125,8 +129,8 @@ def render_document(
 
         return REF_RE.sub(repl, text)
 
-    out: list[str] = [f"# {title}", ""]
-    toc: list[str] = ["## 目录", ""]
+    out: list[str] = [templates.fmt("document", "title", title=title), ""]
+    toc: list[str] = [templates.fmt("document", "toc_heading"), ""]
 
     for part in outline.get("parts", []):
         kind = part.get("kind")
@@ -135,29 +139,35 @@ def render_document(
             toc.append(f"- {ptitle}")
             continue
         label = part.get("label") or str(part.get("no"))
-        toc.append(f"- 第 {label} 讲 {ptitle}" if kind == "lecture" else f"- {ptitle}")
-        out.append(f"# {ptitle}" if kind != "lecture" else f"# 第 {label} 讲 {ptitle}")
+        if kind == "lecture":
+            toc.append(templates.fmt("document", "toc_part", label=label, title=ptitle))
+        else:
+            toc.append(templates.fmt("document", "toc_part_other", title=ptitle))
+        out.append(templates.fmt("part", kind if kind == "lecture" else "other",
+                                 label=label, title=ptitle))
         out.append("")
         for s_idx, sec in enumerate(part.get("sections", []), start=1):
             sec_title = display_title(sec.get("title", ""))
-            out.append(f"## {label}.{s_idx} {sec_title}")
+            out.append(templates.fmt("section", "heading", label=label, index=s_idx, title=sec_title))
             out.append("")
-            toc.append(f"  - {label}.{s_idx} {sec_title}")
+            toc.append(templates.fmt("document", "toc_section", label=label, index=s_idx, title=sec_title))
             for uid in sec.get("units", []):
                 unit = by_id.get(uid)
                 if unit is None:
                     continue
                 num = numbers.get(uid, "?")
                 utitle = display_title(unit.title)
-                if utitle and utitle != sec_title:
-                    out.append(f"### {num} {utitle}")
+                show_heading = utitle and not (
+                    templates.omit_duplicate_heading() and utitle == sec_title)
+                if show_heading:
+                    out.append(templates.fmt("unit", "heading", number=num, title=utitle))
                     out.append("")
-                    toc.append(f"    - {num} {utitle}")
-                for name, lines in _ordered_sections(unit, profile):
+                    toc.append(templates.fmt("document", "toc_unit", number=num, title=utitle))
+                for name, lines in _ordered_sections(unit, profile, templates):
                     body = _apply_notes(unit, name, lines, notes, profile)
                     if not body:
                         continue
-                    out.append(f"**{name}**")
+                    out.append(templates.fmt("unit", "section_label", name=name))
                     out.append("")
                     out.extend(resolve(line, uid) for line in body)
                     out.append("")

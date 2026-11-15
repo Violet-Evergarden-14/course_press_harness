@@ -121,7 +121,9 @@ The architecture is specified before the code, deliberately:
 | Continuous Markdown render, `learn` view | implemented |
 | Gates: source references, dangling refs, coverage, path leak, numbering, figures | implemented |
 | Figures: extracted / redrawn (mermaid, dot, svg, tikz) / synthesized, provenance gates | implemented |
-| Template system (`templates/`), `review` view, LaTeX output | not implemented (layout is built in) |
+| Template manifest (`templates/<profile>/<format>/manifest.yaml`) | implemented — heading formats and section order are data |
+| Full per-layer template files, LaTeX output | not implemented |
+| `review` view | implemented (section order + note emphasis) |
 | Audio alignment, L2/L3 review, gap filling | not implemented (protocols documented) |
 
 Draft units carry `draft: true` and often an `auto-…` id; the `auto_unit_id` gate reports them as
