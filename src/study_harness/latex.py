@@ -39,6 +39,7 @@ DEFAULT_PREAMBLE = r"""\documentclass[11pt,a4paper,openany]{ctexbook}
 \usepackage{tikz}
 \usepackage{setspace}
 \usepackage{adjustbox}
+\usepackage{tabularx}
 \usepackage[hidelinks]{hyperref}
 
 % ---- palette measured from the reference study document -------------------
@@ -168,9 +169,23 @@ def markers_to_tex(text: str) -> str:
                 .replace(ITAL_OPEN, r"\emph{").replace(ITAL_CLOSE, "}"))
 
 
+SUP_PAREN_RE = re.compile(r"([A-Za-z0-9])\^\(([^)]{1,12})\)")
+SUP_WORD_RE = re.compile(r"([A-Za-z0-9])\^([A-Za-z0-9])")
+
+
+def superscripts(text: str) -> str:
+    """Turn `2^(i-1)` / `2^k` into real superscripts.
+
+    The composer writes formulas in plain text; left alone they print as literal
+    carets, which is unreadable in a maths-heavy chapter.
+    """
+    text = SUP_PAREN_RE.sub(lambda m: f"${m.group(1)}^{{{m.group(2)}}}$", text)
+    return SUP_WORD_RE.sub(lambda m: f"${m.group(1)}^{{{m.group(2)}}}$", text)
+
+
 def escape_tex(text: str) -> str:
     """Escape prose while leaving `$...$` math untouched."""
-    parts = INLINE_MATH_RE.split(text or "")
+    parts = INLINE_MATH_RE.split(superscripts(text or ""))
     out: list[str] = []
     for i, part in enumerate(parts):
         if i % 2 == 1:  # math span, already LaTeX
@@ -270,6 +285,7 @@ def build_tex(
 
 BOX_OPEN_RE = re.compile(r"^:::(note|warn)\s*(.*)$")
 BULLET_RE = re.compile(r"^[-*•]\s+(.*)$")
+NUM_ITEM_RE = re.compile(r"^\d+[.、)]\s+(.*)$")
 
 
 def _unit_body(unit: Unit, profile: str, notes: list[dict[str, Any]],
@@ -300,6 +316,7 @@ def _render_blocks(body: list[str], assets_dir: Path | None,
     out: list[str] = []
     table: list[str] = []
     bullets: list[str] = []
+    numbers: list[str] = []
     box: tuple[str, str, list[str]] | None = None
 
     def flush_table() -> None:
@@ -317,22 +334,43 @@ def _render_blocks(body: list[str], assets_dir: Path | None,
             out.append(r"\end{itemize}")
             bullets = []
 
+    def flush_numbers() -> None:
+        nonlocal numbers
+        if numbers:
+            out.append(r"\begin{enumerate}")
+            for item in numbers:
+                out.append(r"  \item " + _inline_line(item, assets_dir, figures))
+            out.append(r"\end{enumerate}")
+            numbers = []
+
     def emit_line(line: str) -> None:
         m = EQUATION_RE.match(line)
         if m:
+            flush_numbers()
             out.extend([r"\begin{equation*}", m.group(1).strip(), r"\end{equation*}"])
             return
         if line.startswith("|"):
             flush_bullets()
+            flush_numbers()
             table.append(line)
             return
         flush_table()
         bm = BULLET_RE.match(line)
         if bm:
+            flush_numbers()
             bullets.append(bm.group(1).strip())
             return
+        nm = NUM_ITEM_RE.match(line)
+        if nm:
+            flush_bullets()
+            numbers.append(nm.group(1).strip())
+            return
         flush_bullets()
+        flush_numbers()
+        # one source line = one paragraph: without an explicit break, LaTeX joins
+        # consecutive lines and every 步骤/证明 step collapses into one blob
         out.append(_inline_line(line, assets_dir, figures))
+        out.append("")
 
     for raw in body:
         line = raw.strip()
@@ -342,6 +380,7 @@ def _render_blocks(body: list[str], assets_dir: Path | None,
             if line == ":::":
                 kind, title, inner = box
                 flush_bullets()
+                flush_numbers()
                 flush_table()
                 env = "nbox" if kind == "note" else "wbox"
                 out.append(r"\begin{%s}{%s}" % (env, escape_tex(title)))
@@ -354,6 +393,7 @@ def _render_blocks(body: list[str], assets_dir: Path | None,
         opener = BOX_OPEN_RE.match(line)
         if opener:
             flush_bullets()
+            flush_numbers()
             flush_table()
             box = (opener.group(1), opener.group(2).strip(), [])
             continue
@@ -363,12 +403,14 @@ def _render_blocks(body: list[str], assets_dir: Path | None,
         kind, title, inner = box
         env = "nbox" if kind == "note" else "wbox"
         flush_bullets()
+        flush_numbers()
         flush_table()
         out.append(r"\begin{%s}{%s}" % (env, escape_tex(title)))
         out.extend(_render_blocks(inner, assets_dir, figures))
         out.append(r"\end{%s}" % env)
 
     flush_bullets()
+    flush_numbers()
     flush_table()
     return out
 
@@ -428,14 +470,17 @@ def _md_table(lines: list[str]) -> list[str]:
     if len(rows) < 2:
         return []
     cols = max(len(r) for r in rows)
-    out = [r"\begin{center}\small\begin{tabular}{" + ("l" * cols) + "}",
+    # `l` columns never wrap: long cells overflow and the table reads as scrambled.
+    # First column keeps its natural width, the rest share what is left.
+    spec = "l" + "X" * (cols - 1) if cols > 1 else "l"
+    out = [r"\begin{center}\small\begin{tabularx}{\linewidth}{" + spec + "}",
            r"\toprule"]
     # shaded sans-serif header, no vertical rules — as in the reference document
     out.append(r"\thead{" + " & ".join(md_inline_to_tex(escape_tex(c)) for c in rows[0]) + r"} \\")
     out.append(r"\midrule")
     for row in rows[1:]:
         out.append(" & ".join(markers_to_tex(escape_tex(emph_to_markers(c))) for c in row) + r" \\")
-    out += [r"\bottomrule", r"\end{tabular}\end{center}"]
+    out += [r"\bottomrule", r"\end{tabularx}\end{center}"]
     return out
 
 
