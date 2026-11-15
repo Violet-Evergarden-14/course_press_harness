@@ -21,7 +21,7 @@ from .knowledge import Unit
 from .render import display_title, number_units
 from .templates import TemplateSet
 
-DEFAULT_PREAMBLE = r"""\documentclass[11pt,a4paper,openany]{ctexbook}
+DEFAULT_PREAMBLE = r"""\documentclass[12pt,a4paper,openany]{ctexbook}
 \usepackage{geometry}
 \geometry{a4paper,margin=2.5cm}
 \usepackage{amsmath,amssymb}
@@ -65,23 +65,23 @@ DEFAULT_PREAMBLE = r"""\documentclass[11pt,a4paper,openany]{ctexbook}
 }
 
 % ---- spacing: generous leading, 2em first-line indent ---------------------
-\onehalfspacing
+\linespread{1.38}
 \setlength{\parindent}{2em}
-\setlength{\parskip}{0.4em}
-\setlist[itemize]{itemsep=3pt,topsep=4pt,leftmargin=1.8em,labelsep=0.5em}
-\setlist[enumerate]{itemsep=3pt,topsep=4pt,leftmargin=2em}
+\setlength{\parskip}{0.32em}
+\setlist[itemize]{itemsep=4pt,topsep=6pt,leftmargin=1.9em,labelsep=0.6em}
+\setlist[enumerate]{itemsep=4pt,topsep=6pt,leftmargin=2.1em}
 
 % ---- two kinds of call-out boxes (blue = definition, orange = pitfall) ----
 \newtcolorbox{nbox}[1]{
   enhanced, colback=notebg, colframe=noterule, boxrule=0.4pt, arc=1pt,
-  left=6pt,right=6pt,top=4pt,bottom=4pt,
+  left=9pt,right=9pt,top=7pt,bottom=7pt,
   colbacktitle=notebar, coltitle=white, fonttitle=\sffamily\bfseries\small,
   title={#1}, toptitle=2pt, bottomtitle=2pt, before skip=0.7em, after skip=0.7em,
   breakable,
 }
 \newtcolorbox{wbox}[1]{
   enhanced, colback=warnbg, colframe=warnrule, boxrule=0.4pt, arc=1pt,
-  left=6pt,right=6pt,top=4pt,bottom=4pt,
+  left=9pt,right=9pt,top=7pt,bottom=7pt,
   colbacktitle=warnbar, coltitle=white, fonttitle=\sffamily\bfseries\small,
   title={#1}, toptitle=2pt, bottomtitle=2pt, before skip=0.7em, after skip=0.7em,
   breakable,
@@ -134,6 +134,7 @@ ITALIC_RE = re.compile(r"(?<!\*)\*([^*\n]+)\*(?!\*)")
 
 BOLD_OPEN, BOLD_CLOSE = "\x01", "\x02"
 ITAL_OPEN, ITAL_CLOSE = "\x03", "\x04"
+CODE_OPEN, CODE_CLOSE = "\x05", "\x06"
 
 
 def md_inline_to_tex(text: str) -> str:
@@ -154,6 +155,13 @@ def md_inline_to_tex(text: str) -> str:
     return "".join(out)
 
 
+INLINE_CODE_RE = re.compile(r"`([^`\n]+)`")
+
+
+def inline_code_to_markers(text: str) -> str:
+    return INLINE_CODE_RE.sub(lambda m: CODE_OPEN + m.group(1) + CODE_CLOSE, text)
+
+
 def emph_to_markers(text: str) -> str:
     """Emphasis first, escaping second.
 
@@ -161,16 +169,27 @@ def emph_to_markers(text: str) -> str:
     inserted math span then splits "**...**" so the bold regex never matches and the
     asterisks leak into the PDF.
     """
-    return md_inline_to_tex(text)
+    return md_inline_to_tex(inline_code_to_markers(text))
 
 
 def markers_to_tex(text: str) -> str:
     return (text.replace(BOLD_OPEN, r"\textbf{").replace(BOLD_CLOSE, "}")
-                .replace(ITAL_OPEN, r"\emph{").replace(ITAL_CLOSE, "}"))
+                .replace(ITAL_OPEN, r"\emph{").replace(ITAL_CLOSE, "}")
+                .replace(CODE_OPEN, r"\texttt{").replace(CODE_CLOSE, "}"))
 
 
 SUP_PAREN_RE = re.compile(r"([A-Za-z0-9])\^\(([^)]{1,12})\)")
 SUP_WORD_RE = re.compile(r"([A-Za-z0-9])\^([A-Za-z0-9])")
+SUB_RE = re.compile(r"(?<![A-Za-z0-9_$\\])([A-Za-z])([0-9])(?![0-9A-Za-z])")
+
+
+def subscripts(text: str) -> str:
+    """Turn `n0`, `n2`, `T1` into real subscripts.
+
+    Identifiers written as plain text (`n0 = n2 + 1`) look like typos in a printed
+    book; they are subscripts and must be set as such.
+    """
+    return SUB_RE.sub(lambda m: f"${m.group(1)}_{{{m.group(2)}}}$", text)
 
 
 def superscripts(text: str) -> str:
@@ -185,7 +204,7 @@ def superscripts(text: str) -> str:
 
 def escape_tex(text: str) -> str:
     """Escape prose while leaving `$...$` math untouched."""
-    parts = INLINE_MATH_RE.split(superscripts(text or ""))
+    parts = INLINE_MATH_RE.split(superscripts(subscripts(text or "")))
     out: list[str] = []
     for i, part in enumerate(parts):
         if i % 2 == 1:  # math span, already LaTeX
@@ -372,8 +391,24 @@ def _render_blocks(body: list[str], assets_dir: Path | None,
         out.append(_inline_line(line, assets_dir, figures))
         out.append("")
 
+    code: list[str] | None = None
     for raw in body:
         line = raw.strip()
+        # a fenced block belongs to whatever it sits in: while a box is open, the fence
+        # must be collected as box content, not consume the box's closing marker
+        if box is None:
+            if code is not None:
+                if line.startswith("```"):
+                    flush_bullets(); flush_numbers(); flush_table()
+                    out.extend([r"\begin{lstlisting}"] + code + [r"\end{lstlisting}"])
+                    code = None
+                else:
+                    code.append(raw)  # keep indentation: this is code, not prose
+                continue
+            if line.startswith("```"):
+                flush_bullets(); flush_numbers(); flush_table()
+                code = []
+                continue
         if not line:
             continue
         if box is not None:
@@ -472,7 +507,12 @@ def _md_table(lines: list[str]) -> list[str]:
     cols = max(len(r) for r in rows)
     # `l` columns never wrap: long cells overflow and the table reads as scrambled.
     # First column keeps its natural width, the rest share what is left.
-    spec = "l" + "X" * (cols - 1) if cols > 1 else "l"
+    if cols == 3:
+        spec = r"l >{\hsize=0.72\hsize}X >{\hsize=1.28\hsize}X"
+    elif cols > 1:
+        spec = "l" + "X" * (cols - 1)
+    else:
+        spec = "l"
     out = [r"\begin{center}\small\begin{tabularx}{\linewidth}{" + spec + "}",
            r"\toprule"]
     # shaded sans-serif header, no vertical rules — as in the reference document
