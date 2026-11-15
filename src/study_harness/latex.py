@@ -46,6 +46,21 @@ DEFAULT_PREAMBLE = r"""\documentclass[11pt,a4paper,openany]{ctexbook}
 \renewcommand{\headrulewidth}{0.4pt}
 """
 
+# Unicode math the CJK font does not carry: map to LaTeX commands, otherwise the glyph
+# comes out as a replacement box in the PDF.
+UNICODE_MATH = {
+    "≥": r"$\geq$", "≤": r"$\leq$", "≠": r"$\neq$", "≈": r"$\approx$",
+    "→": r"$\rightarrow$", "←": r"$\leftarrow$", "×": r"$\times$",
+    "÷": r"$\div$", "−": "-", "∞": r"$\infty$", "∈": r"$\in$",
+    "∪": r"$\cup$", "∩": r"$\cap$", "∑": r"$\sum$", "√": r"$\sqrt{}$",
+    "±": r"$\pm$", "·": r"$\cdot$", "∅": r"$\varnothing$",
+    "⌊": r"$\lfloor$", "⌋": r"$\rfloor$", "⌈": r"$\lceil$", "⌉": r"$\rceil$",
+    "✓": r"$\checkmark$", "✗": r"$\times$", "⇔": r"$\Leftrightarrow$",
+    "⇒": r"$\Rightarrow$", "↔": r"$\leftrightarrow$", "≡": r"$\equiv$",
+    "ᵢ": r"$_{i}$", "ⱼ": r"$_{j}$", "₀": r"$_{0}$", "₁": r"$_{1}$", "₂": r"$_{2}$",
+    "ₙ": r"$_{n}$", "ᴺ": r"$^{N}$", "²": r"$^{2}$", "³": r"$^{3}$",
+}
+
 TEX_SPECIALS = {
     "\\": r"\textbackslash{}", "&": r"\&", "%": r"\%", "$": r"\$", "#": r"\#",
     "_": r"\_", "{": r"\{", "}": r"\}", "~": r"\textasciitilde{}", "^": r"\textasciicircum{}",
@@ -84,7 +99,8 @@ def escape_tex(text: str) -> str:
         if i % 2 == 1:  # math span, already LaTeX
             out.append(part)
         else:
-            out.append("".join(TEX_SPECIALS.get(ch, ch) for ch in part))
+            out.append("".join(
+                UNICODE_MATH.get(ch) or TEX_SPECIALS.get(ch, ch) for ch in part))
     return "".join(out)
 
 
@@ -179,6 +195,7 @@ def _unit_body(unit: Unit, profile: str, notes: list[dict[str, Any]],
     out: list[str] = []
     order = templates.order(profile)
     names = [n for n in order if n in unit.sections] + [n for n in unit.sections if n not in order]
+    pending_table: list[str] = []
     for name in names:
         body = unit.sections.get(name) or []
         if not any(line.strip() for line in body):
@@ -192,11 +209,18 @@ def _unit_body(unit: Unit, profile: str, notes: list[dict[str, Any]],
             if m:
                 out += [r"\begin{equation*}", m.group(1).strip(), r"\end{equation*}"]
                 continue
-            if name == "表格" and line.startswith("|"):
+            if line.startswith("|"):
+                pending_table.append(line)   # markdown table: emit as tabular below
                 continue
+            if pending_table:
+                out += _md_table(pending_table)
+                pending_table = []
             out.append(_inline_line(line, assets_dir, figures))
         if name == "表格":
             out += _tables(unit)
+        if pending_table:
+            out += _md_table(pending_table)
+            pending_table = []
         out.append("")
     return out
 
@@ -241,6 +265,26 @@ def escape_tex_outside_refs(line: str, repl) -> str:
         last = m.end()
     pieces.append(escape_tex(line[last:]))
     return "".join(pieces)
+
+
+def _md_table(lines: list[str]) -> list[str]:
+    """Render a markdown pipe table (written by the composer) as a LaTeX tabular."""
+    rows: list[list[str]] = []
+    for raw in lines:
+        cells = [c.strip() for c in raw.strip().strip("|").split("|")]
+        if cells and not set("".join(cells)) <= set("-: "):
+            rows.append(cells)
+    if len(rows) < 2:
+        return []
+    cols = max(len(r) for r in rows)
+    out = [r"\begin{center}\small\begin{tabular}{" + ("l" * cols) + "}",
+           r"\toprule"]
+    out.append(" & ".join(escape_tex(c) for c in rows[0]) + r" \\")
+    out.append(r"\midrule")
+    for row in rows[1:]:
+        out.append(" & ".join(escape_tex(c) for c in row) + r" \\")
+    out += [r"\bottomrule", r"\end{tabular}\end{center}"]
+    return out
 
 
 def _tables(unit: Unit) -> list[str]:

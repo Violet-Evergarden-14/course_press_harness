@@ -704,6 +704,17 @@ def cmd_compose(args) -> int:
         return EXIT_OK
 
     style = args.style or cfg.get("compose", "style", default="") or ""
+    style_file = args.style_file or cfg.get("compose", "style_file", default="") or ""
+    if style_file:
+        # a style document is easier to maintain than a long YAML string
+        path = Path(style_file)
+        if not path.is_absolute():
+            path = cfg.workspace / path
+        if path.exists():
+            style = path.read_text(encoding="utf-8")
+        else:
+            print(f"error: style_file 不存在：{style_file}", file=sys.stderr)
+            return EXIT_INPUT
     example = args.example or cfg.get("compose", "example", default="") or ""
     if args.style and not cfg.get("compose", "style", default=""):
         # remember it: the style belongs to the workspace, not to one invocation
@@ -1068,6 +1079,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--limit", type=int)
     p.add_argument("--all", action="store_true", help="include already-composed units")
     p.add_argument("--style", help="文风描述，写入 study.config.yaml")
+    p.add_argument("--style-file", help="风格模板文件（markdown），优先于 --style")
     p.add_argument("--example", help="一段样例文字，作为文风参考")
     p.add_argument("--apply", action="store_true", help="apply filled answers")
     p.set_defaults(func=cmd_compose)
