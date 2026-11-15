@@ -149,6 +149,39 @@ def check_figures(units: list[Unit], figures: dict[str, Any], report: GateReport
                                    hint="核对图中内容与正文一致后标记 reviewed: true")
 
 
+def check_cross_lecture_repeat(units: list[Unit], outline: dict[str, Any],
+                               report: GateReport) -> None:
+    """Report repeated titles across lectures as info only.
+
+    Deliberately not a merge (docs/architecture.md D1): repetition across lectures is
+    teaching rhythm, not redundancy. The author decides whether to link them.
+    """
+    lecture_of: dict[str, Any] = {}
+    for part in outline.get("parts", []):
+        if part.get("kind") != "lecture":
+            continue
+        for sec in part.get("sections", []):
+            for uid in sec.get("units", []):
+                lecture_of[uid] = part.get("no") or part.get("label")
+
+    by_title: dict[str, list[tuple[str, Any]]] = {}
+    for unit in units:
+        key = (unit.title or "").strip()
+        if not key:
+            continue
+        by_title.setdefault(key, []).append((unit.id, lecture_of.get(unit.id)))
+
+    for title, entries in sorted(by_title.items()):
+        lectures = {lec for _, lec in entries if lec is not None}
+        if len(entries) < 2 or len(lectures) < 2:
+            continue
+        where = "、".join(f"第 {lec} 讲" for _, lec in entries[:4])
+        report.add("cross_lecture_repeat", "info",
+                   f"「{title}」在多讲出现（{where}）",
+                   entries[0][0],
+                   hint="保留两处即可；需要互链时在 see_also 中引用")
+
+
 def check_numbering(outline: dict[str, Any], report: GateReport) -> None:
     seen: dict[str, str] = {}
     for part in outline.get("parts", []):
@@ -202,4 +235,5 @@ def run_gates(
     check_coverage(blocks, units, r)
     check_numbering(outline, r)
     check_figures(units, figures or {}, r)
+    check_cross_lecture_repeat(units, outline, r)
     return _compact(r)
