@@ -51,6 +51,11 @@ class Rendered:
 
 def _ordered_sections(unit: Unit, profile: str,
                       templates: "TemplateSet | None" = None) -> list[tuple[str, list[str]]]:
+    # a composed unit carries the writer's own order; re-sorting it by template names
+    # would push "例子" and "易错" ahead of "概念", which reads as broken prose
+    if templates is not None and not getattr(unit, "draft", True):
+        return list(unit.sections.items())
+
     order = templates.order(profile) if templates is not None else SECTION_ORDER.get(profile, SECTION_ORDER["learn"])
     known = [(name, unit.sections[name]) for name in order if name in unit.sections]
     extra = [(name, lines) for name, lines in unit.sections.items()

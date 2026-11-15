@@ -78,7 +78,19 @@ def check_refs(units: list[Unit], report: GateReport) -> None:
 
 
 def check_sections(units: list[Unit], report: GateReport) -> None:
+    """Required sections apply to structured units, not to composed prose.
+
+    A writer chooses its own section names ("为什么需要", "例子", "易错"); forcing the
+    schema's five names onto it would push writing back into a template.
+    """
     for u in units:
+        if not u.draft:
+            filled = [n for n, lines in u.sections.items() if any(l.strip() for l in lines)]
+            if len(filled) < 2:
+                report.add("compose_thin", "major",
+                           f"合成后只有 {len(filled)} 个小节，内容过薄", u.id,
+                           hint="补充解释或例子，或与相邻知识点合并")
+            continue
         required = REQUIRED_SECTIONS.get(u.type, [])
         missing = [s for s in required if s not in u.sections or not any(
             line.strip() for line in u.sections.get(s, []))]
