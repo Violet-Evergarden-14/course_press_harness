@@ -7,7 +7,8 @@ from pathlib import Path
 import yaml
 
 from study_harness.cli import main
-from study_harness.latex import available_engine, escape_tex, md_inline_to_tex
+from study_harness.latex import (available_engine, escape_tex, markers_to_tex,
+                                 md_inline_to_tex)
 
 
 def _ws(tmp_path: Path, pptx: Path) -> Path:
@@ -27,7 +28,16 @@ def _ws(tmp_path: Path, pptx: Path) -> Path:
 def test_escape_keeps_math_and_escapes_code_like_text():
     assert escape_tex("a_b 50%") == r"a\_b 50\%"
     assert escape_tex("$2^{i-1}$") == "$2^{i-1}$"
-    assert md_inline_to_tex("**重点**") == r"\textbf{重点}"
+    # emphasis is marked before escaping, then turned into LaTeX afterwards: escaping
+    # first would insert math spans inside the markers and break the match
+    assert markers_to_tex(md_inline_to_tex("**重点**")) == r"\textbf{重点}"
+
+
+def test_emphasis_survives_an_escaped_math_glyph():
+    from study_harness.latex import _inline_line
+
+    out = _inline_line("**树是 n（n≥0）个结点的有限集。**", None, {})
+    assert out.startswith(r"\textbf{") and "**" not in out
 
 
 def test_txt_is_written_and_readable(tmp_path, sample_pptx):
