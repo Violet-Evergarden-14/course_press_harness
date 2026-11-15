@@ -151,9 +151,13 @@ def save_unit(units_dir: Path, unit: Unit) -> None:
 # --------------------------------------------------------------------------
 
 def loc_index(block: dict[str, Any]) -> int | None:
-    """Position of a block within its source: slide number or PDF page number."""
+    """Position of a block within its source.
+
+    `slide` for decks, `page` for PDFs, `para` for Word documents — every adapter
+    has exactly one monotone position, and grouping must not assume which.
+    """
     loc = block.get("loc") or {}
-    for key in ("slide", "page"):
+    for key in ("slide", "page", "para"):
         if isinstance(loc.get(key), int):
             return loc[key]
     return None
@@ -164,6 +168,10 @@ def _group_by_slide(blocks: list[dict[str, Any]]) -> list[tuple[int, list[dict[s
     for b in blocks:
         slide = loc_index(b)
         if slide is None:
+            # tables and inline images have no positional index of their own; they
+            # belong to whatever unit was being read when they appeared
+            if groups:
+                groups[-1][1].append(b)
             continue
         if groups and groups[-1][0] == slide:
             groups[-1][1].append(b)

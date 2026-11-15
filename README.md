@@ -116,7 +116,8 @@ The architecture is specified before the code, deliberately:
 | PPTX ingest (text, tables, images, OMML→LaTeX subset, speaker notes, hidden slides) | implemented |
 | TXT / Markdown / YAML student notes | implemented |
 | PDF (text layer, columns, header/footer, TOC, paragraph merging, scanned detection) | implemented |
-| DOCX / audio | not implemented (adapters reserved) |
+| DOCX (heading styles, lists, tables, inline images) | implemented |
+| Audio | not implemented (adapter reserved) |
 | Deterministic draft units | implemented — verbatim text only, marked `draft: true` |
 | Numbering-based sectioning | implemented |
 | Continuous Markdown render, `learn` view | implemented |
@@ -124,7 +125,7 @@ The architecture is specified before the code, deliberately:
 | Figures: extracted / redrawn (mermaid, dot, svg, tikz) / synthesized, provenance gates | implemented |
 | Template manifest (`templates/<profile>/<format>/manifest.yaml`) | implemented — heading formats and section order are data |
 | Full per-layer template files, LaTeX output | not implemented |
-| `review` view | implemented (section order + note emphasis) |
+| `review` view | implemented — section order per profile, plus a 重点清单 and a 公式速查 appendix |
 | Gap protocol: register / fill / apply (`image_semantics`, `page_text`, `figure_request`) | implemented |
 | Audio alignment, L2/L3 review | not implemented (protocols documented) |
 

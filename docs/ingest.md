@@ -149,10 +149,14 @@ block_id = <src_key>-<loc_slug>
 
 ## 6. Word（docx）
 
-1. 按段落顺序遍历，样式名映射到 `title` 的 `level`（Heading 1 → 1，依此类推）。
-2. 表格、图片、公式的处理同 pptx。
-3. 批注与修订：默认忽略；`cfg.docx_comments: true` 时作为 `note` 块输出，`kind: comment`，不参与对齐。
-4. 目录域、页码、页眉页脚跳过。
+1. 按段落顺序遍历，样式名映射到 `title` 的 `level`（Heading 1 → 1，依此类推；中文版「标题 1」同样识别）。
+2. 定位符为段落序号（`{"para": 214}`），Word 没有页坐标，段落序号是唯一稳定的锚点。
+   表格与内嵌图片没有独立的段落序号，在聚合阶段并入其出现位置上正在阅读的单元。
+3. 列表样式（`List Bullet`、`列表`）输出为 `bullet`，其余正文段落同样输出为 `bullet`，通过 `extra.style` 保留原始样式名以便回溯。
+4. 表格按出现顺序输出 `table`；图片按 inline shape 顺序导出，内容哈希命名，与 pptx 共用资产目录。
+5. 批注与修订：默认忽略；`cfg.docx_comments: true` 时作为 `note` 块输出，`kind: comment`，不参与对齐。
+6. 目录域、页码、页眉页脚跳过。
+7. `python-docx` 为可选依赖，缺失时在摄取阶段报明确错误，不影响其他适配器（导入是延迟的）。
 
 ---
 

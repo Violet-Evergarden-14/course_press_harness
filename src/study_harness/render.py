@@ -145,7 +145,7 @@ def render_document(
         kind = part.get("kind")
         ptitle = part.get("title", "")
         if kind == "front_matter":
-            toc.append(f"- {ptitle}")
+            toc.append(templates.fmt("document", "toc_part_other", title=ptitle))
             continue
         label = part.get("label") or str(part.get("no"))
         if kind == "lecture":
@@ -181,9 +181,15 @@ def render_document(
                     out.extend(resolve(line, uid) for line in body)
                     out.append("")
 
-    text = "\n".join(out).rstrip() + "\n"
-    toc_text = "\n".join(toc) + "\n"
-    text = _insert_toc(text, toc_text)
+    out.extend(_appendices(units, outline, numbers, notes, profile, templates, resolve))
+    while out and out[-1] == "":
+        out.pop()
+
+    # assemble title + toc + body explicitly: the TOC heading comes from the
+    # template, so it must not be located by searching for a hardcoded marker
+    title_line = out[0] if out else templates.fmt("document", "title", title=title)
+    body = out[1:] if out else []
+    text = "\n".join([title_line, "", *toc, "", *body]).rstrip() + "\n"
 
     audit = _audit_version(units, by_id, numbers)
 
@@ -196,10 +202,59 @@ def render_document(
     return Rendered(text=text, audit_text=audit, assets=used_assets, numbering=numbers)
 
 
-def _insert_toc(text: str, toc: str) -> str:
-    marker = "## 目录"
-    if marker in text:
-        return text
+def _appendices(units: list[Unit], outline: dict[str, Any], numbers: dict[str, str],
+                notes: list[dict[str, Any]], profile: str, templates: "TemplateSet",
+                resolve) -> list[str]:
+    """Book-level appendices collected across sections (docs/rendering.md §4).
+
+    A formula table repeated inside every lecture is noise; it belongs at the back,
+    once. Same for the exam-focus list: it is most useful when all of it sits in one
+    place rather than scattered under each unit.
+    """
+    out: list[str] = []
+    order = [uid for part in outline.get("parts", []) for sec in part.get("sections", [])
+             for uid in sec.get("units", [])]
+    by_id = {u.id: u for u in units}
+
+    if profile == "review":
+        focus: list[str] = []
+        for uid in order:
+            unit = by_id.get(uid)
+            if unit is None:
+                continue
+            marks = [n.get("text") for n in notes
+                     if (n.get("loc") or {}).get("unit") == uid and n.get("kind") == "emphasis"]
+            if unit.emphasis or marks:
+                num = numbers.get(uid, "?")
+                head = templates.fmt("appendix", "focus_item", number=num,
+                                     title=display_title(unit.title))
+                focus.append(head)
+                for m in marks:
+                    focus.append(f"  - {m}")
+        if focus:
+            out += [templates.fmt("appendix", "focus_heading"), "", *focus, ""]
+
+    formulas: list[str] = []
+    for uid in order:
+        unit = by_id.get(uid)
+        if unit is None:
+            continue
+        lines = unit.sections.get("算式") or []
+        if not lines:
+            continue
+        num = numbers.get(uid, "?")
+        formulas.append(templates.fmt("appendix", "formula_group", number=num,
+                                      title=display_title(unit.title)))
+        formulas.extend(f"- {resolve(line, uid)}" for line in lines)
+        formulas.append("")
+    if formulas:
+        out += [templates.fmt("appendix", "formula_heading"), "", *formulas, ""]
+
+    return out
+
+
+def _insert_toc(text: str, toc: str) -> str:  # pragma: no cover - kept for API stability
+    """Deprecated: assembly now places the TOC explicitly."""
     lines = text.splitlines()
     if lines and lines[0].startswith("# "):
         return "\n".join([lines[0], "", toc.rstrip(), "", *lines[1:]]).rstrip() + "\n"

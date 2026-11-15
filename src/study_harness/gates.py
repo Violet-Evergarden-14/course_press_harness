@@ -111,12 +111,7 @@ def check_path_leak(rendered_text: str, report: GateReport) -> None:
 
 
 def check_coverage(blocks: list[dict[str, Any]], units: list[Unit], report: GateReport) -> None:
-    def pos(block: dict) -> int | None:
-        loc = block.get("loc") or {}
-        for key in ("slide", "page"):
-            if isinstance(loc.get(key), int):
-                return loc[key]
-        return None
+    from .knowledge import loc_index as pos
 
     total_slides = {p for p in (pos(b) for b in blocks) if p is not None}
     covered = {p for p in (pos(e) for u in units for e in u.evidence) if p is not None}

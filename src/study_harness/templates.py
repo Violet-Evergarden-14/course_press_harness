@@ -37,6 +37,12 @@ BUILTIN: dict[str, Any] = {
                    "例子", "示例", "验证", "备注"],
     },
     "collapse": {"learn": [], "review": []},
+    "appendix": {
+        "focus_heading": "## 附录 A 重点清单",
+        "focus_item": "- §{number} {title}",
+        "formula_heading": "## 附录 B 公式速查",
+        "formula_group": "**§{number} {title}**",
+    },
 }
 
 

@@ -17,14 +17,10 @@ OUTLINE_FILE = ".study/outline.json"
 
 
 def _min_slide(unit: Unit) -> int:
-    slides = []
-    for e in unit.evidence:
-        loc = e.get("loc") or {}
-        for key in ("slide", "page"):
-            if isinstance(loc.get(key), int):
-                slides.append(loc[key])
-                break
-    return min(slides) if slides else 10**6
+    from .knowledge import loc_index
+
+    positions = [p for p in (loc_index(e) for e in unit.evidence) if p is not None]
+    return min(positions) if positions else 10**6
 
 
 def _min_block(unit: Unit) -> int:
