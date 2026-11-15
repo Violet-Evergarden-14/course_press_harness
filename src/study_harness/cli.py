@@ -22,6 +22,10 @@ from .render import load_glossary, load_notes, render_document
 from .figures import add_figure, load_figures, request_figure
 from .templates import TemplateSet
 from .gaps import apply_answers, fill_gap, load_answers, open_gaps, register_image_gaps
+from .review import apply as review_apply
+from .review import prepare as review_prepare
+from .review import retag_origins as review_retag
+from .review import stats_from_answers as review_stats
 from .state import State
 
 EXIT_OK, EXIT_GATE, EXIT_USAGE, EXIT_INPUT, EXIT_INTERNAL, EXIT_CONFIRM = 0, 1, 2, 3, 4, 5
@@ -258,17 +262,20 @@ def cmd_build(args) -> int:
                 preserved += 1
                 continue
         old = existing_units.get(u.id)
-        if old is not None and not old.draft and old.content_hash != u.content_hash:
+        if old is not None and not old.draft and old.content_fingerprint != u.content_fingerprint:
             # human-edited unit: never overwrite silently (docs/state.md §8.1)
             (p["units"] / f"{u.id}.generated.md").write_text(u.to_markdown(), encoding="utf-8")
             preserved += 1
             continue
         if old is not None:
-            u.revision = old.revision + (1 if old.content_hash != u.content_hash else 0)
+            changed = old.content_fingerprint != u.content_fingerprint
+            u.revision = old.revision + (1 if changed else 0)
         save_unit(p["units"], u)
         written += 1
 
     units = load_units(p["units"])
+    if review_retag(cfg.workspace, p["units"], units):
+        units = load_units(p["units"])  # review metadata survives the rebuild
     new_gaps = register_image_gaps(cfg.workspace, flat_blocks, units)
     pending = open_gaps(cfg.workspace)
     state.mark("units", "partial" if pending else "done", key=state.inputs_hash(),
@@ -446,16 +453,52 @@ def cmd_outline(args) -> int:
 def cmd_review(args) -> int:
     cfg = _workspace(args)
     p = _paths(cfg)
-    f = p["review"] / "findings.jsonl"
-    if not f.exists():
-        print("no findings")
+
+    if args.action == "prepare":
+        units = load_units(p["units"]) if p["units"].exists() else []
+        if not units:
+            print("error: no units; run `study build` first", file=sys.stderr)
+            return EXIT_INPUT
+        blocks_by_src = _load_blocks(p)
+        created = review_prepare(cfg.workspace, units, blocks_by_src,
+                                 only=args.unit, limit=args.limit)
+        print(f"L2 gaps: {len(created)} written to .study/gaps/")
+        if created:
+            print("fill `.study/gaps/answers/<id>.json`，然后 `study review apply`")
         return EXIT_OK
-    items = [json.loads(line) for line in f.read_text(encoding="utf-8").splitlines() if line.strip()]
+
+    if args.action == "apply":
+        units = load_units(p["units"]) if p["units"].exists() else []
+        if not units:
+            print("error: no units", file=sys.stderr)
+            return EXIT_INPUT
+        findings, stats = review_apply(cfg.workspace, p["units"], units)
+        _merge_findings(p["review"], findings)
+        state = State.load(cfg.workspace)
+        state.data.setdefault("review", {})["l2"] = stats
+        state.save()
+        print(f"reviewed {stats['units_reviewed']} units / {stats['claims']} claims: "
+              f"supported={stats['supported']} derived={stats['derived']} "
+              f"unsupported={stats['unsupported']}")
+        if findings:
+            print(f"{len(findings)} findings written；`study review list`")
+        return EXIT_OK
+
+    f = p["review"] / "findings.jsonl"
+    items = [json.loads(line) for line in f.read_text(encoding="utf-8").splitlines()
+             if line.strip()] if f.exists() else []
+
     if args.action == "stats":
         counts: dict[str, int] = {}
         for it in items:
             counts[it["level"]] = counts.get(it["level"], 0) + 1
-        print(json.dumps({"total": len(items), "by_level": counts}, ensure_ascii=False))
+        payload = {"findings": len(items), "by_level": counts,
+                   "l2": review_stats(cfg.workspace)}
+        print(json.dumps(payload, ensure_ascii=False, indent=2))
+        return EXIT_OK
+
+    if not items:
+        print("no findings")
         return EXIT_OK
     for it in items:
         if args.level and it["level"] != args.level:
@@ -463,6 +506,19 @@ def cmd_review(args) -> int:
         loc = f" [{it['unit']}]" if it.get("unit") else ""
         print(f"{it['level']:8} {it['gate']}{loc} — {it['message']}")
     return EXIT_OK
+
+
+def _merge_findings(review_dir: Path, new: list[dict[str, Any]]) -> None:
+    """Append review findings, replacing previous L2 findings for the same unit."""
+    review_dir.mkdir(parents=True, exist_ok=True)
+    path = review_dir / "findings.jsonl"
+    existing: list[dict[str, Any]] = []
+    if path.exists():
+        existing = [json.loads(l) for l in path.read_text(encoding="utf-8").splitlines() if l.strip()]
+    keep = [f for f in existing if f.get("detected_by") != "l2"]
+    merged = keep + [dict(f, detected_by="l2") for f in new]
+    path.write_text("".join(json.dumps(f, ensure_ascii=False) + "\n" for f in merged),
+                    encoding="utf-8")
 
 
 def cmd_doctor(args) -> int:
@@ -685,9 +741,12 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--to")
     p.set_defaults(func=cmd_outline)
 
-    p = sub.add_parser("review", help="inspect findings")
-    p.add_argument("action", choices=["list", "stats"], nargs="?", default="list")
+    p = sub.add_parser("review", help="prepare / apply / inspect semantic review")
+    p.add_argument("action", choices=["list", "stats", "prepare", "apply"],
+                   nargs="?", default="list")
     p.add_argument("--level")
+    p.add_argument("--unit", help="limit prepare to one unit")
+    p.add_argument("--limit", type=int, help="cap the number of gaps written")
     p.set_defaults(func=cmd_review)
 
     p = sub.add_parser("gaps", help="list / show / fill model tasks")

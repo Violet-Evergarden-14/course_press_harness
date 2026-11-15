@@ -150,7 +150,21 @@
 - `quote` 必须是原断言的逐字片段，用于校验切分是否对齐
 - `unsupported` 必须给出 `reason`，否则视为无效输出并重试一次
 
-### 4.3 校验与回流
+### 4.3 实现映射（v0.1）
+
+| 文档概念 | 命令 / 模块 |
+|---|---|
+| 任务生成 | `study review prepare [--unit ID] [--limit N]` → `.study/gaps/l2-<unit>.json` |
+| 答案填充 | `study gaps fill l2-<unit> --file answer.json` |
+| 校验与回流 | `study review apply` → findings + 重算 `origin` |
+| 指标 | `study review stats` → `unsupported_ratio` / `derived_ratio` |
+
+两条约束在实现中必须成立：
+
+1. `apply` 只写元数据（`origin`、`reviewed_by`）与 findings，**不改正文**——已由测试断言。
+2. `origin` 从答案推导而非固化。知识点是草稿时会被 `build` 重新生成，若把结论写死在文件里就会被抹掉；因此每次 `build` 都按已保存的答案重算 `origin`，且只改元数据时**不递增 `revision`**（比较正文指纹，而非整份文件哈希）。
+
+### 4.4 校验与回流
 
 1. 程序校验 `quote` 与原断言一致，不一致则报 `info` 并丢弃该条
 2. `unsupported` 比例写入统计；知识点的 `origin` 按 [unit-schema.md](unit-schema.md) §4.3 重新计算

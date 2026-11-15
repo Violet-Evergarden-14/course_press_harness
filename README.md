@@ -63,6 +63,9 @@ render:
 | `study render` | re-render only |
 | `study outline show` | inspect / hand-edit the skeleton (`.study/outline.json`) |
 | `study review list` | read gate findings |
+| `study review prepare` | write per-claim review tasks for a model or a person |
+| `study review apply` | read verdicts, recompute `origin`, emit findings |
+| `study review stats` | `unsupported_ratio` and `derived_ratio` |
 | `study explain <unit>` | request a remedial explanation patch |
 | `study figure add <id> --file spec.mmd` | register a figure (extracted / redrawn / synthesized) |
 | `study figure request <unit> --desc "..."` | ask for a diagram the source does not provide |
@@ -127,7 +130,8 @@ The architecture is specified before the code, deliberately:
 | Full per-layer template files, LaTeX output | not implemented |
 | `review` view | implemented — section order per profile, plus a 重点清单 and a 公式速查 appendix |
 | Gap protocol: register / fill / apply (`image_semantics`, `page_text`, `figure_request`) | implemented |
-| Audio alignment, L2/L3 review | not implemented (protocols documented) |
+| L2 review (claim entailment: prepare → fill → apply, `unsupported_ratio`) | implemented |
+| Audio alignment, L3 adversarial review | not implemented (protocols documented) |
 
 Draft units carry `draft: true` and often an `auto-…` id; the `auto_unit_id` gate reports them as
 `major` so a raw build is never mistaken for a finished book.

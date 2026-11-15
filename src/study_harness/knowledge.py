@@ -11,6 +11,7 @@ docs/architecture.md §19.
 from __future__ import annotations
 
 import hashlib
+import json
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -49,6 +50,7 @@ class Unit:
     revision: int = 1
     suspects: list[str] = field(default_factory=list)
     aliases: list[str] = field(default_factory=list)
+    reviewed_by: list[str] = field(default_factory=list)
     draft: bool = True
     sections: dict[str, list[str]] = field(default_factory=dict)
     schema_version: int = 1
@@ -76,6 +78,8 @@ class Unit:
             fm["suspects"] = self.suspects
         if self.aliases:
             fm["aliases"] = self.aliases
+        if self.reviewed_by:
+            fm["reviewed_by"] = self.reviewed_by
         if self.draft:
             fm["draft"] = True
         return fm
@@ -93,6 +97,27 @@ class Unit:
     @property
     def content_hash(self) -> str:
         return sha256_text(self.to_markdown())
+
+    @property
+    def content_fingerprint(self) -> str:
+        """Hash of the prose and its evidence — review-managed metadata excluded.
+
+        `origin`, `reviewed_by`, `revision` and `draft` are derived from review
+        answers, so counting them as content makes every rebuild look like an edit
+        and bumps `revision` forever.
+        """
+        payload = {
+            "title": self.title,
+            "type": self.type,
+            "evidence": self.evidence,
+            "depends_on": self.depends_on,
+            "see_also": self.see_also,
+            "symbols": self.symbols,
+            "emphasis": self.emphasis,
+            "aliases": self.aliases,
+            "sections": self.sections,
+        }
+        return sha256_text(json.dumps(payload, ensure_ascii=False, sort_keys=True))
 
     # -- parsing ---------------------------------------------------------
     @classmethod
@@ -112,7 +137,12 @@ class Unit:
                 continue
             if current is not None:
                 sections[current].append(line)
+        # idempotent round-trip: the blank line after a heading is layout, not content.
+        # Leaving it in makes every read-write cycle grow the file by one blank line,
+        # which in turn makes `content_hash` unstable and breaks change detection.
         for k in sections:
+            while sections[k] and not sections[k][0].strip():
+                sections[k].pop(0)
             while sections[k] and not sections[k][-1].strip():
                 sections[k].pop()
         return cls(
@@ -128,6 +158,7 @@ class Unit:
             revision=int(fm.get("revision", 1)),
             suspects=fm.get("suspects", []),
             aliases=fm.get("aliases", []),
+            reviewed_by=fm.get("reviewed_by", []),
             draft=bool(fm.get("draft", False)),
             sections=sections,
             schema_version=int(fm.get("schema_version", 1)),
