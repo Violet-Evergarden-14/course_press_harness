@@ -60,7 +60,7 @@ render:
 | `study ingest` | parse `inputs/` into blocks (`.study/sources/*.jsonl`) |
 | `study probe` | report what the sources can support (slides, notes, audio) |
 | `study build` | ingest → units → outline → render → gates |
-| `study render` | re-render only |
+| `study render` | re-render only; `--format md\|txt\|tex\|pdf\|docx\|pptx\|all` |
 | `study outline show` | inspect / hand-edit the skeleton (`.study/outline.json`) |
 | `study review list` | read gate findings |
 | `study review prepare` | write per-claim review tasks for a model or a person |
@@ -131,7 +131,9 @@ The architecture is specified before the code, deliberately:
 | Gates: source references, dangling refs, coverage, path leak, numbering, figures | implemented |
 | Figures: extracted / redrawn (mermaid, dot, svg, tikz) / synthesized, provenance gates | implemented |
 | Template manifest (`templates/<profile>/<format>/manifest.yaml`) | implemented — heading formats and section order are data |
-| Full per-layer template files, LaTeX output | not implemented |
+| Output: `md` / `txt` / `tex` / `pdf` / `docx` / `pptx` (`--format all`) | implemented |
+| LaTeX layout as data (`templates/<profile>/tex/manifest.yaml`) | implemented — replace the preamble to restyle |
+| Full per-layer markdown template files | not implemented |
 | `review` view | implemented — section order per profile, plus a 重点清单 and a 公式速查 appendix |
 | Gap protocol: register / fill / apply (`image_semantics`, `page_text`, `figure_request`) | implemented |
 | L2 review (claim entailment: prepare → fill → apply, `unsupported_ratio`) | implemented |

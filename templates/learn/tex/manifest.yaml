@@ -1,0 +1,37 @@
+# LaTeX / PDF layout. Everything here is data: replace the preamble with your own
+# style, change the class, or point `preamble_file` at a .tex file you keep in git.
+#
+# Placeholders: {title} in titlepage; chapter/section/subsection take one %s.
+version: 1
+
+latex:
+  # 演进建议：先改 preamble，不要改渲染器。
+  preamble: |
+    \documentclass[11pt,a4paper,openany]{ctexbook}
+    \usepackage{geometry}
+    \geometry{margin=2.4cm}
+    \usepackage{amsmath,amssymb}
+    \usepackage{graphicx}
+    \usepackage{booktabs}
+    \usepackage{array}
+    \usepackage{longtable}
+    \usepackage{enumitem}
+    \setlist{itemsep=2pt,topsep=3pt,leftmargin=1.6em}
+    \usepackage{xcolor}
+    \usepackage{fancyhdr}
+    \usepackage{listings}
+    \lstset{basicstyle=\ttfamily\small,breaklines=true,columns=fullflexible}
+    \usepackage[hidelinks]{hyperref}
+    \setlength{\parskip}{0.5em}
+    \setlength{\parindent}{0pt}
+    \pagestyle{fancy}
+    \fancyhf{}
+    \fancyhead[L]{\small\leftmark}
+    \fancyhead[R]{\small\thepage}
+    \renewcommand{\headrulewidth}{0.4pt}
+
+  chapter: "\\chapter{%s}"
+  section: "\\section{%s}"
+  subsection: "\\subsection{%s}"
+  # 留空则使用内置封面（标题 + 由 study-harness 生成）
+  titlepage: ""

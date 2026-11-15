@@ -25,6 +25,8 @@ from .gaps import apply_answers, fill_gap, load_answers, open_gaps, register_ima
 from .review import apply as review_apply
 from .review import prepare as review_prepare
 from . import align as align_mod
+from . import exporters
+from . import latex as latex_mod
 from . import remediate
 from .review import apply_l3 as review_apply_l3
 from .review import prepare_l3 as review_prepare_l3
@@ -355,6 +357,63 @@ def _align_workspace(cfg: Config, p: dict[str, Path], blocks_by_src: dict[str, l
     return {"tier": al.tier, "segments": len(al.segments), "confidence": al.confidence}
 
 
+def _export(cfg: Config, p: dict[str, Path], fmt: str, units: list, outline: dict,
+            rendered, profile: str, notes: list, *, args: str | None = None) -> list[Path]:
+    """Write one output format; return the files produced (empty if it failed)."""
+    title = cfg.get("course", "name", default="讲义")
+    out = p["out"]
+
+    if fmt in ("md", ""):
+        return []
+
+    if fmt == "txt":
+        path = out / "book.txt"
+        path.write_text(exporters.to_text(rendered.text), encoding="utf-8", newline="\n")
+        print(f"txt  -> {path}")
+        return [path]
+
+    if fmt in ("docx", "pptx"):
+        items = exporters.document_items(units, outline, profile=profile,
+                                         templates=_templates(cfg))
+        path = out / f"book.{fmt}"
+        try:
+            if fmt == "docx":
+                exporters.to_docx(items, path, title=title, assets_dir=p["assets"])
+            else:
+                exporters.to_pptx(items, path, title=title, assets_dir=p["assets"])
+        except ImportError as exc:
+            print(f"{fmt} 导出失败：{exc}（uv pip install study-harness[{fmt}]）", file=sys.stderr)
+            return []
+        print(f"{fmt:4} -> {path}")
+        return [path]
+
+    if fmt in ("tex", "pdf"):
+        # LaTeX has its own manifest: markdown layout and print layout evolve separately
+        tex_tpl = TemplateSet.load(cfg.workspace / "templates" / profile / "tex")
+        tex = latex_mod.build_tex(
+            units, outline, title=title, profile=profile, templates=tex_tpl,
+            assets_dir=p["assets"], notes=notes,
+            remedial=remediate.load(cfg.workspace), figures=load_figures(cfg.workspace),
+        )
+        tex_path = out / "book.tex"
+        tex_path.write_text(tex, encoding="utf-8", newline="\n")
+        print(f"tex  -> {tex_path}")
+        produced = [tex_path]
+        if fmt == "pdf":
+            pdf, logs = latex_mod.compile_pdf(tex_path, engine=args)
+            for line in logs:
+                print(f"  {line}")
+            if pdf is None:
+                print("未生成 PDF：.tex 已保留，可自行编译或检查上方日志", file=sys.stderr)
+            else:
+                print(f"pdf  -> {pdf}")
+                produced.append(pdf)
+        return produced
+
+    print(f"未知输出格式：{fmt}", file=sys.stderr)
+    return []
+
+
 def _templates(cfg: Config) -> TemplateSet:
     rel = cfg.get("render", "template", default=None)
     return TemplateSet.load((cfg.workspace / rel) if rel else None)
@@ -385,6 +444,14 @@ def _do_render(cfg: Config, args, state: State) -> int:
 
     p["out"].mkdir(parents=True, exist_ok=True)
     (p["out"] / "book.md").write_text(rendered.text, encoding="utf-8", newline="\n")
+
+    fmt = (getattr(args, "format", None) or cfg.get("render", "format", default="md") or "md").lower()
+    formats = ["md", "txt", "tex", "pdf", "docx", "pptx"] if fmt == "all" else [fmt]
+    produced: list[Path] = [p["out"] / "book.md"]
+    for one in formats:
+        produced += _export(cfg, p, one, units, outline, rendered, profile, notes,
+                            args=getattr(args, "tex_engine", None))
+
     p["review"].mkdir(parents=True, exist_ok=True)
     (p["review"] / "locators.md").write_text(rendered.audit_text, encoding="utf-8", newline="\n")
     (p["out"] / "meta.json").write_text(json.dumps({
@@ -626,6 +693,10 @@ def cmd_doctor(args) -> int:
         except Exception:
             checks.append((name, "missing", ""))
 
+    engine = latex_mod.available_engine()
+    checks.append(("latex", "ok" if engine else "missing",
+                   engine or "未安装 xelatex/lualatex：只能输出 .tex"))
+
     if shutil.which("ffmpeg"):
         checks.append(("ffmpeg", "ok", ""))
     else:
@@ -823,12 +894,16 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--no-merge", action="store_true", help="ignore existing outline")
     p.add_argument("--no-interactive", action="store_true")
     p.add_argument("--profile")
+    p.add_argument("--format", choices=["md", "txt", "tex", "pdf", "docx", "pptx", "all"])
+    p.add_argument("--tex-engine", choices=["xelatex", "lualatex", "pdflatex"])
     p.add_argument("--source-references", choices=["none", "footnote", "inline"])
     p.set_defaults(func=cmd_build)
 
     p = sub.add_parser("render", help="render the document")
     p.add_argument("--profile", choices=["learn", "review"])
     p.add_argument("--source-references", choices=["none", "footnote", "inline"])
+    p.add_argument("--format", choices=["md", "txt", "tex", "pdf", "docx", "pptx", "all"])
+    p.add_argument("--tex-engine", choices=["xelatex", "lualatex", "pdflatex"])
     p.add_argument("--exclude-patches", action="store_true")
     p.add_argument("--audit-locators", action="store_true")
     p.set_defaults(func=cmd_render)
