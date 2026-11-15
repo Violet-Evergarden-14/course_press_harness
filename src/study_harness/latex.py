@@ -65,25 +65,28 @@ DEFAULT_PREAMBLE = r"""\documentclass[12pt,a4paper,openany]{ctexbook}
 }
 
 % ---- spacing: generous leading, 2em first-line indent ---------------------
-\AtBeginDocument{\linespread{1.30}\selectfont}
+\AtBeginDocument{\linespread{1.30}\selectfont\setlength{\parskip}{0pt}}
 \setlength{\parindent}{2em}
-\setlength{\parskip}{3pt}
-\setlist[itemize]{itemsep=4pt,topsep=6pt,leftmargin=1.9em,labelsep=0.6em}
-\setlist[enumerate]{itemsep=4pt,topsep=6pt,leftmargin=2.1em}
+\setlength{\parskip}{0pt}
+% ctexbook's \paragraph carries a large beforeskip that cannot be tuned from here;
+% a heading inside a knowledge point needs 5pt before and 2pt after, nothing more.
+\newcommand{\unitsec}[1]{\par\vspace{9pt}\noindent{\sffamily\bfseries\color{headnavy}#1}\par\vspace{3pt}}
+\setlist[itemize]{itemsep=3pt,topsep=2pt,leftmargin=1.9em,labelsep=0.6em}
+\setlist[enumerate]{itemsep=3pt,topsep=2pt,leftmargin=2.1em}
 
 % ---- two kinds of call-out boxes (blue = definition, orange = pitfall) ----
 \newtcolorbox{nbox}[1]{
   enhanced, colback=notebg, colframe=noterule, boxrule=0.4pt, arc=1pt,
-  left=9pt,right=9pt,top=7pt,bottom=7pt,
+  left=10pt,right=10pt,top=6pt,bottom=6pt,
   colbacktitle=notebar, coltitle=white, fonttitle=\sffamily\bfseries\small,
-  title={#1}, toptitle=2pt, bottomtitle=2pt, before skip=0.5em, after skip=0.5em,
+  title={#1}, toptitle=2pt, bottomtitle=2pt, before skip=10pt, after skip=10pt,
   breakable,
 }
 \newtcolorbox{wbox}[1]{
   enhanced, colback=warnbg, colframe=warnrule, boxrule=0.4pt, arc=1pt,
-  left=9pt,right=9pt,top=7pt,bottom=7pt,
+  left=10pt,right=10pt,top=6pt,bottom=6pt,
   colbacktitle=warnbar, coltitle=white, fonttitle=\sffamily\bfseries\small,
-  title={#1}, toptitle=2pt, bottomtitle=2pt, before skip=0.5em, after skip=0.5em,
+  title={#1}, toptitle=2pt, bottomtitle=2pt, before skip=10pt, after skip=10pt,
   breakable,
 }
 
@@ -321,7 +324,7 @@ def _unit_body(unit: Unit, profile: str, notes: list[dict[str, Any]],
         # paragraph heading above it would title the same thing twice
         first = next((l.strip() for l in body if l.strip()), "")
         if not BOX_OPEN_RE.match(first):
-            out.append(r"\paragraph{" + escape_tex(name) + "}")
+            out.append(r"\unitsec{" + escape_tex(name) + "}")
         out += _render_blocks(body, assets_dir, figures)
         if name == "表格":
             out += _tables(unit)
