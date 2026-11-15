@@ -358,6 +358,26 @@ study render --format all          # 全部
 
 渲染器不得为让产物生成成功而静默修正数据。任何「修复」都必须表现为上游数据或模板的修改。
 
+### 12.1 排版可 DIY（LaTeX）
+
+LaTeX 的版式完全由 `templates/<profile>/tex/manifest.yaml` 决定：
+
+```yaml
+latex:
+  preamble: |            # 整份导言区，可整段换成你自己的样式
+    \documentclass[11pt]{ctexbook}
+    ...
+  chapter: "\\chapter{%s}"
+  section: "\\section{%s}"
+  subsection: "\\subsection{%s}"
+  titlepage: ""          # 留空使用内置封面
+```
+
+- 换 `preamble` 即可换字号、行距、页边距、字体、页眉页脚与章节样式，**不需要改渲染器**。
+- 想要「某份 PDF 的观感」时，把那份 PDF 的排版特征（字号、行距、页边距、章节层级）写进 preamble 即可。
+- markdown 与 LaTeX 使用**各自的 manifest**（`templates/<profile>/md` 与 `templates/<profile>/tex`），网页版式与打印版式可分别演进。
+- 缺引擎时只跳过 pdf，`.tex` 仍会写出，不虚构产物。
+
 ---
 
 ## 13. 模板版本化
