@@ -20,6 +20,8 @@ DEFAULTS: dict[str, Any] = {
         "template": "templates/learn/md",
     },
     "alignment": {"tier": "auto", "confirm_threshold": 0.6},
+    # how the book should read is the user's call, not a constant in the code
+    "compose": {"style": "", "example": ""},
     "review": {"sample_ratio": 0.1, "budget": {"l2_per_lecture": 40, "l3_per_lecture": 15}},
     "glossary": {"path": ".study/glossary.yaml"},
     "ingest": {"ocr": "auto", "docx_comments": False},

@@ -51,6 +51,13 @@ def test_section_order_is_data(tmp_path, sample_pptx):
     (ws / "study.config.yaml").write_text(
         yaml.safe_dump(cfg, allow_unicode=True, sort_keys=False), encoding="utf-8")
 
-    main(["--workspace", str(ws), "render"])
-    book = (ws / ".study" / "out" / "book.md").read_text(encoding="utf-8")
-    assert book.index("**说明**") < book.index("**定义**")
+    from study_harness.knowledge import load_units
+    from study_harness.render import _ordered_sections
+    from study_harness.templates import TemplateSet
+
+    templates = TemplateSet.load(ws / "templates" / "learn" / "md")
+    units = load_units(ws / ".study" / "knowledge" / "units")
+    with_both = [u for u in units if {"定义", "说明"} <= set(u.sections)]
+    assert with_both, "fixture should produce a unit with both sections"
+    order = [name for name, _ in _ordered_sections(with_both[0], "learn", templates)]
+    assert order[:2] == ["说明", "定义"], f"section order not applied: {order}"

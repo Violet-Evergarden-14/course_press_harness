@@ -25,8 +25,10 @@ from .gaps import apply_answers, fill_gap, load_answers, open_gaps, register_ima
 from .review import apply as review_apply
 from .review import prepare as review_prepare
 from . import align as align_mod
+from . import compose as compose_mod
 from . import exporters
 from . import latex as latex_mod
+from . import noise
 from . import remediate
 from .review import apply_l3 as review_apply_l3
 from .review import prepare_l3 as review_prepare_l3
@@ -279,6 +281,10 @@ def cmd_build(args) -> int:
             alias_index[a] = u.id
 
     drafted = draft_units(blocks_by_src, src_to_lecture=src_to_lecture)
+    prune_report = noise.prune_units(drafted)
+    if prune_report["dropped"]:
+        print(f"pruned {prune_report['dropped']} 条非教学内容"
+              f"（{prune_report['units']} 个知识点）")
     written, preserved = 0, 0
     for u in drafted:
         if u.id in alias_index:
@@ -678,6 +684,50 @@ def cmd_outline(args) -> int:
     return EXIT_USAGE
 
 
+def cmd_compose(args) -> int:
+    """Prepare or apply the writing stage: drafts -> prose the user asked for."""
+    cfg = _workspace(args)
+    p = _paths(cfg)
+    units = load_units(p["units"]) if p["units"].exists() else []
+    if not units:
+        print("error: no units; run `study auto` first", file=sys.stderr)
+        return EXIT_INPUT
+
+    if args.apply:
+        findings, stats = compose_mod.apply(cfg.workspace, p["units"], units)
+        _merge_findings(p["review"], findings)
+        print(f"已合成 {stats['composed']} 个知识点（跳过 {stats['skipped']}）")
+        if findings:
+            print(f"{len(findings)} 条记录写入 findings；`study review list`")
+        return EXIT_OK
+
+    style = args.style or cfg.get("compose", "style", default="") or ""
+    example = args.example or cfg.get("compose", "example", default="") or ""
+    if args.style and not cfg.get("compose", "style", default=""):
+        # remember it: the style belongs to the workspace, not to one invocation
+        data = cfg.data
+        data.setdefault("compose", {})
+        data["compose"]["style"] = args.style
+        cfg.path.write_text(yaml.safe_dump(data, allow_unicode=True, sort_keys=False),
+                            encoding="utf-8")
+        print("style 已写入 study.config.yaml（compose.style）")
+    if not style.strip():
+        print("error: 缺少写作要求（compose.style）。写作层不预设文风，也不提供样例。\n"
+              "  用 --style '<你的要求>' 传入，或写入 study.config.yaml 的 compose.style。",
+              file=sys.stderr)
+        return EXIT_USAGE
+
+    targets = [u for u in units if u.draft] if not args.all else units
+    if args.only:
+        targets = [u for u in targets if u.id == args.only]
+    created = compose_mod.prepare(cfg.workspace, targets, style=style, example=example,
+                                  limit=args.limit)
+    print(f"写作任务：{len(created)} 个（.study/gaps/compose-*.json）")
+    if created:
+        print("填 `.study/gaps/answers/<id>.json` 后执行 `study compose --apply`")
+    return EXIT_OK
+
+
 def cmd_review(args) -> int:
     cfg = _workspace(args)
     p = _paths(cfg)
@@ -1010,6 +1060,15 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--l3-limit", type=int, default=10)
     p.add_argument("--sample", type=float, default=0.1)
     p.set_defaults(func=cmd_auto)
+
+    p = sub.add_parser("compose", help="write teaching prose from drafts (model stage)")
+    p.add_argument("--only", help="one unit id")
+    p.add_argument("--limit", type=int)
+    p.add_argument("--all", action="store_true", help="include already-composed units")
+    p.add_argument("--style", help="文风描述，写入 study.config.yaml")
+    p.add_argument("--example", help="一段样例文字，作为文风参考")
+    p.add_argument("--apply", action="store_true", help="apply filled answers")
+    p.set_defaults(func=cmd_compose)
 
     p = sub.add_parser("align", help="align speech to slides (A/B/C tier)")
     p.add_argument("--tier", choices=["A", "B", "C"])
