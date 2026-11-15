@@ -27,6 +27,7 @@ from .review import prepare as review_prepare
 from . import align as align_mod
 from . import compose as compose_mod
 from . import exporters
+from . import html_pdf
 from . import latex as latex_mod
 from . import noise
 from . import remediate
@@ -487,6 +488,23 @@ def _export(cfg: Config, p: dict[str, Path], fmt: str, units: list, outline: dic
             return []
         print(f"{fmt:4} -> {path}")
         return [path]
+
+    if fmt == "pdf" and (getattr(args, "pdf_engine", None) or "html") == "html":
+        # CSS controls line-height and margins exactly; LaTeX's glue does not
+        html = html_pdf.build_html(
+            units, outline, title=title, profile=profile, templates=_templates(cfg),
+            assets=p["assets"], figures=load_figures(cfg.workspace),
+            remedial=remediate.load(cfg.workspace))
+        html_path = out / "book.html"
+        html_path.write_text(html, encoding="utf-8", newline="\n")
+        pdf, logs = html_pdf.print_pdf(html_path)
+        for line in logs:
+            print(f"  {line}")
+        if pdf is None:
+            print("HTML 已写出，但未能打印为 PDF；可手动用浏览器打开 book.html 打印", file=sys.stderr)
+            return [html_path]
+        print(f"pdf  -> {pdf}")
+        return [html_path, pdf]
 
     if fmt in ("tex", "pdf"):
         # LaTeX has its own manifest: markdown layout and print layout evolve separately
@@ -1052,6 +1070,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--profile")
     p.add_argument("--format", choices=["md", "txt", "tex", "pdf", "docx", "pptx", "all"])
     p.add_argument("--tex-engine", choices=["xelatex", "lualatex", "pdflatex"])
+    p.add_argument("--pdf-engine", choices=["html", "latex"], help="PDF 后端，默认 html")
     p.add_argument("--source-references", choices=["none", "footnote", "inline"])
     p.set_defaults(func=cmd_build)
 
@@ -1060,6 +1079,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--source-references", choices=["none", "footnote", "inline"])
     p.add_argument("--format", choices=["md", "txt", "tex", "pdf", "docx", "pptx", "all"])
     p.add_argument("--tex-engine", choices=["xelatex", "lualatex", "pdflatex"])
+    p.add_argument("--pdf-engine", choices=["html", "latex"], help="PDF 后端，默认 html")
     p.add_argument("--exclude-patches", action="store_true")
     p.add_argument("--audit-locators", action="store_true")
     p.set_defaults(func=cmd_render)
@@ -1068,6 +1088,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--profile", choices=["learn", "review"])
     p.add_argument("--format", choices=["md", "txt", "tex", "pdf", "docx", "pptx", "all"])
     p.add_argument("--tex-engine", choices=["xelatex", "lualatex", "pdflatex"])
+    p.add_argument("--pdf-engine", choices=["html", "latex"], help="PDF 后端，默认 html")
     p.add_argument("--skip-review", action="store_true", help="do not write L2/L3 tasks")
     p.add_argument("--l2-limit", type=int, default=20)
     p.add_argument("--l3-limit", type=int, default=10)

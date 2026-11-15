@@ -6,6 +6,7 @@ from pathlib import Path
 
 import yaml
 
+from study_harness import html_pdf
 from study_harness.cli import main
 from study_harness.latex import (available_engine, escape_tex, markers_to_tex,
                                  md_inline_to_tex)
@@ -80,15 +81,23 @@ def test_tex_is_written_even_without_an_engine(tmp_path, sample_pptx):
     assert "textbf" not in tex.split(r"\begin{document}")[0] or True
 
 
-def test_pdf_matches_tex_or_reports_why_not(tmp_path, sample_pptx):
+def test_pdf_is_produced_by_the_html_backend(tmp_path, sample_pptx):
+    """PDF goes through HTML/CSS: CSS spacing is exact, LaTeX spacing is not."""
     ws = _ws(tmp_path, sample_pptx)
     main(["--workspace", str(ws), "render", "--format", "pdf"])
     out = ws / ".study" / "out"
-    assert (out / "book.tex").exists()
-    if available_engine():
+    assert (out / "book.html").exists()
+    if html_pdf.available_browser():
         assert (out / "book.pdf").exists()
     else:
         assert not (out / "book.pdf").exists()
+
+
+def test_latex_backend_still_available(tmp_path, sample_pptx):
+    ws = _ws(tmp_path, sample_pptx)
+    main(["--workspace", str(ws), "render", "--format", "pdf", "--pdf-engine", "latex"])
+    out = ws / ".study" / "out"
+    assert (out / "book.tex").exists()
 
 
 def test_custom_preamble_is_used(tmp_path, sample_pptx):

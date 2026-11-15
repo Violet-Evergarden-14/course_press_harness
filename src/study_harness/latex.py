@@ -70,7 +70,7 @@ DEFAULT_PREAMBLE = r"""\documentclass[12pt,a4paper,openany]{ctexbook}
 \setlength{\parskip}{0pt}
 % ctexbook's \paragraph carries a large beforeskip that cannot be tuned from here;
 % a heading inside a knowledge point needs 5pt before and 2pt after, nothing more.
-\newcommand{\unitsec}[1]{\par\vspace{9pt}\noindent{\sffamily\bfseries\color{headnavy}#1}\par\vspace{3pt}}
+\newcommand{\unitsec}[1]{\par\vspace{6pt}\noindent{\sffamily\bfseries\color{headnavy}#1}\par\vspace{1pt}}
 \setlist[itemize]{itemsep=3pt,topsep=2pt,leftmargin=1.9em,labelsep=0.6em}
 \setlist[enumerate]{itemsep=3pt,topsep=2pt,leftmargin=2.1em}
 
@@ -79,14 +79,14 @@ DEFAULT_PREAMBLE = r"""\documentclass[12pt,a4paper,openany]{ctexbook}
   enhanced, colback=notebg, colframe=noterule, boxrule=0.4pt, arc=1pt,
   left=10pt,right=10pt,top=6pt,bottom=6pt,
   colbacktitle=notebar, coltitle=white, fonttitle=\sffamily\bfseries\small,
-  title={#1}, toptitle=2pt, bottomtitle=2pt, before skip=10pt, after skip=10pt,
+  title={#1}, toptitle=2pt, bottomtitle=2pt, before skip=8pt, after skip=8pt,
   breakable,
 }
 \newtcolorbox{wbox}[1]{
   enhanced, colback=warnbg, colframe=warnrule, boxrule=0.4pt, arc=1pt,
   left=10pt,right=10pt,top=6pt,bottom=6pt,
   colbacktitle=warnbar, coltitle=white, fonttitle=\sffamily\bfseries\small,
-  title={#1}, toptitle=2pt, bottomtitle=2pt, before skip=10pt, after skip=10pt,
+  title={#1}, toptitle=2pt, bottomtitle=2pt, before skip=8pt, after skip=8pt,
   breakable,
 }
 
