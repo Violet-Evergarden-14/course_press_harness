@@ -169,8 +169,16 @@ class Unit:
 
 
 def load_units(units_dir: Path) -> list[Unit]:
+    """Load real units only.
+
+    `<id>.generated.md` files are *proposals* kept next to the original so a human can
+    compare them; globbing `*.md` would load them as units too and silently double the
+    book.
+    """
     units: list[Unit] = []
     for p in sorted(units_dir.glob("*.md")):
+        if p.name.endswith(".generated.md"):
+            continue
         units.append(Unit.from_markdown(p.read_text(encoding="utf-8")))
     return units
 

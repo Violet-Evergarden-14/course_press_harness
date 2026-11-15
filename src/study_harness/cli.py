@@ -295,7 +295,9 @@ def cmd_build(args) -> int:
         old = existing_units.get(u.id)
         if old is not None and not old.draft and old.content_fingerprint != u.content_fingerprint:
             # human-edited unit: never overwrite silently (docs/state.md §8.1)
-            (p["units"] / f"{u.id}.generated.md").write_text(u.to_markdown(), encoding="utf-8")
+            (p["units"].parent / "proposed" / f"{u.id}.md").mkdir(parents=True, exist_ok=True)
+            (p["units"].parent / "proposed" / f"{u.id}.md").write_text(
+                u.to_markdown(), encoding="utf-8")
             preserved += 1
             continue
         if old is not None:
