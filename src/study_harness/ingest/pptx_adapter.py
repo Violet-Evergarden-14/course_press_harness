@@ -22,6 +22,12 @@ M_NS = "http://schemas.openxmlformats.org/officeDocument/2006/math"
 A_NS = "http://schemas.openxmlformats.org/drawingml/2006/main"
 P_NS = "http://schemas.openxmlformats.org/presentationml/2006/main"
 
+HEADING_FONT_PT = 24.0
+LIST_ITEM_RE = re.compile(r"^\s*(?:\d+|[一二三四五六七八九十]+)[.、)]\s*")
+CJK_RE = re.compile(r"[一-鿿]")
+NOISE_HEADING_RE = re.compile(r"[\s.·…\-—_()（）\[\]【】0-9]+")
+CHAPTER_PATTERN = re.compile(r"^\s*第\s*\d+\s*[章节]")
+
 TIMECODE_RE = re.compile(r"(?<!\d)(\d{1,2}):([0-5]\d)(?::([0-5]\d))?(?!\d)")
 
 
@@ -157,6 +163,7 @@ class PptxAdapter(Adapter):
         key = src_key(path.name, self.name)
         assets_dir: Path = ctx.assets_dir
 
+        running = self._running_headers(prs)
         for s_idx, slide in enumerate(prs.slides, start=1):
             if str(slide.element.get("show", "1")) == "0":
                 res.warnings.append({"stage": "pptx/hidden", "severity": "warning",
@@ -183,6 +190,7 @@ class PptxAdapter(Adapter):
                                             loc={"slide": s_idx}, text=notes,
                                             role="speaker_notes"))
 
+            self._promote_heading(blocks, running)
             ordered = self._order_blocks(blocks)
             res.blocks.extend(ordered)
 
@@ -250,6 +258,8 @@ class PptxAdapter(Adapter):
         except Exception:
             pass
 
+        font = self._max_font(shape)
+        top = int(shape.top or 0)
         for para in shape.text_frame.paragraphs:
             text = "".join(run.text for run in para.runs).strip() or para.text.strip()
             if not text:
@@ -260,7 +270,92 @@ class PptxAdapter(Adapter):
             else:
                 out.append(Block(id=next_id(), src=path.name, type="bullet",
                                  level=para.level + 1,
-                                 loc={"slide": s_idx, "shape": shape.shape_id}, text=text))
+                                 loc={"slide": s_idx, "shape": shape.shape_id}, text=text,
+                                 extra={"font": font, "top": top} if font else {"top": top}))
+
+    def _max_font(self, shape) -> float:
+        """Largest explicit font size in a text shape, 0 when inherited."""
+        sizes: list[float] = []
+        try:
+            for para in shape.text_frame.paragraphs:
+                if para.font is not None and para.font.size is not None:
+                    sizes.append(para.font.size.pt)
+                for run in para.runs:
+                    if run.font is not None and run.font.size is not None:
+                        sizes.append(run.font.size.pt)
+        except Exception:
+            return 0.0
+        return max(sizes) if sizes else 0.0
+
+    def _running_headers(self, prs) -> set[str]:
+        """Large text repeated on many slides is a running header, not a heading."""
+        from collections import Counter
+
+        counts: Counter[str] = Counter()
+        for slide in prs.slides:
+            seen = set()
+            for shape in slide.shapes:
+                if not getattr(shape, 'has_text_frame', False) or not shape.has_text_frame:
+                    continue
+                if self._max_font(shape) < HEADING_FONT_PT:
+                    continue
+                text = (shape.text_frame.text or '').strip()
+                if text and len(text) <= 60:
+                    seen.add(text)
+            counts.update(seen)
+        # half the deck, and never fewer than 3: a section heading legitimately
+        # repeats on its own slides, a running header repeats on most of them
+        threshold = max(3, -(-len(prs.slides) // 2))
+        return {t for t, c in counts.items() if c >= threshold}
+
+    def _promote_heading(self, blocks: list[Block], running: set[str] | None = None) -> None:
+        """Infer a slide heading when the deck uses plain text boxes for it.
+
+        Many decks have no title placeholder at all: the heading is just the largest
+        text on the slide. Without this, every slide's heading becomes a bullet and the
+        whole lecture collapses into a single unit.
+        """
+        if any(b.type == "title" for b in blocks):
+            return
+        running = running or set()
+        candidates = []
+        for b in blocks:
+            if b.type != "bullet" or not b.text or len(b.text) > 60:
+                continue
+            if float((b.extra or {}).get("font") or 0) < HEADING_FONT_PT:
+                continue
+            text = b.text.strip()
+            if text in running or len(NOISE_HEADING_RE.sub("", text)) < 2:
+                continue
+            candidates.append(b)
+
+        if not candidates:
+            # No large text: fall back to the best short line by (font, CJK presence).
+            # Purely topmost is not enough — on code slides that picks "{" or "p".
+            scored = []
+            for b in blocks:
+                if b.type != "bullet" or not b.text:
+                    continue
+                text = b.text.strip()
+                if not text or len(text) > 30 or text in running:
+                    continue
+                if CHAPTER_PATTERN.match(text) or text.endswith(("。", "，", "；", "：", ";", ",")):
+                    continue
+                if CJK_RE.search(text) is None and len(text) <= 8:
+                    continue  # identifier / code fragment, not a heading
+                if LIST_ITEM_RE.match(text):
+                    continue  # "1. 依次取出 ..." is a list item, not a heading
+                scored.append((float((b.extra or {}).get("font") or 0),
+                              1 if CJK_RE.search(text) else 0,
+                              -int((b.extra or {}).get("top") or 0), b))
+            if scored:
+                candidates = [max(scored, key=lambda x: x[:3])[3]]
+        if not candidates:
+            return
+        best = max(candidates, key=lambda b: (float((b.extra or {}).get("font") or 0),
+                                              -int((b.extra or {}).get("top") or 0)))
+        best.type = "title"
+        best.level = 1 if CHAPTER_PATTERN.match(best.text or "") else 2
 
     def _formulas(self, shape, s_idx, next_id, res, src_name: str) -> list[Block]:
         blocks: list[Block] = []

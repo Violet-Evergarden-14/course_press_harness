@@ -593,5 +593,6 @@ study explain --remove <unit>                              # 删除，原文自�
 | [glossary.md](glossary.md) | 术语表结构、引用语法、一致性检查、多语言与回退 | 设计稿 |
 | [cli.md](cli.md) | 命令全集、参数约定、退出码、代理适配边界 | 设计稿 |
 | [state.md](state.md) | 数据分类、缓存键、部分失效、并发锁、用户数据保护 | 设计稿 |
+| [validation.md](validation.md) | 真实素材实测记录与由此发现的问题 | 持续更新 |
 
 实现状态与差异记录见 [../README.md](../README.md) 的 Status 一节。实现阶段修正的设计点已回写至各文档：编号优先分节（[outline-generation.md](outline-generation.md) §3.0）、图形标签识别（[ingest.md](ingest.md) §4.1.1）、草稿状态（[unit-schema.md](unit-schema.md) §10.5）、配置键 `number` 取代 `no`（[cli.md](cli.md) §5）。

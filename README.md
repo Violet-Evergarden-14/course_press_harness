@@ -115,12 +115,13 @@ The architecture is specified before the code, deliberately:
 | [docs/glossary.md](docs/glossary.md) | term table and consistency checks |
 | [docs/cli.md](docs/cli.md) | full command set and config |
 | [docs/state.md](docs/state.md) | caching, invalidation, user-data protection |
+| [docs/validation.md](docs/validation.md) | what real course material actually broke |
 
 ## Status
 
 | Area | State |
 |---|---|
-| PPTX ingest (text, tables, images, OMML→LaTeX subset, speaker notes, hidden slides) | implemented |
+| PPTX ingest (text, tables, images, OMML→LaTeX subset, speaker notes, hidden slides, heading inference) | implemented |
 | TXT / Markdown / YAML student notes | implemented |
 | PDF (text layer, columns, header/footer, TOC, paragraph merging, scanned detection) | implemented |
 | DOCX (heading styles, lists, tables, inline images) | implemented |

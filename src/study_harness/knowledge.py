@@ -307,19 +307,13 @@ def draft_units(
         if not groups:
             continue
 
-        buckets: list[tuple[str | None, list[tuple[int, list[dict]]]]] = []
-        for slide, sb in groups:
-            heading = _is_section_start(sb)
-            if heading:
-                # decks repeat the running heading on every slide of a section
-                if buckets and buckets[-1][0] == heading:
-                    buckets[-1][1].append((slide, sb))
-                else:
-                    buckets.append((heading, [(slide, sb)]))
-            elif buckets:
-                buckets[-1][1].append((slide, sb))
-            else:
-                buckets.append((None, [(slide, sb)]))
+        numbered = sum(1 for _, sb in groups if _is_section_start(sb))
+        if numbered >= 2:
+            buckets = _bucket_by_heading(groups)
+        else:
+            # a deck whose headings are plain sentences ("摩尔定律", "内存泄露") has no
+            # numbering to read structure from; cluster consecutive slides by title.
+            buckets = _cluster_by_title(groups)
 
         for title, slides in buckets:
             unit = _build_unit(src, title, slides, src_to_lecture, used_ids)
@@ -327,6 +321,45 @@ def draft_units(
                 units.append(unit)
 
     return units
+
+
+def _bucket_by_heading(groups: list[tuple[int, list[dict[str, Any]]]]) -> list[tuple[str | None, list]]:
+    """Sections come from numbered headings; repeated ones stay in the same bucket."""
+    buckets: list[tuple[str | None, list]] = []
+    for slide, sb in groups:
+        heading = _is_section_start(sb)
+        if heading:
+            if buckets and buckets[-1][0] == heading:
+                buckets[-1][1].append((slide, sb))
+            else:
+                buckets.append((heading, [(slide, sb)]))
+        elif buckets:
+            buckets[-1][1].append((slide, sb))
+        else:
+            buckets.append((None, [(slide, sb)]))
+    return buckets
+
+
+def _cluster_by_title(groups: list[tuple[int, list[dict[str, Any]]]]) -> list[tuple[str | None, list]]:
+    """One unit per title run; a one-slide run glues onto the previous unit.
+
+    Single-slide units are almost always a stray large-font label, and a lecture made
+    of 80 one-slide units is not a book.
+    """
+    buckets: list[tuple[str | None, list]] = []
+    for slide, sb in groups:
+        title = _slide_title(sb)
+        if not buckets:
+            buckets.append((title, [(slide, sb)]))
+            continue
+        cur_title, cur_slides = buckets[-1]
+        if title and title != cur_title and len(cur_slides) >= 2:
+            buckets.append((title, [(slide, sb)]))
+        else:
+            cur_slides.append((slide, sb))
+            if title and not cur_title:
+                buckets[-1] = (title, cur_slides)
+    return buckets
 
 
 def _build_unit(src: str, title: str | None, slides, src_to_lecture, used_ids) -> Unit | None:
