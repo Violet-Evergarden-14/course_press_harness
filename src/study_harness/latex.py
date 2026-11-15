@@ -23,27 +23,85 @@ from .templates import TemplateSet
 
 DEFAULT_PREAMBLE = r"""\documentclass[11pt,a4paper,openany]{ctexbook}
 \usepackage{geometry}
-\geometry{margin=2.4cm}
+\geometry{a4paper,margin=2.5cm}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
-\usepackage{booktabs}
 \usepackage{array}
 \usepackage{longtable}
+\usepackage{booktabs}
+\usepackage[table]{xcolor}
+\usepackage{colortbl}
 \usepackage{enumitem}
-\setlist{itemsep=2pt,topsep=3pt,leftmargin=1.6em}
 \usepackage{xcolor}
+\usepackage[most]{tcolorbox}
 \usepackage{fancyhdr}
 \usepackage{listings}
 \usepackage{tikz}
-\lstset{basicstyle=\ttfamily\small,breaklines=true,columns=fullflexible}
+\usepackage{setspace}
+\usepackage{adjustbox}
 \usepackage[hidelinks]{hyperref}
-\setlength{\parskip}{0.5em}
-\setlength{\parindent}{0pt}
+
+% ---- palette measured from the reference study document -------------------
+\definecolor{headnavy}{HTML}{1F3864}
+\definecolor{tablehead}{HTML}{DDE5F0}
+\definecolor{notebg}{HTML}{EAF1FB}
+\definecolor{noterule}{HTML}{9DC3E6}
+\definecolor{notebar}{HTML}{2F5597}
+\definecolor{warnbg}{HTML}{FDF0E6}
+\definecolor{warnrule}{HTML}{F4B183}
+\definecolor{warnbar}{HTML}{C55A11}
+\definecolor{headgray}{HTML}{7F7F7F}
+
+% ---- fonts: serif body, sans headings (宋体 + 黑体) ------------------------
+\ctexset{
+  chapter/name={第,讲},
+  chapter/format={\sffamily\bfseries\LARGE\color{headnavy}},
+  chapter/nameformat={\sffamily\bfseries\LARGE\color{headnavy}},
+  chapter/titleformat={\sffamily\bfseries\LARGE\color{headnavy}},
+  section/format={\sffamily\bfseries\large\color{headnavy}},
+  subsection/format={\sffamily\bfseries\normalsize\color{headnavy}},
+  subsubsection/format={\sffamily\bfseries\normalsize\color{headnavy}},
+}
+
+% ---- spacing: generous leading, 2em first-line indent ---------------------
+\onehalfspacing
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.4em}
+\setlist[itemize]{itemsep=3pt,topsep=4pt,leftmargin=1.8em,labelsep=0.5em}
+\setlist[enumerate]{itemsep=3pt,topsep=4pt,leftmargin=2em}
+
+% ---- two kinds of call-out boxes (blue = definition, orange = pitfall) ----
+\newtcolorbox{nbox}[1]{
+  enhanced, colback=notebg, colframe=noterule, boxrule=0.4pt, arc=1pt,
+  left=6pt,right=6pt,top=4pt,bottom=4pt,
+  colbacktitle=notebar, coltitle=white, fonttitle=\sffamily\bfseries\small,
+  title={#1}, toptitle=2pt, bottomtitle=2pt, before skip=0.7em, after skip=0.7em,
+  breakable,
+}
+\newtcolorbox{wbox}[1]{
+  enhanced, colback=warnbg, colframe=warnrule, boxrule=0.4pt, arc=1pt,
+  left=6pt,right=6pt,top=4pt,bottom=4pt,
+  colbacktitle=warnbar, coltitle=white, fonttitle=\sffamily\bfseries\small,
+  title={#1}, toptitle=2pt, bottomtitle=2pt, before skip=0.7em, after skip=0.7em,
+  breakable,
+}
+
+% ---- tables: shaded header, no vertical rules -----------------------------
+\renewcommand{\arraystretch}{1.25}
+\newcommand{\thead}[1]{\rowcolor{tablehead}\sffamily\bfseries\color{headnavy}#1}
+
+% ---- running heads -------------------------------------------------------
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{\small\leftmark}
-\fancyhead[R]{\small\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
+\fancyhead[L]{\small\color{headgray}\booktitle}
+\fancyhead[R]{\small\color{headgray}\leftmark}
+\fancyfoot[C]{\small\color{headgray}\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[C]{\small\color{headgray}\thepage}%
+  \renewcommand{\headrulewidth}{0pt}}
+
+\lstset{basicstyle=\ttfamily\small,breaklines=true,columns=fullflexible,
+  frame=none, aboveskip=0.5em, belowskip=0.5em}
 """
 
 # Unicode math the CJK font does not carry: map to LaTeX commands, otherwise the glyph
@@ -73,13 +131,17 @@ BOLD_RE = re.compile(r"\*\*(.+?)\*\*")
 ITALIC_RE = re.compile(r"(?<!\*)\*([^*\n]+)\*(?!\*)")
 
 
+BOLD_OPEN, BOLD_CLOSE = "\x01", "\x02"
+ITAL_OPEN, ITAL_CLOSE = "\x03", "\x04"
+
+
 def md_inline_to_tex(text: str) -> str:
-    """Turn the markdown emphasis drafts actually use into LaTeX; leave math alone."""
+    """Turn the markdown emphasis drafts use into LaTeX, leaving `$...$` alone."""
     def bold(m: re.Match) -> str:
-        return r"\textbf{" + m.group(1) + "}"
+        return BOLD_OPEN + m.group(1) + BOLD_CLOSE
 
     def italic(m: re.Match) -> str:
-        return r"\emph{" + m.group(1) + "}"
+        return ITAL_OPEN + m.group(1) + ITAL_CLOSE
 
     parts = INLINE_MATH_RE.split(text or "")
     out: list[str] = []
@@ -89,6 +151,21 @@ def md_inline_to_tex(text: str) -> str:
         else:
             out.append(ITALIC_RE.sub(italic, BOLD_RE.sub(bold, part)))
     return "".join(out)
+
+
+def emph_to_markers(text: str) -> str:
+    """Emphasis first, escaping second.
+
+    Escaping runs first in the naive order, and it turns "≥" into "$\\geq$"; the
+    inserted math span then splits "**...**" so the bold regex never matches and the
+    asterisks leak into the PDF.
+    """
+    return md_inline_to_tex(text)
+
+
+def markers_to_tex(text: str) -> str:
+    return (text.replace(BOLD_OPEN, r"\textbf{").replace(BOLD_CLOSE, "}")
+                .replace(ITAL_OPEN, r"\emph{").replace(ITAL_CLOSE, "}"))
 
 
 def escape_tex(text: str) -> str:
@@ -135,7 +212,9 @@ def build_tex(
     remedial = remedial or {}
     figures = figures or {}
 
-    lines: list[str] = [p["preamble"].rstrip(), "", r"\begin{document}", ""]
+    lines: list[str] = [p["preamble"].rstrip(), "",
+                        r"\newcommand{\booktitle}{" + escape_tex(title) + "}",
+                        "", r"\begin{document}", ""]
     lines += [r"\frontmatter", r"\tableofcontents", r"\mainmatter", ""]
 
     titlepage = p["titlepage"]
@@ -189,39 +268,108 @@ def build_tex(
     return "\n".join(lines)
 
 
+BOX_OPEN_RE = re.compile(r"^:::(note|warn)\s*(.*)$")
+BULLET_RE = re.compile(r"^[-*•]\s+(.*)$")
+
+
 def _unit_body(unit: Unit, profile: str, notes: list[dict[str, Any]],
                templates: TemplateSet, assets_dir: Path | None,
                figures: dict[str, Any]) -> list[str]:
     out: list[str] = []
     order = templates.order(profile)
     names = [n for n in order if n in unit.sections] + [n for n in unit.sections if n not in order]
-    pending_table: list[str] = []
     for name in names:
         body = unit.sections.get(name) or []
         if not any(line.strip() for line in body):
             continue
-        out.append(r"\paragraph{" + escape_tex(name) + "}")
-        for raw in body:
-            line = raw.strip()
-            if not line:
-                continue
-            m = EQUATION_RE.match(line)
-            if m:
-                out += [r"\begin{equation*}", m.group(1).strip(), r"\end{equation*}"]
-                continue
-            if line.startswith("|"):
-                pending_table.append(line)   # markdown table: emit as tabular below
-                continue
-            if pending_table:
-                out += _md_table(pending_table)
-                pending_table = []
-            out.append(_inline_line(line, assets_dir, figures))
+        # a section that *is* a call-out box already has a title bar; printing the
+        # paragraph heading above it would title the same thing twice
+        first = next((l.strip() for l in body if l.strip()), "")
+        if not BOX_OPEN_RE.match(first):
+            out.append(r"\paragraph{" + escape_tex(name) + "}")
+        out += _render_blocks(body, assets_dir, figures)
         if name == "表格":
             out += _tables(unit)
-        if pending_table:
-            out += _md_table(pending_table)
-            pending_table = []
         out.append("")
+    return out
+
+
+def _render_blocks(body: list[str], assets_dir: Path | None,
+                   figures: dict[str, Any]) -> list[str]:
+    """Turn composer markdown into LaTeX: ::: boxes, bullet lists, pipe tables, math."""
+    out: list[str] = []
+    table: list[str] = []
+    bullets: list[str] = []
+    box: tuple[str, str, list[str]] | None = None
+
+    def flush_table() -> None:
+        nonlocal table
+        if table:
+            out.extend(_md_table(table))
+            table = []
+
+    def flush_bullets() -> None:
+        nonlocal bullets
+        if bullets:
+            out.append(r"\begin{itemize}")
+            for item in bullets:
+                out.append(r"  \item " + _inline_line(item, assets_dir, figures))
+            out.append(r"\end{itemize}")
+            bullets = []
+
+    def emit_line(line: str) -> None:
+        m = EQUATION_RE.match(line)
+        if m:
+            out.extend([r"\begin{equation*}", m.group(1).strip(), r"\end{equation*}"])
+            return
+        if line.startswith("|"):
+            flush_bullets()
+            table.append(line)
+            return
+        flush_table()
+        bm = BULLET_RE.match(line)
+        if bm:
+            bullets.append(bm.group(1).strip())
+            return
+        flush_bullets()
+        out.append(_inline_line(line, assets_dir, figures))
+
+    for raw in body:
+        line = raw.strip()
+        if not line:
+            continue
+        if box is not None:
+            if line == ":::":
+                kind, title, inner = box
+                flush_bullets()
+                flush_table()
+                env = "nbox" if kind == "note" else "wbox"
+                out.append(r"\begin{%s}{%s}" % (env, escape_tex(title)))
+                out.extend(_render_blocks(inner, assets_dir, figures))
+                out.append(r"\end{%s}" % env)
+                box = None
+            else:
+                box[2].append(line)
+            continue
+        opener = BOX_OPEN_RE.match(line)
+        if opener:
+            flush_bullets()
+            flush_table()
+            box = (opener.group(1), opener.group(2).strip(), [])
+            continue
+        emit_line(line)
+
+    if box is not None:            # unclosed box: emit as a note rather than dropping it
+        kind, title, inner = box
+        env = "nbox" if kind == "note" else "wbox"
+        flush_bullets()
+        flush_table()
+        out.append(r"\begin{%s}{%s}" % (env, escape_tex(title)))
+        out.extend(_render_blocks(inner, assets_dir, figures))
+        out.append(r"\end{%s}" % env)
+
+    flush_bullets()
+    flush_table()
     return out
 
 
@@ -242,7 +390,10 @@ def _inline_line(line: str, assets_dir: Path | None, figures: dict[str, Any]) ->
             if fig.format in {"png", "jpg", "jpeg", "svg"}:
                 return r"\includegraphics[width=0.8\linewidth]{" + fig.path.as_posix() + "}"
             if fig.format == "tikz":
-                return "\n" + fig.path.read_text(encoding="utf-8")
+                # never let a drawing exceed the text block: shrink, never crop
+                body = fig.path.read_text(encoding="utf-8")
+                return ("\n" + r"\begin{center}\adjustbox{max width=\linewidth}{"
+                        + body + r"}\end{center}" + "\n")
             body = fig.path.read_text(encoding="utf-8").strip()
             return "\n" + r"\begin{lstlisting}[basicstyle=\ttfamily\footnotesize]" + "\n" + body + \
                    "\n" + r"\end{lstlisting}"
@@ -252,7 +403,7 @@ def _inline_line(line: str, assets_dir: Path | None, figures: dict[str, Any]) ->
 
     # escape first, then convert emphasis: otherwise the 	extbf we generate
     # would itself get escaped and print literally
-    return md_inline_to_tex(escape_tex_outside_refs(line, repl))
+    return markers_to_tex(escape_tex_outside_refs(emph_to_markers(line), repl))
 
 
 def escape_tex_outside_refs(line: str, repl) -> str:
@@ -279,10 +430,11 @@ def _md_table(lines: list[str]) -> list[str]:
     cols = max(len(r) for r in rows)
     out = [r"\begin{center}\small\begin{tabular}{" + ("l" * cols) + "}",
            r"\toprule"]
-    out.append(" & ".join(escape_tex(c) for c in rows[0]) + r" \\")
+    # shaded sans-serif header, no vertical rules — as in the reference document
+    out.append(r"\thead{" + " & ".join(md_inline_to_tex(escape_tex(c)) for c in rows[0]) + r"} \\")
     out.append(r"\midrule")
     for row in rows[1:]:
-        out.append(" & ".join(escape_tex(c) for c in row) + r" \\")
+        out.append(" & ".join(markers_to_tex(escape_tex(emph_to_markers(c))) for c in row) + r" \\")
     out += [r"\bottomrule", r"\end{tabular}\end{center}"]
     return out
 
