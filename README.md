@@ -32,7 +32,7 @@ mkdir my-course && cd my-course
 study init --course "数据结构"
 cp ~/slides/lecture-06.pptx inputs/
 $EDITOR study.config.yaml     # declare the lecture
-study build
+study auto            # build + review tasks + status; exit 5 means "needs you"
 $EDITOR .study/out/book.md
 ```
 
@@ -59,6 +59,7 @@ render:
 | `study init` | create a workspace |
 | `study ingest` | parse `inputs/` into blocks (`.study/sources/*.jsonl`) |
 | `study probe` | report what the sources can support (slides, notes, audio) |
+| `study auto` | the whole cycle in one command, then a list of what is still missing |
 | `study build` | ingest → units → outline → render → gates |
 | `study render` | re-render only; `--format md\|txt\|tex\|pdf\|docx\|pptx\|all` |
 | `study outline show` | inspect / hand-edit the skeleton (`.study/outline.json`) |

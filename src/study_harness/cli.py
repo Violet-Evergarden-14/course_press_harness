@@ -245,6 +245,7 @@ def cmd_build(args) -> int:
         return rc
 
     cfg = _workspace(args)  # reload: config may not change, but keeps flow obvious
+    state = State.load(cfg.workspace)  # ingest wrote its own stage; do not clobber it
     files = _input_files(cfg)
     blocks_by_src = _load_blocks(p)
     if not blocks_by_src:
@@ -355,6 +356,98 @@ def _align_workspace(cfg: Config, p: dict[str, Path], blocks_by_src: dict[str, l
     if any(s.unconfirmed for s in al.segments):
         print(f"  低置信度 {sum(1 for s in al.segments if s.unconfirmed)} 条待确认")
     return {"tier": al.tier, "segments": len(al.segments), "confidence": al.confidence}
+
+
+def _gap_counts(workspace: Path) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for path in open_gaps(workspace):
+        try:
+            kind = json.loads(path.read_text(encoding="utf-8")).get("kind", "unknown")
+        except Exception:
+            kind = "unknown"
+        counts[kind] = counts.get(kind, 0) + 1
+    return counts
+
+
+def _finding_counts(workspace: Path) -> dict[str, dict[str, int]]:
+    path = workspace / ".study" / "review" / "findings.jsonl"
+    out: dict[str, dict[str, int]] = {}
+    if not path.exists():
+        return out
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        try:
+            f = json.loads(line)
+        except Exception:
+            continue
+        out.setdefault(f.get("level", "info"), {})
+        gate = f.get("gate", "?")
+        out[f.get("level", "info")][gate] = out[f.get("level", "info")].get(gate, 0) + 1
+    return out
+
+
+def _status_report(cfg: Config, p: dict[str, Path]) -> list[str]:
+    state = State.load(cfg.workspace)
+    lines = ["", "── 当前状态 ──"]
+    for stage in ("ingest", "align", "units", "outline", "render", "gates"):
+        info = state.get_stage(stage)
+        if not info:
+            continue
+        detail = info.get("tier") or info.get("count") or ""
+        lines.append(f"  {stage:8} {info.get('status', '?'):8} {detail}")
+
+    gaps = _gap_counts(cfg.workspace)
+    if gaps:
+        lines.append("  待填充缺口：" + "，".join(f"{k}×{v}" for k, v in sorted(gaps.items())))
+    findings = _finding_counts(cfg.workspace)
+    if findings:
+        parts = []
+        for level in ("blocker", "major", "minor", "info"):
+            if level in findings:
+                parts.append(f"{level}×{sum(findings[level].values())}")
+        lines.append("  待处理问题：" + "，".join(parts))
+
+    out = p["out"]
+    produced = sorted(f for f in out.glob("book.*") if f.is_file()) if out.exists() else []
+    if produced:
+        lines.append("  产物：" + "，".join(f"{f.name}({f.stat().st_size // 1024}KB)"
+                                          for f in produced))
+    return lines
+
+
+def cmd_auto(args) -> int:
+    """One command for a full cycle, ending with what is still missing."""
+    cfg = _workspace(args)
+    p = _paths(cfg)
+
+    # cmd_build and cmd_ingest read args by name; give them exactly what they expect
+    build_args = argparse.Namespace(
+        workspace=args.workspace, json=getattr(args, "json", False),
+        no_merge=False, no_interactive=True, profile=args.profile,
+        format=args.format, tex_engine=args.tex_engine,
+        source_references=None, only=None, force=False,
+    )
+    rc = cmd_build(build_args)
+
+    units = load_units(p["units"]) if p["units"].exists() else []
+    if units and not args.skip_review:
+        blocks_by_src = _load_blocks(p)
+        l2 = review_prepare(cfg.workspace, units, blocks_by_src, limit=args.l2_limit)
+        l3 = review_prepare_l3(cfg.workspace, units, limit=args.l3_limit,
+                               sample_ratio=args.sample)
+        if l2 or l3:
+            print(f"审查任务：L2 {len(l2)} 个，L3 {len(l3)} 个（填入 .study/gaps/answers/）")
+
+    for line in _status_report(cfg, p):
+        print(line)
+
+    pending = open_gaps(cfg.workspace)
+    if pending:
+        print(f"\n下一步：填写 {len(pending)} 个缺口（`study gaps list`），"
+              f"然后 `study review apply` 与 `study auto`")
+        return EXIT_CONFIRM
+    return rc
 
 
 def _export(cfg: Config, p: dict[str, Path], fmt: str, units: list, outline: dict,
@@ -907,6 +1000,16 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--exclude-patches", action="store_true")
     p.add_argument("--audit-locators", action="store_true")
     p.set_defaults(func=cmd_render)
+
+    p = sub.add_parser("auto", help="build + review preparation + status in one go")
+    p.add_argument("--profile", choices=["learn", "review"])
+    p.add_argument("--format", choices=["md", "txt", "tex", "pdf", "docx", "pptx", "all"])
+    p.add_argument("--tex-engine", choices=["xelatex", "lualatex", "pdflatex"])
+    p.add_argument("--skip-review", action="store_true", help="do not write L2/L3 tasks")
+    p.add_argument("--l2-limit", type=int, default=20)
+    p.add_argument("--l3-limit", type=int, default=10)
+    p.add_argument("--sample", type=float, default=0.1)
+    p.set_defaults(func=cmd_auto)
 
     p = sub.add_parser("align", help="align speech to slides (A/B/C tier)")
     p.add_argument("--tier", choices=["A", "B", "C"])

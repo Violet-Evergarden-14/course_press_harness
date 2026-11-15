@@ -103,6 +103,25 @@ study align [--lecture 6] [--anchor 12:13:40] [--tier A|B|C]
 
 ---
 
+### 3.4.1 `study auto`
+
+一条命令跑完一轮，结束时给出「还缺什么」：
+
+```bash
+study auto [--profile learn|review] [--format md|txt|tex|pdf|docx|pptx|all]
+           [--skip-review] [--l2-limit 20] [--l3-limit 10] [--sample 0.1]
+```
+
+流程：`build`（摄取→对齐→知识点→编排→渲染→门禁）→ 生成 L2/L3 审查任务 → 状态报告。
+
+报告包含：各阶段状态、待填充缺口按类型计数、待处理问题按级别计数、已产出的文件及大小。
+
+退出码：门禁失败 `1`；存在待填充缺口或待处理问题时 `5`——**这不是失败，是「轮到人了」**。脚本可以据此决定是否继续等待。
+
+```bash
+study auto --skip-review      # 只要文档，不要审查任务
+```
+
 ### 3.5 `study build`
 
 按顺序执行 ingest → probe → align → 知识化 → 编排，产出可渲染状态。
