@@ -115,7 +115,8 @@ The architecture is specified before the code, deliberately:
 |---|---|
 | PPTX ingest (text, tables, images, OMML→LaTeX subset, speaker notes, hidden slides) | implemented |
 | TXT / Markdown / YAML student notes | implemented |
-| PDF / DOCX / audio | not implemented (adapters reserved) |
+| PDF (text layer, columns, header/footer, TOC, paragraph merging, scanned detection) | implemented |
+| DOCX / audio | not implemented (adapters reserved) |
 | Deterministic draft units | implemented — verbatim text only, marked `draft: true` |
 | Numbering-based sectioning | implemented |
 | Continuous Markdown render, `learn` view | implemented |
@@ -124,7 +125,8 @@ The architecture is specified before the code, deliberately:
 | Template manifest (`templates/<profile>/<format>/manifest.yaml`) | implemented — heading formats and section order are data |
 | Full per-layer template files, LaTeX output | not implemented |
 | `review` view | implemented (section order + note emphasis) |
-| Audio alignment, L2/L3 review, gap filling | not implemented (protocols documented) |
+| Gap protocol: register / fill / apply (`image_semantics`, `page_text`, `figure_request`) | implemented |
+| Audio alignment, L2/L3 review | not implemented (protocols documented) |
 
 Draft units carry `draft: true` and often an `auto-…` id; the `auto_unit_id` gate reports them as
 `major` so a raw build is never mistaken for a finished book.

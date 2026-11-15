@@ -16,7 +16,7 @@ def register(cls):
 
 
 def adapter_for(path: Path):
-    from . import pptx_adapter, text_adapter, notes_adapter  # noqa: F401  (registration)
+    from . import pptx_adapter, text_adapter, notes_adapter, pdf_adapter  # noqa: F401  (registration)
     ext = path.suffix.lower()
     for cls in ADAPTERS.values():
         if ext in cls.accepts:

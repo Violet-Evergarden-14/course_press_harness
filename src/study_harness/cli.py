@@ -21,6 +21,7 @@ from .outline import build_outline, load_outline, save_outline
 from .render import load_glossary, load_notes, render_document
 from .figures import add_figure, load_figures, request_figure
 from .templates import TemplateSet
+from .gaps import apply_answers, fill_gap, load_answers, open_gaps, register_image_gaps
 from .state import State
 
 EXIT_OK, EXIT_GATE, EXIT_USAGE, EXIT_INPUT, EXIT_INTERNAL, EXIT_CONFIRM = 0, 1, 2, 3, 4, 5
@@ -183,7 +184,7 @@ def cmd_ingest(args) -> int:
             errors.append({"file": f.name, "stage": f"{ad.name}/ingest", "severity": "error",
                            "msg": str(exc)})
             continue
-        target = p["sources"] / f"{ad.name}-{src_key(f.name, ad.name)}.jsonl"
+        target = p["sources"] / f"{src_key(f.name, ad.name)}.jsonl"
         n = write_jsonl(target, result.blocks)
         produced += n
         for w in result.warnings:
@@ -232,6 +233,13 @@ def cmd_build(args) -> int:
         if no is not None:
             lecture_titles[int(no)] = lec.get("title") or f"第 {no} 讲"
 
+    # ---- model gaps: answers are attached, missing ones are registered ----
+    answers = load_answers(cfg.workspace)
+    flat_blocks = [b for bs in blocks_by_src.values() for b in bs]
+    applied = apply_answers(flat_blocks, answers)
+    if applied:
+        print(f"applied {applied} gap answers")
+
     # ---- units (deterministic draft) ----
     existing_units = {u.id: u for u in load_units(p["units"])} if p["units"].exists() else {}
     # a human-renamed unit keeps its semantic id; the draft it replaces announces the
@@ -261,8 +269,10 @@ def cmd_build(args) -> int:
         written += 1
 
     units = load_units(p["units"])
-    state.mark("units", "done", key=state.inputs_hash(), count=len(units),
-               preserved=preserved)
+    new_gaps = register_image_gaps(cfg.workspace, flat_blocks, units)
+    pending = open_gaps(cfg.workspace)
+    state.mark("units", "partial" if pending else "done", key=state.inputs_hash(),
+               count=len(units), preserved=preserved, pending_gaps=len(pending))
     state.save()
 
     # ---- outline ----
@@ -339,6 +349,9 @@ def _do_render(cfg: Config, args, state: State) -> int:
     state.save()
 
     print(f"rendered {len(units)} units -> {p['out'] / 'book.md'}")
+    pending = open_gaps(cfg.workspace)
+    if pending:
+        print(f"gaps: {len(pending)} 待填充（`study gaps list`），未填充时相关内容不进入正文")
     if report.findings:
         print("gates: " + ", ".join(f"{k}={v}" for k, v in sorted(report.counts.items())))
         for f in report.findings:
@@ -519,17 +532,42 @@ def cmd_clean(args) -> int:
 
 def cmd_gaps(args) -> int:
     cfg = _workspace(args)
-    p = _paths(cfg)
-    gaps = sorted((p["gaps"]).glob("*.json")) if p["gaps"].exists() else []
-    answered = {q.stem for q in (p["gaps"] / "answers").glob("*.json")} if (p["gaps"] / "answers").exists() else set()
+    ws = cfg.workspace
     if args.action == "list":
-        for g in gaps:
-            mark = "answered" if g.stem in answered else "open"
-            print(f"{mark:9} {g.name}")
-        if not gaps:
-            print("no gaps")
+        pending = open_gaps(ws)
+        if args.json:
+            print(json.dumps([{"id": p.stem} for p in pending], ensure_ascii=False))
+            return EXIT_OK
+        for path in pending:
+            spec = json.loads(path.read_text(encoding="utf-8"))
+            print(f"{spec.get('kind','?'):16} {path.stem:36} {spec.get('unit') or '-'}")
+        if not pending:
+            print("no open gaps")
+        else:
+            print(f"\n{len(pending)} open；填写 .study/gaps/answers/<id>.json 后重新 build")
         return EXIT_OK
-    return EXIT_OK
+
+    if args.action == "show":
+        path = ws / ".study" / "gaps" / f"{args.target}.json"
+        if not path.exists():
+            print(f"error: gap {args.target} not found", file=sys.stderr)
+            return EXIT_INPUT
+        print(path.read_text(encoding="utf-8"))
+        return EXIT_OK
+
+    if args.action == "fill":
+        if not args.target or not args.file:
+            print("error: `gaps fill <id> --file answer.json`", file=sys.stderr)
+            return EXIT_USAGE
+        payload = json.loads(Path(args.file).read_text(encoding="utf-8"))
+        try:
+            out = fill_gap(ws, args.target, payload)
+        except (FileNotFoundError, ValueError) as exc:
+            print(f"error: {exc}", file=sys.stderr)
+            return EXIT_INPUT
+        print(f"answer written: {out}")
+        return EXIT_OK
+    return EXIT_USAGE
 
 
 def cmd_figure(args) -> int:
@@ -652,8 +690,10 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--level")
     p.set_defaults(func=cmd_review)
 
-    p = sub.add_parser("gaps", help="list pending model tasks")
-    p.add_argument("action", choices=["list"], nargs="?", default="list")
+    p = sub.add_parser("gaps", help="list / show / fill model tasks")
+    p.add_argument("action", choices=["list", "show", "fill"], nargs="?", default="list")
+    p.add_argument("target", nargs="?")
+    p.add_argument("--file", help="answer file (fill)")
     p.set_defaults(func=cmd_gaps)
 
     p = sub.add_parser("explain", help="request a remedial explanation")

@@ -150,10 +150,19 @@ def save_unit(units_dir: Path, unit: Unit) -> None:
 # deterministic drafting
 # --------------------------------------------------------------------------
 
+def loc_index(block: dict[str, Any]) -> int | None:
+    """Position of a block within its source: slide number or PDF page number."""
+    loc = block.get("loc") or {}
+    for key in ("slide", "page"):
+        if isinstance(loc.get(key), int):
+            return loc[key]
+    return None
+
+
 def _group_by_slide(blocks: list[dict[str, Any]]) -> list[tuple[int, list[dict[str, Any]]]]:
     groups: list[tuple[int, list[dict[str, Any]]]] = []
     for b in blocks:
-        slide = (b.get("loc") or {}).get("slide")
+        slide = loc_index(b)
         if slide is None:
             continue
         if groups and groups[-1][0] == slide:
@@ -163,7 +172,14 @@ def _group_by_slide(blocks: list[dict[str, Any]]) -> list[tuple[int, list[dict[s
     return groups
 
 
-HEADING_RE = re.compile(r"^\s*(?:第\s*\d+\s*[章节]|[0-9]+(?:\.[0-9]+)*\.?)\s")
+# "6.1 树的定义", "0.1指针的本质" (no space before CJK), "2. 链式存储结构"
+HEADING_RE = re.compile(
+    r"^\s*(?:"
+    r"第\s*\d+\s*[章节]"
+    r"|\d+(?:\.\d+)+(?=\s|[^\x00-\x7f])"   # dotted numbering, space optional before CJK
+    r"|\d+\.\s"                            # "2. 标题"
+    r")"
+)
 CHAPTER_RE = re.compile(r"^\s*第\s*[0-9]+\s*[章节]")
 
 # single-letter node labels from diagrams: "A", "B", "T1", "n>1", ". . ."
@@ -282,6 +298,7 @@ def _build_unit(src: str, title: str | None, slides, src_to_lecture, used_ids) -
     evidence: list[dict[str, Any]] = []
 
     diagram_labels: list[str] = []
+    image_notes: list[str] = []
 
     for slide_no, sb in slides:
         lead = clean_text(_slide_title(sb) or "")
@@ -307,6 +324,17 @@ def _build_unit(src: str, title: str | None, slides, src_to_lecture, used_ids) -
                 evidence.append({"src": b["src"], "loc": b.get("loc"), "block": b.get("id")})
             elif t == "image" and b.get("asset"):
                 images.append(b["asset"])
+                if b.get("semantics"):
+                    sem = b["semantics"]
+                    if isinstance(sem, dict):
+                        note = sem.get("summary") or sem.get("text") or ""
+                        rel = sem.get("relations")
+                        if rel:
+                            note += " 关系：" + "；".join(f"{a}→{b_}" for a, b_ in rel)
+                    else:
+                        note = str(sem)
+                    if note:
+                        image_notes.append(f"- {note}")
                 evidence.append({"src": b["src"], "loc": b.get("loc"), "block": b.get("id")})
             elif t == "table" and b.get("rows"):
                 rows = b["rows"]
@@ -348,6 +376,8 @@ def _build_unit(src: str, title: str | None, slides, src_to_lecture, used_ids) -
         sections["表格"] = tables
     if images:
         sections["图示"] = [f"[[asset:{Path(a).stem}]]" for a in images]
+    if image_notes:
+        sections["图示说明"] = image_notes
     if notes:
         sections["备注"] = notes
 

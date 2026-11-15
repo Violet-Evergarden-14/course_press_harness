@@ -17,8 +17,13 @@ OUTLINE_FILE = ".study/outline.json"
 
 
 def _min_slide(unit: Unit) -> int:
-    slides = [e.get("loc", {}).get("slide") for e in unit.evidence]
-    slides = [s for s in slides if isinstance(s, int)]
+    slides = []
+    for e in unit.evidence:
+        loc = e.get("loc") or {}
+        for key in ("slide", "page"):
+            if isinstance(loc.get(key), int):
+                slides.append(loc[key])
+                break
     return min(slides) if slides else 10**6
 
 
@@ -140,9 +145,23 @@ def _sections_by_numbering(units: list[Unit]) -> list[dict[str, Any]] | None:
     hierarchy, so section boundaries are read off directly instead of guessed from a
     target count. Returns None when numbering is absent or inconsistent.
     """
+    # A document that spans several chapters ("第0章 … 第6章") must be sectioned by
+    # chapter. A single "第6章" heading is just the title of the lecture and must not
+    # become a section, so the top level is decided by how many chapters appear.
+    chapter_starts = [i for i, u in enumerate(units) if CHAPTER_TXT_RE.match((u.title or "").strip())]
+    if len(chapter_starts) >= 2:
+        bounds = chapter_starts + [len(units)]
+        sections: list[dict[str, Any]] = []
+        for start, end in zip(bounds, bounds[1:]):
+            chunk = units[start:end]
+            if chunk:
+                sections.append({"title": chunk[0].title, "units": [u.id for u in chunk]})
+        if units[: chapter_starts[0]] and sections:
+            sections[0]["units"] = [u.id for u in units[: chapter_starts[0]]] + sections[0]["units"]
+        return sections
+
     levels = [heading_level(u.title) for u in units]
-    # section structure comes from dotted numbering ("6.1"); a bare "第6章" heading
-    # describes the lecture, not a section, so it must not set the top level
+    # otherwise section structure comes from dotted numbering ("6.1")
     dotted = [heading_level(u.title) if NUM_RE.match((u.title or "").strip()) else None
               for u in units]
     numbered = [l for l in dotted if l is not None]

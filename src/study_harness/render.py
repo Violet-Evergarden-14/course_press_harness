@@ -18,8 +18,17 @@ from .templates import TemplateSet
 
 REF_RE = re.compile(r"\[\[([^\]|]+)(?:\|([^\]]+))?\]\]")
 
-# docs/architecture.md §6.3 — forbidden in `none` and `footnote` modes
-FORBIDDEN_SOURCE_WORDS = [
+# docs/architecture.md §6.3 — forbidden in `none` and `footnote` modes.
+# Two tiers: a bare term (校名、课程名、"PPT原例") is not the same as a pointer to a
+# location ("见课件第 12 页"). The first is a wording fix, the second breaks the
+# promise that the book stands on its own.
+STRONG_SOURCE_PATTERNS = [
+    r"(?:见|参见|详见|根据|依据|摘自|如)\s*(?:课件|幻灯片|PPT|ppt|讲义原文|原书)",
+    r"(?:课件|幻灯片|PPT|ppt)\s*(?:第\s*\d+\s*页|原例|原文|中|里|上|所示)",
+    r"(?:老师|课上|课堂|录音|视频)\s*(?:中|里|上|提到|说|讲|强调|所示)",
+    r"第\s*\d+\s*页\s*(?:课件|幻灯片|PPT|录音|视频)",
+]
+SOFT_SOURCE_WORDS = [
     "课件", "PPT", "ppt", "幻灯片", "该页", "老师", "课上", "课堂", "录音", "视频", "原书", "讲义原文",
 ]
 
@@ -49,7 +58,7 @@ def _ordered_sections(unit: Unit, profile: str,
     return known + extra
 
 
-TITLE_NUM_RE = re.compile(r"^\s*\d+(?:\.\d+)*\.?\s+")
+TITLE_NUM_RE = re.compile(r"^\s*(?:\d+(?:\.\d+)+\.?|\d+\.)\s*")
 
 
 def display_title(title: str) -> str:
@@ -224,12 +233,22 @@ def _audit_version(units: list[Unit], by_id: dict[str, Unit], numbers: dict[str,
     return "\n".join(lines).rstrip() + "\n"
 
 
-def forbidden_hits(text: str) -> list[tuple[int, str, str]]:
-    hits: list[tuple[int, str, str]] = []
+import re as _re
+
+_STRONG_RE = [_re.compile(p) for p in STRONG_SOURCE_PATTERNS]
+
+
+def forbidden_hits(text: str) -> list[tuple[int, str, str, str]]:
+    """(line, severity, matched, snippet) for source references in the body."""
+    hits: list[tuple[int, str, str, str]] = []
     for i, line in enumerate(text.splitlines(), start=1):
-        for w in FORBIDDEN_SOURCE_WORDS:
+        match = next((m for r in _STRONG_RE for m in [r.search(line)] if m), None)
+        if match:
+            hits.append((i, "blocker", match.group(0), line.strip()[:80]))
+            continue
+        for w in SOFT_SOURCE_WORDS:
             if w in line:
-                hits.append((i, w, line.strip()[:80]))
+                hits.append((i, "minor", w, line.strip()[:80]))
                 break
     return hits
 

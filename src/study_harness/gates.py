@@ -51,11 +51,15 @@ class GateReport:
 def check_source_policy(rendered_text: str, mode: str, report: GateReport) -> None:
     if mode == "inline":
         return
-    hits = forbidden_hits(rendered_text)
-    for line, word, snippet in hits:
-        report.add("source_reference_policy", "blocker",
-                   f"正文出现来源指称「{word}」：{snippet}",
-                   hint="删除指称并直接陈述内容；或设置 render.source_references")
+    for line, level, matched, snippet in forbidden_hits(rendered_text):
+        if level == "blocker":
+            report.add("source_reference_policy", "blocker",
+                       f"正文指向了素材出处「{matched}」：{snippet}",
+                       hint="删除指称并直接陈述内容；或设置 render.source_references")
+        else:
+            report.add("source_wording", "minor",
+                       f"正文出现素材用词「{matched}」：{snippet}",
+                       hint="确认是否为内容本身需要；若是转述出处则删除")
 
 
 def check_refs(units: list[Unit], report: GateReport) -> None:
@@ -107,9 +111,15 @@ def check_path_leak(rendered_text: str, report: GateReport) -> None:
 
 
 def check_coverage(blocks: list[dict[str, Any]], units: list[Unit], report: GateReport) -> None:
-    total_slides = {b["loc"]["slide"] for b in blocks
-                    if b.get("loc", {}).get("slide") is not None}
-    covered = {e.get("loc", {}).get("slide") for u in units for e in u.evidence}
+    def pos(block: dict) -> int | None:
+        loc = block.get("loc") or {}
+        for key in ("slide", "page"):
+            if isinstance(loc.get(key), int):
+                return loc[key]
+        return None
+
+    total_slides = {p for p in (pos(b) for b in blocks) if p is not None}
+    covered = {p for p in (pos(e) for u in units for e in u.evidence) if p is not None}
     missing = sorted(s for s in total_slides if s not in covered)
     if missing:
         level = "minor"
@@ -155,7 +165,7 @@ def check_numbering(outline: dict[str, Any], report: GateReport) -> None:
                 seen[uid] = sec.get("title", "")
 
 
-AGGREGATE_GATES = {"auto_unit_id", "draft_sections", "coverage", "figure_provenance"}
+AGGREGATE_GATES = {"auto_unit_id", "draft_sections", "coverage", "figure_provenance", "source_wording", "source_reference_policy"}
 
 
 def _compact(report: GateReport) -> GateReport:

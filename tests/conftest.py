@@ -1,9 +1,14 @@
 from __future__ import annotations
 
+import base64
 import sys
 from pathlib import Path
 
 import pytest
+
+_ONE_PX_PNG = (
+    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
+)
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
@@ -33,6 +38,11 @@ def sample_pptx(tmp_path: Path) -> Path:
     slide("6.1 树的定义和基本术语", ["森林是 m 棵互不相交的树的集合"])
     slide("6.2 二叉树", ["二叉树每个结点至多两棵子树", "第 i 层至多有 2^(i-1) 个结点"])
     slide("6.2.1 二叉树的性质", ["满二叉树与完全二叉树是两种特殊形态"])
+
+    # one picture, so image gaps have something to attach to
+    png = tmp_path / "figure.png"
+    png.write_bytes(base64.b64decode(_ONE_PX_PNG))
+    prs.slides[1].shapes.add_picture(str(png), Inches(0.5), Inches(5))
 
     out = tmp_path / "第06章+树和二叉树.pptx"
     prs.save(str(out))

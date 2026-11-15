@@ -511,6 +511,18 @@ study explain --prereq 递归               # 标记前置概念有疑问
 }
 ```
 
+缺口类型与来源：
+
+| kind | 触发 | 答案用途 |
+|---|---|---|
+| `image_semantics` | 图片无 `semantics` | 写入 IR 的 `semantics`，进入正文「图示说明」 |
+| `page_text` | 页面无文字层（扫描/纯图页） | 转写页面文字 |
+| `figure_request` | 需要重画或新增的图 | 图规格文本（矢量），见 §7.1 |
+| `claim_entailment` | L2 审查 | 逐条断言的 verdict |
+| `remedial` | 读者声明缺口 | 前置讲解补丁 |
+
+答案校验：`gaps fill` 按缺口声明的 `answer_format` 校验，出现未声明字段即拒绝写入——宽松接受会让「模型自由发挥」重新进入管道。
+
 由此获得四项性质：无模型时仍可完成流程（缺口留空并标记未填）、可更换任意模型、可人工代填、结果可缓存与复核。`SKILL.md`、`AGENTS.md`、`.cursor/rules` 均为同一命令行的适配层。
 
 ---
