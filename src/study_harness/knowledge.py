@@ -22,6 +22,9 @@ import yaml
 from .ids import ascii_slug
 from .ir import sha256_text, write_jsonl
 
+MEDIA_SUFFIXES = (".m4a", ".mp3", ".wav", ".mp4", ".mkv", ".webm", ".mov",
+                  ".flac", ".aac", ".ogg", ".opus", ".wma", ".m4v")
+
 UNIT_TYPES = {"concept", "property", "algorithm", "example", "pitfall", "procedure", "summary"}
 
 # sections a type must provide (docs/unit-schema.md §5.1)
@@ -278,10 +281,29 @@ def draft_units(
     units: list[Unit] = []
     used_ids: dict[str, int] = {}
 
+    # Speech lives in a different source but was aligned to a slide; fold it into the
+    # deck's stream before grouping, otherwise each transcript becomes a unit of its own
+    # (and then gets dropped for having no prose).
+    speech: dict[str, list[dict[str, Any]]] = {}
+    for src, blocks in blocks_by_src.items():
+        if MEDIA_SUFFIXES and src.lower().endswith(MEDIA_SUFFIXES):
+            speech[src] = blocks
+
     for src, blocks in blocks_by_src.items():
         if src.endswith((".yaml", ".yml")) and not include_notes:
             continue
-        groups = _group_by_slide(blocks)
+        if src.lower().endswith(MEDIA_SUFFIXES):
+            continue
+        merged = list(blocks)
+        lecture = src_to_lecture.get(src)
+        for media_src, media_blocks in speech.items():
+            if src_to_lecture.get(media_src) != lecture:
+                continue
+            merged.extend(b for b in media_blocks if loc_index(b) is not None)
+        # stable sort: position order, deck blocks before speech on the same slide
+        merged.sort(key=lambda b: loc_index(b) if loc_index(b) is not None else 10**9)
+
+        groups = _group_by_slide(merged)
         if not groups:
             continue
 
@@ -338,6 +360,7 @@ def _build_unit(src: str, title: str | None, slides, src_to_lecture, used_ids) -
 
     diagram_labels: list[str] = []
     image_notes: list[str] = []
+    speech_lines: list[str] = []
 
     for slide_no, sb in slides:
         lead = clean_text(_slide_title(sb) or "")
@@ -358,6 +381,10 @@ def _build_unit(src: str, title: str | None, slides, src_to_lecture, used_ids) -
                     continue
                 bullets.append(text)
                 evidence.append({"src": b["src"], "loc": b.get("loc"), "block": b.get("id")})
+            elif t == "speech" and b.get("text"):
+                speech_lines.append(f"- {b['text'].strip()}")
+                evidence.append({"src": b["src"], "loc": b.get("loc"),
+                                 "block": b.get("id")})
             elif t == "formula" and b.get("latex"):
                 formulas.append(f"$$ {b['latex']} $$")
                 evidence.append({"src": b["src"], "loc": b.get("loc"), "block": b.get("id")})
@@ -385,7 +412,7 @@ def _build_unit(src: str, title: str | None, slides, src_to_lecture, used_ids) -
             if b.get("speaker_notes"):
                 notes.append(b["speaker_notes"].strip())
 
-    if not (bullets or formulas or tables or images or notes):
+    if not (bullets or formulas or tables or images or notes or speech_lines):
         return None  # slide carried nothing extractable: do not emit an empty unit
 
     if not evidence:
@@ -417,6 +444,8 @@ def _build_unit(src: str, title: str | None, slides, src_to_lecture, used_ids) -
         sections["图示"] = [f"[[asset:{Path(a).stem}]]" for a in images]
     if image_notes:
         sections["图示说明"] = image_notes
+    if speech_lines:
+        sections["讲解"] = speech_lines
     if notes:
         sections["备注"] = notes
 

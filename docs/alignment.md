@@ -265,7 +265,24 @@ B 档目标偏低是刻意的：无锚点时的词面匹配在口语化讲解与
 
 ---
 
-## 11. 禁止事项
+## 11. 实现映射（v0.1）
+
+| 文档概念 | 命令 / 模块 |
+|---|---|
+| 转写 | `ingest/media_adapter.py`：优先同名 `.srt`/`.vtt`，其次本地 `faster-whisper`，都没有则写 `transcript` 缺口 |
+| 档位判定 | 由音频是否存在与锚点数决定（`align.decide_tier`），不使用模型 |
+| A 档 | `align.align_by_anchors`：锚点间按时间比例插值 |
+| B 档 | `align.align_by_dp`：字符 n-gram 相似度 + 单调动态规划 |
+| 结果 | `.study/aligned/sNN.align.json`；低置信项另存 `sNN.confirm.yaml` |
+| 下游 | `apply_to_blocks` 把 `slide` 写进语音块，知识化时并入该页知识点，渲染为「讲解」小节 |
+
+三条实现约束：
+
+1. **C 档不产文件**。没有音频时 `.study/aligned/` 为空，下游以文件是否存在判断，禁止用空数组代替。
+2. **语音转写是可替换的**。SRT 路径完全确定性，可在无模型、无音频真值的情况下测试全链路；whisper 只是可选后端，`pyproject.toml` 的 `[audio]` extra。
+3. **跨源归组**。语音与幻灯片来自不同源，必须在分组前按位置合并，否则每段转写会变成独立知识点并被当作空单元丢弃。
+
+## 12. 禁止事项
 
 | 禁止 | 理由 |
 |---|---|

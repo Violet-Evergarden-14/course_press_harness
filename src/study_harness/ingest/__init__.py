@@ -18,6 +18,7 @@ def register(cls):
 def adapter_for(path: Path):
     from . import (  # noqa: F401  (import registers the adapters)
         docx_adapter,
+        media_adapter,
         notes_adapter,
         pdf_adapter,
         pptx_adapter,

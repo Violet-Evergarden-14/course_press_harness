@@ -72,6 +72,7 @@ render:
 | `study figure add <id> --file spec.mmd` | register a figure (extracted / redrawn / synthesized) |
 | `study figure request <unit> --desc "..."` | ask for a diagram the source does not provide |
 | `study figure list` | list figures with origin and format |
+| `study align [--tier]` | align speech to slides (A/B/C), write `.study/aligned/` |
 | `study doctor` | environment and workspace self-check |
 | `study clean` | remove derived data (never user data) |
 
@@ -122,7 +123,8 @@ The architecture is specified before the code, deliberately:
 | TXT / Markdown / YAML student notes | implemented |
 | PDF (text layer, columns, header/footer, TOC, paragraph merging, scanned detection) | implemented |
 | DOCX (heading styles, lists, tables, inline images) | implemented |
-| Audio | not implemented (adapter reserved) |
+| Audio: `.srt`/`.vtt` sidecar (deterministic) or local `faster-whisper` (`[audio]` extra) | implemented |
+| Alignment: A (anchors) / B (monotone DP) / C (skip), speech merged as 讲解 | implemented |
 | Deterministic draft units | implemented — verbatim text only, marked `draft: true` |
 | Numbering-based sectioning | implemented |
 | Continuous Markdown render, `learn` view | implemented |
@@ -135,7 +137,6 @@ The architecture is specified before the code, deliberately:
 | L2 review (claim entailment: prepare → fill → apply, `unsupported_ratio`) | implemented |
 | L3 adversarial review (contradiction / missing step / wrong arithmetic) | implemented |
 | On-demand explanation patches (`explain` → `--apply` → overlay, removable) | implemented |
-| Audio alignment | not implemented (protocols documented) |
 
 Draft units carry `draft: true` and often an `auto-…` id; the `auto_unit_id` gate reports them as
 `major` so a raw build is never mistaken for a finished book.

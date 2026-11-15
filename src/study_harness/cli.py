@@ -24,6 +24,7 @@ from .templates import TemplateSet
 from .gaps import apply_answers, fill_gap, load_answers, open_gaps, register_image_gaps
 from .review import apply as review_apply
 from .review import prepare as review_prepare
+from . import align as align_mod
 from . import remediate
 from .review import apply_l3 as review_apply_l3
 from .review import prepare_l3 as review_prepare_l3
@@ -62,11 +63,18 @@ def _paths(cfg: Config) -> dict[str, Path]:
     }
 
 
+SIDECAR_SUFFIXES = {".srt", ".vtt"}
+
+
 def _input_files(cfg: Config) -> list[Path]:
     inputs = cfg.workspace / "inputs"
     if not inputs.exists():
         return []
-    return sorted(p for p in inputs.iterdir() if p.is_file() and not p.name.startswith("."))
+    return sorted(
+        p for p in inputs.iterdir()
+        if p.is_file() and not p.name.startswith(".")
+        and p.suffix.lower() not in SIDECAR_SUFFIXES  # consumed by the media adapter
+    )
 
 
 def _src_to_lecture(cfg: Config, files: list[Path]) -> dict[str, int]:
@@ -175,6 +183,7 @@ def cmd_ingest(args) -> int:
     p["assets"].mkdir(parents=True, exist_ok=True)
     errors: list[dict[str, Any]] = []
     produced = 0
+    used_names: dict[str, int] = {}
 
     for f in files:
         ad = adapter_for(f)
@@ -191,7 +200,14 @@ def cmd_ingest(args) -> int:
             errors.append({"file": f.name, "stage": f"{ad.name}/ingest", "severity": "error",
                            "msg": str(exc)})
             continue
-        target = p["sources"] / f"{src_key(f.name, ad.name)}.jsonl"
+        # two sources may map to the same readable key (same lecture number): never
+        # let one overwrite the other, and keep the readable name for the first
+        base = f"{ad.name}-{src_key(f.name, ad.name)}"
+        used_names[base] = used_names.get(base, 0) + 1
+        if used_names[base] > 1:
+            import hashlib as _hashlib
+            base = f"{base}-{_hashlib.sha256(f.name.encode('utf-8')).hexdigest()[:4]}"
+        target = p["sources"] / f"{base}.jsonl"
         n = write_jsonl(target, result.blocks)
         produced += n
         for w in result.warnings:
@@ -246,6 +262,9 @@ def cmd_build(args) -> int:
     applied = apply_answers(flat_blocks, answers)
     if applied:
         print(f"applied {applied} gap answers")
+
+    # ---- alignment (A/B/C tier, deterministic) ----
+    aligned = _align_workspace(cfg, p, blocks_by_src)
 
     # ---- units (deterministic draft) ----
     existing_units = {u.id: u for u in load_units(p["units"])} if p["units"].exists() else {}
@@ -303,6 +322,37 @@ def cmd_build(args) -> int:
     # ---- render + gates ----
     rc = _do_render(cfg, args, state)
     return rc
+
+
+def _align_workspace(cfg: Config, p: dict[str, Path], blocks_by_src: dict[str, list[dict[str, Any]]],
+                     *, tier: str | None = None) -> dict[str, Any]:
+    """Align speech to slides when audio was ingested; annotate blocks in place."""
+    speech = [b for bs in blocks_by_src.values() for b in bs if b.get("type") == "speech"]
+    if not speech:
+        return {"tier": "C", "segments": 0}
+    slides_blocks = [b for bs in blocks_by_src.values() for b in bs
+                     if b.get("type") in {"bullet", "title"} and (b.get("loc") or {}).get("slide")]
+    slide_texts = align_mod.slide_texts_from_blocks(slides_blocks)
+    notes = _prepare_notes(p, [b for bs in blocks_by_src.values() for b in bs],
+                           load_units(p["units"]) if p["units"].exists() else [])
+    lecture = None
+    srcs = {b.get("src") for b in speech}
+    for src in srcs:
+        lec = cfg.lecture_for_source(src or "")
+        if lec:
+            lecture = Config.lecture_no(lec)
+    al = align_mod.run_alignment(speech, slide_texts, notes, lecture=lecture, forced_tier=tier)
+    moved = align_mod.apply_to_blocks(speech, al)
+    name = f"s{lecture:02d}" if lecture else "session"
+    align_mod.save(cfg.workspace, al, name)
+    state = State.load(cfg.workspace)
+    state.mark("align", "done", key=state.inputs_hash(), tier=al.tier, moved=moved,
+               unconfirmed=sum(1 for s in al.segments if s.unconfirmed))
+    state.save()
+    print(f"aligned: tier {al.tier}, {moved}/{len(speech)} segments, confidence {al.confidence}")
+    if any(s.unconfirmed for s in al.segments):
+        print(f"  低置信度 {sum(1 for s in al.segments if s.unconfirmed)} 条待确认")
+    return {"tier": al.tier, "segments": len(al.segments), "confidence": al.confidence}
 
 
 def _templates(cfg: Config) -> TemplateSet:
@@ -410,6 +460,20 @@ def cmd_render(args) -> int:
     cfg = _workspace(args)
     state = State.load(cfg.workspace)
     return _do_render(cfg, args, state)
+
+
+def cmd_align(args) -> int:
+    cfg = _workspace(args)
+    p = _paths(cfg)
+    blocks_by_src = _load_blocks(p)
+    if not blocks_by_src:
+        print("error: no IR; run `study ingest` first", file=sys.stderr)
+        return EXIT_INPUT
+    info = _align_workspace(cfg, p, blocks_by_src, tier=args.tier)
+    if info["tier"] == "C":
+        print("没有可对齐的语音；C 档下游不依赖对齐")
+        return EXIT_OK
+    return EXIT_OK
 
 
 def cmd_outline(args) -> int:
@@ -768,6 +832,10 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--exclude-patches", action="store_true")
     p.add_argument("--audit-locators", action="store_true")
     p.set_defaults(func=cmd_render)
+
+    p = sub.add_parser("align", help="align speech to slides (A/B/C tier)")
+    p.add_argument("--tier", choices=["A", "B", "C"])
+    p.set_defaults(func=cmd_align)
 
     p = sub.add_parser("outline", help="inspect or adjust the skeleton")
     p.add_argument("action", choices=["show", "move"])
