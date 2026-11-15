@@ -65,9 +65,9 @@ DEFAULT_PREAMBLE = r"""\documentclass[12pt,a4paper,openany]{ctexbook}
 }
 
 % ---- spacing: generous leading, 2em first-line indent ---------------------
-\linespread{1.38}
+\AtBeginDocument{\linespread{1.30}\selectfont}
 \setlength{\parindent}{2em}
-\setlength{\parskip}{0.32em}
+\setlength{\parskip}{3pt}
 \setlist[itemize]{itemsep=4pt,topsep=6pt,leftmargin=1.9em,labelsep=0.6em}
 \setlist[enumerate]{itemsep=4pt,topsep=6pt,leftmargin=2.1em}
 
@@ -76,14 +76,14 @@ DEFAULT_PREAMBLE = r"""\documentclass[12pt,a4paper,openany]{ctexbook}
   enhanced, colback=notebg, colframe=noterule, boxrule=0.4pt, arc=1pt,
   left=9pt,right=9pt,top=7pt,bottom=7pt,
   colbacktitle=notebar, coltitle=white, fonttitle=\sffamily\bfseries\small,
-  title={#1}, toptitle=2pt, bottomtitle=2pt, before skip=0.7em, after skip=0.7em,
+  title={#1}, toptitle=2pt, bottomtitle=2pt, before skip=0.5em, after skip=0.5em,
   breakable,
 }
 \newtcolorbox{wbox}[1]{
   enhanced, colback=warnbg, colframe=warnrule, boxrule=0.4pt, arc=1pt,
   left=9pt,right=9pt,top=7pt,bottom=7pt,
   colbacktitle=warnbar, coltitle=white, fonttitle=\sffamily\bfseries\small,
-  title={#1}, toptitle=2pt, bottomtitle=2pt, before skip=0.7em, after skip=0.7em,
+  title={#1}, toptitle=2pt, bottomtitle=2pt, before skip=0.5em, after skip=0.5em,
   breakable,
 }
 
