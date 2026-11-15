@@ -1,0 +1,24 @@
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+.pytest_cache/
+
+# workspaces: course content and personal notes must never enter this repo
+_ws-*/
+workspaces/
+*.workspace/
+inputs/
+.study/sources/
+.study/assets/
+.study/aligned/
+.study/out/
+.study/state.json
+.study/gaps/answers/
+
+# OS
+.DS_Store
+Thumbs.db
