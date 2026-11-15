@@ -34,6 +34,7 @@ DEFAULT_PREAMBLE = r"""\documentclass[11pt,a4paper,openany]{ctexbook}
 \usepackage{xcolor}
 \usepackage{fancyhdr}
 \usepackage{listings}
+\usepackage{tikz}
 \lstset{basicstyle=\ttfamily\small,breaklines=true,columns=fullflexible}
 \usepackage[hidelinks]{hyperref}
 \setlength{\parskip}{0.5em}
