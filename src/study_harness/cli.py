@@ -24,6 +24,9 @@ from .templates import TemplateSet
 from .gaps import apply_answers, fill_gap, load_answers, open_gaps, register_image_gaps
 from .review import apply as review_apply
 from .review import prepare as review_prepare
+from . import remediate
+from .review import apply_l3 as review_apply_l3
+from .review import prepare_l3 as review_prepare_l3
 from .review import retag_origins as review_retag
 from .review import stats_from_answers as review_stats
 from .state import State
@@ -327,6 +330,7 @@ def _do_render(cfg: Config, args, state: State) -> int:
         notes=notes, glossary=load_glossary(cfg.workspace),
         figures=load_figures(cfg.workspace),
         templates=_templates(cfg),
+        remedial=remediate.load(cfg.workspace),
     )
 
     p["out"].mkdir(parents=True, exist_ok=True)
@@ -467,19 +471,35 @@ def cmd_review(args) -> int:
             print("fill `.study/gaps/answers/<id>.json`，然后 `study review apply`")
         return EXIT_OK
 
+    if args.action == "prepare-l3":
+        units = load_units(p["units"]) if p["units"].exists() else []
+        if not units:
+            print("error: no units; run `study build` first", file=sys.stderr)
+            return EXIT_INPUT
+        created = review_prepare_l3(cfg.workspace, units, only=args.unit,
+                                    limit=args.limit, sample_ratio=args.sample or 0.1)
+        print(f"L3 gaps: {len(created)} written（只审公式/数值/补充/重点，其余抽样）")
+        print("L3 的审查者必须换模型或换干净上下文；填完 `study review apply`")
+        return EXIT_OK
+
     if args.action == "apply":
         units = load_units(p["units"]) if p["units"].exists() else []
         if not units:
             print("error: no units", file=sys.stderr)
             return EXIT_INPUT
-        findings, stats = review_apply(cfg.workspace, p["units"], units)
+        findings2, stats2 = review_apply(cfg.workspace, p["units"], units)
+        findings3, stats3 = review_apply_l3(cfg.workspace, p["units"], load_units(p["units"]))
+        findings = findings2 + findings3
         _merge_findings(p["review"], findings)
         state = State.load(cfg.workspace)
-        state.data.setdefault("review", {})["l2"] = stats
+        state.data.setdefault("review", {})["l2"] = stats2
+        state.data.setdefault("review", {})["l3"] = stats3
         state.save()
-        print(f"reviewed {stats['units_reviewed']} units / {stats['claims']} claims: "
-              f"supported={stats['supported']} derived={stats['derived']} "
-              f"unsupported={stats['unsupported']}")
+        print(f"L2: {stats2['units_reviewed']} units / {stats2['claims']} claims: "
+              f"supported={stats2['supported']} derived={stats2['derived']} "
+              f"unsupported={stats2['unsupported']}")
+        if stats3["units_reviewed"]:
+            print(f"L3: {stats3['units_reviewed']} units / {stats3['issues']} issues")
         if findings:
             print(f"{len(findings)} findings written；`study review list`")
         return EXIT_OK
@@ -676,22 +696,36 @@ def cmd_figure(args) -> int:
 
 
 def cmd_explain(args) -> int:
-    """Write a remedial-gap request; rendering overlays patches when filled."""
+    """Request, apply or remove an on-demand explanation (docs/architecture.md §13)."""
     cfg = _workspace(args)
     p = _paths(cfg)
-    p["gaps"].mkdir(parents=True, exist_ok=True)
-    gap_id = f"remedial-{args.unit}".replace(" ", "-").lower()
-    payload = {
-        "id": gap_id,
-        "kind": "remedial",
-        "unit": args.unit,
-        "question": f"为知识点 {args.unit} 生成一段自足的前置讲解，供未掌握该概念的读者阅读。",
-        "answer_format": {"markdown": "str"},
-    }
-    (p["gaps"] / f"{gap_id}.json").write_text(
-        json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"gap written: .study/gaps/{gap_id}.json")
-    print("fill .study/gaps/answers/<id>.json then re-run `study build`")
+
+    if args.apply:
+        written = remediate.apply(cfg.workspace)
+        print(f"{len(written)} 个补丁已写入 .study/patches/remedial/")
+        for path in written:
+            print(f"  {path.name}")
+        return EXIT_OK
+
+    if args.remove:
+        if not args.unit:
+            print("error: --remove 需要知识点 id", file=sys.stderr)
+            return EXIT_USAGE
+        remediate.remove(cfg.workspace, args.unit)
+        print(f"已移除 {args.unit} 的补丁与缺口")
+        return EXIT_OK
+
+    if not args.unit:
+        print("error: 需要知识点 id", file=sys.stderr)
+        return EXIT_USAGE
+    units = load_units(p["units"]) if p["units"].exists() else []
+    unit = next((u for u in units if u.id == args.unit), None)
+    if unit is None:
+        print(f"error: 找不到知识点 {args.unit}", file=sys.stderr)
+        return EXIT_INPUT
+    path = remediate.request(cfg.workspace, unit, focus=args.focus, prereq=args.prereq)
+    print(f"gap written: {path}")
+    print(f"填 `.study/gaps/answers/{path.stem}.json` 后执行 `study explain --apply`")
     return EXIT_OK
 
 
@@ -742,11 +776,12 @@ def build_parser() -> argparse.ArgumentParser:
     p.set_defaults(func=cmd_outline)
 
     p = sub.add_parser("review", help="prepare / apply / inspect semantic review")
-    p.add_argument("action", choices=["list", "stats", "prepare", "apply"],
+    p.add_argument("action", choices=["list", "stats", "prepare", "prepare-l3", "apply"],
                    nargs="?", default="list")
     p.add_argument("--level")
     p.add_argument("--unit", help="limit prepare to one unit")
     p.add_argument("--limit", type=int, help="cap the number of gaps written")
+    p.add_argument("--sample", type=float, help="L3 sampling ratio (default 0.1)")
     p.set_defaults(func=cmd_review)
 
     p = sub.add_parser("gaps", help="list / show / fill model tasks")
@@ -755,8 +790,12 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--file", help="answer file (fill)")
     p.set_defaults(func=cmd_gaps)
 
-    p = sub.add_parser("explain", help="request a remedial explanation")
-    p.add_argument("unit")
+    p = sub.add_parser("explain", help="request / apply / remove an explanation patch")
+    p.add_argument("unit", nargs="?")
+    p.add_argument("--focus", help="只讲这个疑点")
+    p.add_argument("--prereq", action="store_true", help="补前置知识而不是重讲本节")
+    p.add_argument("--apply", action="store_true", help="把答案转成补丁")
+    p.add_argument("--remove", action="store_true", help="删除该知识点的补丁")
     p.set_defaults(func=cmd_explain)
 
     p = sub.add_parser("figure", help="manage figures: extracted, redrawn, synthesized")

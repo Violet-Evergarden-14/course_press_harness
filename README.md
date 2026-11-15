@@ -64,9 +64,11 @@ render:
 | `study outline show` | inspect / hand-edit the skeleton (`.study/outline.json`) |
 | `study review list` | read gate findings |
 | `study review prepare` | write per-claim review tasks for a model or a person |
+| `study review prepare-l3` | write adversarial review tasks (needs a different model or clean context) |
 | `study review apply` | read verdicts, recompute `origin`, emit findings |
 | `study review stats` | `unsupported_ratio` and `derived_ratio` |
-| `study explain <unit>` | request a remedial explanation patch |
+| `study explain <unit>` | request an explanation patch for a section you did not follow |
+| `study explain --apply` / `--remove <unit>` | turn an answer into a patch / delete it |
 | `study figure add <id> --file spec.mmd` | register a figure (extracted / redrawn / synthesized) |
 | `study figure request <unit> --desc "..."` | ask for a diagram the source does not provide |
 | `study figure list` | list figures with origin and format |
@@ -131,7 +133,9 @@ The architecture is specified before the code, deliberately:
 | `review` view | implemented — section order per profile, plus a 重点清单 and a 公式速查 appendix |
 | Gap protocol: register / fill / apply (`image_semantics`, `page_text`, `figure_request`) | implemented |
 | L2 review (claim entailment: prepare → fill → apply, `unsupported_ratio`) | implemented |
-| Audio alignment, L3 adversarial review | not implemented (protocols documented) |
+| L3 adversarial review (contradiction / missing step / wrong arithmetic) | implemented |
+| On-demand explanation patches (`explain` → `--apply` → overlay, removable) | implemented |
+| Audio alignment | not implemented (protocols documented) |
 
 Draft units carry `draft: true` and often an `auto-…` id; the `auto_unit_id` gate reports them as
 `major` so a raw build is never mistaken for a finished book.

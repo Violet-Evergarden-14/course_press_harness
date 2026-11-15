@@ -197,6 +197,18 @@
 
 审查结论写入 `figure_content` findings。审查通过后由人工将图元数据的 `reviewed` 置为 `true`——**审查器不自行修改元数据**，与知识点同一条约束。
 
+### 5.1.2 实现映射（v0.1）
+
+| 步骤 | 命令 |
+|---|---|
+| 选定审查对象 | `study review prepare-l3 [--unit ID] [--limit N] [--sample 0.1]` |
+| 必审判据 | 含「算式/例子」小节、`origin: synthesized`、`emphasis: true`、正文含数值或关系符号；其余按 id 哈希确定性抽样 |
+| 任务内容 | 成品正文 + 三个问题 + 其他知识点标题与首句（供矛盾比对） |
+| 隔离要求 | 缺口文件里显式写 `share_writing_context: false`、`prefer_different_model: true` |
+| 回流 | `study review apply` → `contradiction` / `missing_step` / `numeric_mismatch` |
+
+L3 与 L2 的区别体现在产物上：L2 只能判断「有没有证据」，L3 能发现「两处说法互相矛盾」和「推导少一步」——所以两者的 findings 类别不重叠。
+
 ### 5.2 任务模板
 
 固定三问，禁止扩展：

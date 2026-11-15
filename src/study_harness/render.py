@@ -96,6 +96,7 @@ def render_document(
     glossary: dict[str, Any] | None = None,
     figures: dict[str, Any] | None = None,
     templates: "TemplateSet | None" = None,
+    remedial: dict[str, str] | None = None,
 ) -> Rendered:
     templates = templates or TemplateSet()
     by_id = {u.id: u for u in units}
@@ -103,6 +104,7 @@ def render_document(
     notes = notes or []
     glossary = glossary or {}
     figures = figures or {}
+    remedial = remedial or {}
     term_names = {t.get("id"): t.get("zh") or t.get("en") or t.get("id")
                   for t in glossary.get("terms", [])}
 
@@ -172,6 +174,13 @@ def render_document(
                     out.append(templates.fmt("unit", "heading", number=num, title=utitle))
                     out.append("")
                     toc.append(templates.fmt("document", "toc_unit", number=num, title=utitle))
+                supplement = remedial.get(uid)
+                if supplement:
+                    out.append(templates.fmt("unit", "remedial_label"))
+                    out.append("")
+                    out.extend(resolve(line, uid) for line in supplement.splitlines())
+                    out.append("")
+
                 for name, lines in _ordered_sections(unit, profile, templates):
                     body = _apply_notes(unit, name, lines, notes, profile)
                     if not body:

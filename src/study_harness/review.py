@@ -249,6 +249,148 @@ def retag_origins(workspace: Path, units_dir: Path, units: list[Unit]) -> int:
     return changed
 
 
+# --------------------------------------------------------------------------
+# L3: independent adversarial review
+# --------------------------------------------------------------------------
+
+L3_QUESTIONS = [
+    "它与下列其他知识点是否矛盾？列出对立的陈述。",
+    "它的推导或步骤是否缺少关键环节？指出缺在哪一步之后。",
+    "它的例子能否实际算出与结论一致的结果？若不能，给出正确结果。",
+]
+
+L3_GAP_PREFIX = "l3-"
+
+
+def l3_gap_id(unit_id: str) -> str:
+    return f"{L3_GAP_PREFIX}{unit_id}"
+
+
+def _unit_prose(unit: Unit) -> str:
+    parts: list[str] = []
+    for name, lines in unit.sections.items():
+        body = "\n".join(line for line in lines if line.strip())
+        if body:
+            parts.append(f"## {name}\n{body}")
+    return "\n\n".join(parts)
+
+
+# prose that makes a checkable numeric or relational claim
+NUMERIC_RE = re.compile(r"[0-9０-９]|\\$|[=≥≤<>≠]|→")
+
+
+def _needs_l3(unit: Unit) -> bool:
+    """Review where being wrong is expensive, sample the rest
+    (docs/review-protocol.md §6.1)."""
+    if any(name in unit.sections for name in ("算式", "例子", "示例")):
+        return True
+    if unit.origin == "synthesized":
+        return True
+    if unit.emphasis:
+        return True
+    prose = " ".join(line for lines in unit.sections.values() for line in lines)
+    return bool(NUMERIC_RE.search(prose))
+
+
+def prepare_l3(workspace: Path, units: list[Unit], *, only: str | None = None,
+               limit: int | None = None, sample_ratio: float = 0.1) -> list[Path]:
+    gaps_dir = workspace / ".study" / "gaps"
+    gaps_dir.mkdir(parents=True, exist_ok=True)
+    answered = {p.stem for p in (gaps_dir / "answers").glob("*.json")} if (gaps_dir / "answers").exists() else set()
+
+    # deterministic sample: hash of the unit id decides, never randomness
+    candidates = [u for u in units if _needs_l3(u)]
+    others = [u for u in units if u not in candidates]
+    for u in others:
+        h = int(sha256_text(u.id)[:8], 16) / 0xFFFFFFFF
+        if h < sample_ratio:
+            candidates.append(u)
+
+    created: list[Path] = []
+    for unit in candidates:
+        if only and unit.id != only:
+            continue
+        gid = l3_gap_id(unit.id)
+        if gid in answered:
+            continue
+        if limit is not None and len(created) >= limit:
+            break
+
+        neighbours = [
+            {"unit": u.id, "title": u.title, "statement": _first_line(u)}
+            for u in units if u.id != unit.id
+        ][:20]
+        payload = {
+            "id": gid,
+            "kind": "adversarial_review",
+            "unit": unit.id,
+            "input": {
+                "prose": _unit_prose(unit),
+                "own_evidence": [e.get("loc") for e in unit.evidence][:20],
+                "other_units": neighbours,
+            },
+            "questions": L3_QUESTIONS,
+            "answer_format": {
+                "issues": "[{question: 1|2|3, severity: blocker|major|minor, "
+                          "message: str, quote?: str}]",
+                "by": "str",
+                "confidence": "str  # high | medium | low",
+            },
+            "rules": [
+                "只找错，不做风格建议，不重写内容",
+                "不给写作过程，不假设内容由谁生成",
+                "没有问题时返回空数组，不要为了交差编造问题",
+            ],
+            "isolation": {
+                "share_writing_context": False,
+                "prefer_different_model": True,
+            },
+        }
+        path = gaps_dir / f"{gid}.json"
+        path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        created.append(path)
+    return created
+
+
+L3_CATEGORY = {1: "contradiction", 2: "missing_step", 3: "numeric_mismatch"}
+
+
+def apply_l3(workspace: Path, units_dir: Path, units: list[Unit]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    d = workspace / ".study" / "gaps" / "answers"
+    answers: dict[str, dict[str, Any]] = {}
+    if d.exists():
+        for f in sorted(d.glob(f"{L3_GAP_PREFIX}*.json")):
+            try:
+                answers[f.stem] = json.loads(f.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+
+    findings: list[dict[str, Any]] = []
+    stats = {"units_reviewed": 0, "issues": 0}
+    by_id = {u.id: u for u in units}
+
+    for gid, ans in answers.items():
+        uid = gid[len(L3_GAP_PREFIX):]
+        unit = by_id.get(uid)
+        if unit is None:
+            continue
+        stats["units_reviewed"] += 1
+        for issue in ans.get("issues") or []:
+            q = issue.get("question")
+            category = L3_CATEGORY.get(q if isinstance(q, int) else 0, "contradiction")
+            severity = issue.get("severity") or "major"
+            if severity not in {"blocker", "major", "minor", "info"}:
+                severity = "major"
+            stats["issues"] += 1
+            findings.append(_finding(category, severity, uid,
+                                     issue.get("message") or "审查发现问题",
+                                     hint=issue.get("quote") or None))
+        if "l3" not in unit.reviewed_by:
+            unit.reviewed_by.append("l3")
+            _save(units_dir, unit)
+    return findings, stats
+
+
 def _weaker(a: str, b: str) -> str:
     return a if ORIGIN_RANK[a] >= ORIGIN_RANK[b] else b
 

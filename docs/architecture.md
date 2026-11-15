@@ -485,7 +485,17 @@ study explain binary-tree-layer-max      # 标记某知识点有疑问
 study explain --prereq 递归               # 标记前置概念有疑问
 ```
 
-产物写入 `patches/remedial/<slug>.md`，含 `origin: synthesized` 与 `requested_by: student`，渲染时插入至需要它的知识点之前。
+产物写入 `patches/remedial/<slug>.md`，含 `origin: synthesized` 与 `requested_by: student`，渲染时插入至需要它的知识点之前——正文中以「补充说明（非课程原有内容）」的引用块标出，读者始终能分清哪些是素材原有、哪些是补的。
+
+流程：
+
+```bash
+study explain <unit> [--focus "只讲这个疑点"] [--prereq]   # 写缺口
+study gaps fill remedial-<unit> --file answer.json         # 填答案
+study explain --apply                                      # 转成补丁
+study render                                               # 叠加到正文
+study explain --remove <unit>                              # 删除，原文自动恢复
+```
 
 - 不写入 `knowledge/units/`：删除无残留，课程更新时不产生冲突。
 - 明确标注为补充内容：读者可区分素材原有内容与补充内容。

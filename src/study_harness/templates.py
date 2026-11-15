@@ -27,7 +27,12 @@ BUILTIN: dict[str, Any] = {
     },
     "part": {"lecture": "# 第 {label} 讲 {title}", "other": "# {title}"},
     "section": {"heading": "## {label}.{index} {title}"},
-    "unit": {"heading": "### {number} {title}", "section_label": "**{name}**", "omit_heading_if_same": True},
+    "unit": {
+        "heading": "### {number} {title}",
+        "section_label": "**{name}**",
+        "omit_heading_if_same": True,
+        "remedial_label": "> **补充说明**（为便于理解而添加，非课程原有内容）",
+    },
     "section_order": {
         "learn": ["定义", "陈述", "说明", "问题", "步骤", "复杂度", "依据", "用途", "算式", "表格",
                   "图示", "图示说明", "图示标注", "例子", "示例", "验证", "易错", "错误说法",
