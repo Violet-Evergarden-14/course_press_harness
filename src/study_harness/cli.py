@@ -460,7 +460,8 @@ def cmd_auto(args) -> int:
 
 
 def _export(cfg: Config, p: dict[str, Path], fmt: str, units: list, outline: dict,
-            rendered, profile: str, notes: list, *, args: str | None = None) -> list[Path]:
+            rendered, profile: str, notes: list, *, tex_engine: str | None = None,
+            pdf_engine: str | None = None) -> list[Path]:
     """Write one output format; return the files produced (empty if it failed)."""
     title = cfg.get("course", "name", default="讲义")
     out = p["out"]
@@ -489,7 +490,7 @@ def _export(cfg: Config, p: dict[str, Path], fmt: str, units: list, outline: dic
         print(f"{fmt:4} -> {path}")
         return [path]
 
-    if fmt == "pdf" and (getattr(args, "pdf_engine", None) or "html") == "html":
+    if fmt == "pdf" and (pdf_engine or cfg.get("render", "pdf_engine", default="html")) == "html":
         # CSS controls line-height and margins exactly; LaTeX's glue does not
         html = html_pdf.build_html(
             units, outline, title=title, profile=profile, templates=_templates(cfg),
@@ -519,7 +520,7 @@ def _export(cfg: Config, p: dict[str, Path], fmt: str, units: list, outline: dic
         print(f"tex  -> {tex_path}")
         produced = [tex_path]
         if fmt == "pdf":
-            pdf, logs = latex_mod.compile_pdf(tex_path, engine=args)
+            pdf, logs = latex_mod.compile_pdf(tex_path, engine=tex_engine)
             for line in logs:
                 print(f"  {line}")
             if pdf is None:
@@ -569,7 +570,8 @@ def _do_render(cfg: Config, args, state: State) -> int:
     produced: list[Path] = [p["out"] / "book.md"]
     for one in formats:
         produced += _export(cfg, p, one, units, outline, rendered, profile, notes,
-                            args=getattr(args, "tex_engine", None))
+                            tex_engine=getattr(args, "tex_engine", None),
+                            pdf_engine=getattr(args, "pdf_engine", None))
 
     p["review"].mkdir(parents=True, exist_ok=True)
     (p["review"] / "locators.md").write_text(rendered.audit_text, encoding="utf-8", newline="\n")
