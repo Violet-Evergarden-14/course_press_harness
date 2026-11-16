@@ -7,8 +7,8 @@ from pathlib import Path
 
 import yaml
 
-from study_harness.cli import main
-from study_harness.gaps import apply_answers, fill_gap, load_answers, open_gaps, register_image_gaps
+from course_content_organization.cli import main
+from course_content_organization.gaps import apply_answers, fill_gap, load_answers, open_gaps, register_image_gaps
 
 
 def _ws(tmp_path: Path, pptx: Path) -> Path:

@@ -3,9 +3,9 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "study-harness"
+name = "course-content-organization"
 version = "0.1.0"
-description = "Turn lecture materials into a self-contained continuous document"
+description = "Turn course materials into a self-contained study document"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
@@ -21,7 +21,7 @@ audio = ["faster-whisper>=1.0"]
 dev = ["pytest>=8.0"]
 
 [project.scripts]
-study = "study_harness.cli:main"
+study = "course_content_organization.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

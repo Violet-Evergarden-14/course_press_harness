@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import yaml
 
-from study_harness.cli import main
+from course_content_organization.cli import main
 
 
 def _ws(tmp_path, pptx):

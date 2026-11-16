@@ -7,7 +7,7 @@ from pathlib import Path
 
 import yaml
 
-from study_harness.align import (
+from course_content_organization.align import (
     Segment,
     align_by_anchors,
     align_by_dp,
@@ -15,8 +15,8 @@ from study_harness.align import (
     decide_tier,
     run_alignment,
 )
-from study_harness.cli import main
-from study_harness.ingest.media_adapter import MediaAdapter, parse_srt
+from course_content_organization.cli import main
+from course_content_organization.ingest.media_adapter import MediaAdapter, parse_srt
 
 SRT = """1
 00:00:00,000 --> 00:00:08,500

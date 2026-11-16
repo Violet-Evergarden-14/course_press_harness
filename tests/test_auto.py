@@ -6,7 +6,7 @@ from pathlib import Path
 
 import yaml
 
-from study_harness.cli import main
+from course_content_organization.cli import main
 
 
 def _ws(tmp_path: Path, pptx: Path) -> Path:

@@ -22,3 +22,7 @@ inputs/
 # OS
 .DS_Store
 Thumbs.db
+
+# katex runtime, installed with `npm install` in tools/
+tools/node_modules/
+tools/package-lock.json

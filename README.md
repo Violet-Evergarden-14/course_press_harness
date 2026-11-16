@@ -1,12 +1,13 @@
-# study-harness
+# course_content_organization
 
 Turn a course's teaching materials into **one continuous, self-contained document**.
 
 Feed it slides, handouts, plain text, Word files and classroom recordings; get back a book-shaped
 document you can study from without opening the original slides again.
 
-> Status: **v0.1 alpha**. The pipeline runs end to end on real decks. Audio alignment, model-backed
-> knowledge extraction and the template system are designed but not implemented — see [Status](#status).
+> Status: **v0.1 alpha**. Runs end to end on real course material: 114-slide decks, 48-page PDFs,
+> 245-slide three-chapter sets. Content quality depends on the writing stage, which is model work
+> routed through gap files — see [Status](#status).
 
 ---
 
@@ -28,6 +29,8 @@ This project keeps a structured intermediate representation — blocks with loca
 
 ```bash
 uv venv .venv && uv pip install -e .
+# formulas are typeset with KaTeX, installed once for the checkout:
+(cd tools && npm install)
 mkdir my-course && cd my-course
 study init --course "数据结构"
 cp ~/slides/lecture-06.pptx inputs/

@@ -12,8 +12,8 @@ from pathlib import Path
 import pytest
 import yaml
 
-from study_harness.cli import main
-from study_harness.ingest import adapter_for
+from course_content_organization.cli import main
+from course_content_organization.ingest import adapter_for
 
 
 @pytest.fixture

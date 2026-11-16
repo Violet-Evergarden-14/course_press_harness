@@ -7,10 +7,10 @@ from pathlib import Path
 
 import yaml
 
-from study_harness import remediate
-from study_harness.cli import main
-from study_harness.knowledge import load_units
-from study_harness.review import apply_l3, l3_gap_id, prepare_l3
+from course_content_organization import remediate
+from course_content_organization.cli import main
+from course_content_organization.knowledge import load_units
+from course_content_organization.review import apply_l3, l3_gap_id, prepare_l3
 
 
 def _ws(tmp_path: Path, pptx: Path) -> Path:

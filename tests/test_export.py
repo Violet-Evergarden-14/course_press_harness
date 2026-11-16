@@ -6,9 +6,9 @@ from pathlib import Path
 
 import yaml
 
-from study_harness import html_pdf
-from study_harness.cli import main
-from study_harness.latex import (available_engine, escape_tex, markers_to_tex,
+from course_content_organization import html_pdf
+from course_content_organization.cli import main
+from course_content_organization.latex import (available_engine, escape_tex, markers_to_tex,
                                  md_inline_to_tex)
 
 
@@ -35,7 +35,7 @@ def test_escape_keeps_math_and_escapes_code_like_text():
 
 
 def test_emphasis_survives_an_escaped_math_glyph():
-    from study_harness.latex import _inline_line
+    from course_content_organization.latex import _inline_line
 
     out = _inline_line("**树是 n（n≥0）个结点的有限集。**", None, {})
     assert out.startswith(r"\textbf{") and "**" not in out
