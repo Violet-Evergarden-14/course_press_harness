@@ -33,13 +33,19 @@ body {
   text-align: justify;
 }
 h1.doc { font-family: "SimHei", sans-serif; font-size: 22pt; color: #1F3864; margin: 0 0 6pt; }
-h1.part { font-family: "SimHei", sans-serif; font-size: 16pt; color: #1F3864;
-          margin: 18pt 0 10pt; page-break-before: always; }
-h2.sec  { font-family: "SimHei", sans-serif; font-size: 13pt; color: #1F3864; margin: 14pt 0 6pt; }
-h3.unit { font-family: "SimHei", sans-serif; font-size: 11.5pt; color: #1F3864;
-          margin: 11pt 0 4pt; }
-h4.sub  { font-family: "SimHei", sans-serif; font-size: 11pt; color: #1F3864;
-          margin: 8pt 0 2pt; }
+h1.part { font-family: "SimHei", sans-serif; font-size: 18pt; font-weight: bold;
+          color: #1F3864; margin: 20pt 0 12pt; letter-spacing: 0.5pt;
+          page-break-before: always; }
+h2.sec  { font-family: "SimHei", sans-serif; font-size: 13.5pt; font-weight: bold;
+          color: #1F3864; margin: 15pt 0 6pt; letter-spacing: 0.3pt; }
+/* third level: same family, but black and smaller -- the reference does the same,
+   and it is what keeps 章/节/小节 readable as three distinct ranks */
+h3.unit { font-family: "SimHei", sans-serif; font-size: 11.5pt; font-weight: bold;
+          color: #000; margin: 11pt 0 4pt; }
+/* fourth level: clearly below h3 — smaller and sans, but readable; grey made it
+   look like a disabled label rather than a heading */
+h4.sub  { font-family: "SimHei", sans-serif; font-size: 10.5pt; font-weight: bold;
+          color: #1F3864; margin: 7pt 0 2pt; letter-spacing: 0.2pt; }
 p { margin: 0 0 3pt; text-indent: 2em; }
 ul, ol { margin: 2pt 0 4pt; padding-left: 2em; }
 li { margin: 0 0 2pt; }
@@ -48,9 +54,11 @@ thead th { background: #DDE5F0; color: #1F3864; font-family: "SimHei", sans-seri
            font-weight: bold; text-align: left; padding: 4pt 6pt; }
 tbody td { padding: 3pt 6pt; border-bottom: 0.5pt solid #ddd; vertical-align: top; }
 table, thead th { border-top: 0.8pt solid #333; border-bottom: 0.8pt solid #333; }
+table.three thead th:first-child { width: 18%; }
+table.three thead th:last-child { width: 42%; }
 tr { page-break-inside: avoid; }
 .box { margin: 8pt 0; border: 0.6pt solid #9DC3E6; background: #EAF1FB;
-       border-radius: 2pt; page-break-inside: avoid; }
+       border-radius: 7pt; page-break-inside: avoid; overflow: hidden; }
 .box > .head { background: #2F5597; color: #fff; font-family: "SimHei", sans-serif;
                font-size: 10pt; font-weight: bold; padding: 3pt 8pt; }
 .box > .body { padding: 6pt 9pt 4pt; }
@@ -235,7 +243,8 @@ def block(lines: list[str], *, assets: Path | None, figures: dict,
                     "<tr>" + "".join(f"<td>{inline(c, assets=assets, figures=figures, numbers=numbers)}</td>"
                                      for c in row) + "</tr>"
                     for row in rows[1:])
-                out.append(f"<table><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table>")
+                cls = " class='three'" if len(rows[0]) == 3 else ""
+                out.append(f"<table{cls}><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table>")
             continue
         if BULLET_RE.match(line) or NUM_ITEM_RE.match(line):
             ordered = bool(NUM_ITEM_RE.match(line))
