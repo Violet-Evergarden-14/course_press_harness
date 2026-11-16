@@ -1052,10 +1052,11 @@ def cmd_explain(args) -> int:
 # --------------------------------------------------------------------------
 
 def build_parser() -> argparse.ArgumentParser:
-    ap = argparse.ArgumentParser(prog="study", description="study-harness")
-    ap.add_argument("--workspace", default=".", help="workspace directory")
+    ap = argparse.ArgumentParser(prog="study", description="course_press_harness")
+    ap.add_argument("--workspace", default=".", help="工作区目录（也可写在子命令之后）")
     ap.add_argument("--json", action="store_true", help="machine readable output")
-    ap.add_argument("--version", action="version", version=f"study-harness {PIPELINE_VERSION}")
+    ap.add_argument("--version", action="version",
+                    version=f"course_press_harness {PIPELINE_VERSION}")
     sub = ap.add_subparsers(dest="command", required=True)
 
     p = sub.add_parser("init", help="create a workspace")
@@ -1172,6 +1173,12 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--yes", action="store_true")
     p.set_defaults(func=cmd_clean)
 
+    # `study serve --workspace X` 和 `study --workspace X serve` 都该能用：
+    # 子命令上再挂一个同名参数，未提供时 SUPPRESS，不覆盖全局值。
+    for subparser in {id(p): p for p in sub.choices.values()}.values():
+        if not any(a.dest == "workspace" for a in subparser._actions):
+            subparser.add_argument("--workspace", default=argparse.SUPPRESS,
+                                   help="工作区目录")
     return ap
 
 
