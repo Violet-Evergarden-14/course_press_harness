@@ -194,6 +194,43 @@ def check_cross_lecture_repeat(units: list[Unit], outline: dict[str, Any],
                    hint="保留两处即可；需要互链时在 see_also 中引用")
 
 
+SECTION_REF_RE = re.compile(r"(?<![\d.])(\d+\.\d+)(?:\.\d+)?(?![\d.])")
+
+
+def check_section_references(units: list[Unit], outline: dict[str, Any],
+                             report: GateReport) -> None:
+    """Text that cites 「6.4 节」 must name a section that exists in *this* book.
+
+    Chapters are renumbered when a lecture is added or a section is split, so a number
+    copied from the source material silently points at the wrong place — or nowhere.
+    """
+    valid: set[str] = set()
+    chapters: set[str] = set()
+    for part in outline.get("parts", []):
+        if part.get("kind") == "front_matter":
+            continue
+        label = str(part.get("label") or part.get("no"))
+        chapters.add(label)
+        for si, _sec in enumerate(part.get("sections", []), start=1):
+            valid.add(f"{label}.{si}")
+
+    for unit in units:
+        for name, lines in unit.sections.items():
+            for line in lines:
+                for m in SECTION_REF_RE.finditer(line):
+                    ref = m.group(1)
+                    # a decimal such as 2.71 or 9.7 belongs to no chapter label here,
+                    # so it is a number, not a section reference
+                    if ref.split(".")[0] not in chapters:
+                        continue
+                    if ref in valid:
+                        continue
+                    report.add("section_reference", "major",
+                               f"引用了不存在的节号「{ref}」", unit.id,
+                               hint=f"本书的节号是 {', '.join(sorted(valid)[:6])} …；"
+                                    f"改用 [[unit-id]] 引用，或按本书编号书写")
+
+
 def check_numbering(outline: dict[str, Any], report: GateReport) -> None:
     seen: dict[str, str] = {}
     for part in outline.get("parts", []):
@@ -248,4 +285,5 @@ def run_gates(
     check_numbering(outline, r)
     check_figures(units, figures or {}, r)
     check_cross_lecture_repeat(units, outline, r)
+    check_section_references(units, outline, r)
     return _compact(r)

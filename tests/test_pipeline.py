@@ -106,3 +106,30 @@ def test_gates_flag_auto_ids_only_as_major(tmp_path: Path, sample_pptx: Path):
     auto = [f for f in findings if f["gate"] == "auto_unit_id"]
     assert auto and auto[0]["level"] == "major"
     assert not [f for f in findings if f["level"] == "blocker"]
+
+
+def test_section_references_must_exist_in_the_book(tmp_path: Path, sample_pptx: Path):
+    """A number copied from the source material may point at nothing after renumbering."""
+    ws = _workspace(tmp_path, sample_pptx)
+    main(["--workspace", str(ws), "build"])
+    units_dir = ws / ".study" / "knowledge" / "units"
+    target = sorted(units_dir.glob("*.md"))[0]
+    text = target.read_text(encoding="utf-8")
+    head, body = text.split("\n---\n", 1)
+    target.write_text(head + "\n---\n" + body.rstrip() +
+                      "\n\n另见 6.9 节的说明。\n", encoding="utf-8")
+
+    main(["--workspace", str(ws), "render"])
+    findings = [json.loads(l) for l in
+                (ws / ".study" / "review" / "findings.jsonl").read_text(encoding="utf-8").splitlines()
+                if l.strip()]
+    assert any(f["gate"] == "section_reference" and "6.9" in f["message"] for f in findings)
+
+    # a decimal that is not a chapter.section pair must not be flagged
+    target.write_text(head + "\n---\n" + body.rstrip() + "\n\n平均码长 2.71 位。\n",
+                      encoding="utf-8")
+    main(["--workspace", str(ws), "render"])
+    findings = [json.loads(l) for l in
+                (ws / ".study" / "review" / "findings.jsonl").read_text(encoding="utf-8").splitlines()
+                if l.strip()]
+    assert not any(f["gate"] == "section_reference" for f in findings)

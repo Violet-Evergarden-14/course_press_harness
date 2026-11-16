@@ -301,13 +301,13 @@ def build_html(units: list[Unit], outline: dict[str, Any], *, title: str,
             sec_anchor = f"{anchor}-{si}"
             body.append(f"<h2 class='sec' id='{sec_anchor}'>{label}.{si} {esc(sec_title)}</h2>")
             toc.append(f"<div class='l2'><a href='#{sec_anchor}'>{label}.{si} {esc(sec_title)}</a></div>")
-            for uid in sec.get("units", []):
+            for ui, uid in enumerate(sec.get("units", []), start=1):
                 unit = by_id.get(uid)
                 if unit is None:
                     continue
                 utitle = display_title(unit.title)
                 if utitle and utitle != sec_title:
-                    body.append(f"<h3 class='unit'>{esc(utitle)}</h3>")
+                    body.append(f"<h3 class='unit'>{label}.{si}.{ui} {esc(utitle)}</h3>")
                 if uid in remedial:
                     body.append("<div class='box'><div class='head'>补充说明</div><div class='body'>"
                                 + block(remedial[uid].splitlines(), assets=assets,
