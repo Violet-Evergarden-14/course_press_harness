@@ -231,6 +231,39 @@ def check_section_references(units: list[Unit], outline: dict[str, Any],
                                     f"改用 [[unit-id]] 引用，或按本书编号书写")
 
 
+# plain-text maths that should have been written as $...$
+UNFORMATTED_MATH = [
+    re.compile(r"\^\("),                       # 2^(i-1)
+    re.compile(r"[A-Za-z]\s*[≥≤>＜<]\s*\d"),     # n≥0, i>1
+    re.compile(r"(?<![A-Za-z.$])[A-Za-z]\s*=\s*[A-Za-z0-9]"),  # n = 0
+    re.compile(r"[∑√]"),
+    re.compile(r"[⌊⌋]"),
+]
+
+
+def check_unformatted_math(units: list[Unit], report: GateReport) -> None:
+    """Formula written as plain text is a typesetting bug, and it is detectable.
+
+    Text like 「n（n≥0）」looks fine in a terminal and wrong in a book: no italic
+    variables, no spacing around operators, subscripts collapsed to digits.
+    """
+    for unit in units:
+        for name, lines in unit.sections.items():
+            if name == "算式":
+                continue
+            for line in lines:
+                # strip maths that is already formatted
+                stripped = re.sub(r"\$[^$]*\$", "", line)
+                for pattern in UNFORMATTED_MATH:
+                    m = pattern.search(stripped)
+                    if m:
+                        report.add("unformatted_math", "major",
+                                   f"公式未排版：「{m.group(0)}」出现在「{stripped.strip()[:24]}…」",
+                                   unit.id,
+                                   hint="改用 $...$ 写 LaTeX，例如 $n(n \geq 0)$")
+                        break
+
+
 def check_numbering(outline: dict[str, Any], report: GateReport) -> None:
     seen: dict[str, str] = {}
     for part in outline.get("parts", []):
@@ -286,4 +319,5 @@ def run_gates(
     check_figures(units, figures or {}, r)
     check_cross_lecture_repeat(units, outline, r)
     check_section_references(units, outline, r)
+    check_unformatted_math(units, r)
     return _compact(r)

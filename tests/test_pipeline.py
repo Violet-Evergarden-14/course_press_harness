@@ -133,3 +133,34 @@ def test_section_references_must_exist_in_the_book(tmp_path: Path, sample_pptx: 
                 (ws / ".study" / "review" / "findings.jsonl").read_text(encoding="utf-8").splitlines()
                 if l.strip()]
     assert not any(f["gate"] == "section_reference" for f in findings)
+
+
+def test_unformatted_formulas_are_reported(tmp_path: Path, sample_pptx: Path):
+    """A formula written as plain text must be caught, not silently typeset wrong."""
+    ws = _workspace(tmp_path, sample_pptx)
+    main(["--workspace", str(ws), "build"])
+    units_dir = ws / ".study" / "knowledge" / "units"
+    target = sorted(units_dir.glob("*.md"))[0]
+    text = target.read_text(encoding="utf-8")
+    head, body = text.split("\n---\n", 1)
+    target.write_text(head + "\n---\n" + body.rstrip() +
+                      "\n\n树是 n（n≥0）个结点的有限集。\n", encoding="utf-8")
+
+    main(["--workspace", str(ws), "render"])
+    findings = [json.loads(l) for l in
+                (ws / ".study" / "review" / "findings.jsonl").read_text(encoding="utf-8").splitlines()
+                if l.strip()]
+    assert any(f["gate"] == "unformatted_math" for f in findings)
+
+    # the same sentence written as maths is accepted
+    target.write_text(head + "\n---\n" + body.rstrip() +
+                      "\n\n树是 $n(n \geq 0)$ 个结点的有限集。\n", encoding="utf-8")
+    main(["--workspace", str(ws), "render"])
+    findings = [json.loads(l) for l in
+                (ws / ".study" / "review" / "findings.jsonl").read_text(encoding="utf-8").splitlines()
+                if l.strip()]
+    # other units in this fixture legitimately contain plain-text maths, so the
+    # assertion has to name the unit that was repaired
+    unit_id = head.split("id: ", 1)[1].splitlines()[0].strip()
+    assert not any(f["gate"] == "unformatted_math" and f.get("unit") == unit_id
+                   for f in findings)
