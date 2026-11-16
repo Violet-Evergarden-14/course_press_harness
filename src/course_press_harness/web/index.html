@@ -60,8 +60,13 @@
       <label>API Key</label>
       <input id="apiKey" type="password" placeholder="sk-...（留空则沿用环境变量）">
 
-      <label>模型（留空用默认）</label>
-      <input id="modelInput" type="text" placeholder="claude-sonnet-5-5 / deepseek-chat / 本地模型名">
+      <label>模型
+        <button class="ghost" style="float:right;padding:2px 8px;font-size:12px"
+                onclick="listModels()">获取可用模型</button>
+      </label>
+      <input id="modelInput" type="text" list="modelList"
+             placeholder="点右上角获取，或直接填模型名">
+      <datalist id="modelList"></datalist>
 
       <label>端点（仅 OpenAI 兼容时需要）</label>
       <input id="baseUrl" type="text" placeholder="https://api.deepseek.com/v1 或 http://localhost:8000/v1">
@@ -190,6 +195,27 @@ async function saveSettings(remember, quiet) {
     showSettings(data.settings);
     if (!quiet) log(remember ? "设置已保存到本机 .study/provider.json" : "设置已生效（仅本次运行）");
   } catch (e) { log("保存失败：" + e.message); }
+}
+
+async function listModels() {
+  $("settingsHint").textContent = "正在向服务端查询模型列表…";
+  try {
+    const data = await api("/api/settings", { method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ action: "models" }) });
+    const list = $("modelList");
+    list.innerHTML = "";
+    for (const id of data.models) {
+      const opt = document.createElement("option");
+      opt.value = id;
+      list.appendChild(opt);
+    }
+    $("settingsHint").textContent = data.models.length
+      ? `共 ${data.models.length} 个模型，点输入框可选：` + data.models.slice(0, 6).join("、")
+      : "服务端没有返回模型列表（可手动填写模型名）";
+  } catch (e) {
+    $("settingsHint").textContent = "查询失败：" + e.message;
+  }
 }
 
 async function testSettings() {

@@ -322,6 +322,12 @@ def _settings(handler: BaseHTTPRequestHandler, body: bytes) -> None:
     data = json.loads(body or b"{}")
     action = data.get("action") or "save"
 
+    if action == "models":
+        try:
+            return _json(handler, {"ok": True, "models": provider.list_models(provider_cfg())})
+        except provider.ProviderError as exc:
+            return _json(handler, {"ok": False, "error": str(exc)}, 400)
+
     if action == "test":
         try:
             reply = provider.chat(provider_cfg(), system="只回答 ok",

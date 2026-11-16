@@ -77,7 +77,16 @@ def _post(url: str, body: dict[str, Any], headers: dict[str, str], timeout: int)
             return json.loads(resp.read().decode("utf-8"))
     except urllib.error.HTTPError as exc:
         detail = exc.read().decode("utf-8", "replace")[:400]
-        raise ProviderError(f"HTTP {exc.code}：{detail}") from exc
+        hint = {
+            401: "API key 无效或已过期",
+            402: "账户余额不足",
+            403: "该 key 没有权限访问这个模型",
+            404: "端点或模型名不存在（检查 base_url 是否带 /v1、模型名是否拼错）",
+            422: "请求参数不被接受（模型名可能不对）",
+            429: "触发限流或额度用尽，稍后再试",
+        }.get(exc.code, "")
+        raise ProviderError(f"HTTP {exc.code}"
+                            + (f"（{hint}）" if hint else "") + f"：{detail}") from exc
     except urllib.error.URLError as exc:
         raise ProviderError(f"无法连接 {url}：{exc.reason}") from exc
 
@@ -130,6 +139,30 @@ def _chat_once(cfg: ProviderConfig, *, system: str, messages: list[dict[str, str
         body["response_format"] = {"type": "json_object"}
     data = _post(url, body, {"authorization": f"Bearer {cfg.api_key or ''}"}, cfg.timeout)
     return data["choices"][0]["message"]["content"]
+
+
+def list_models(cfg: ProviderConfig) -> list[str]:
+    """问服务端有哪些模型，避免把模型名写死在代码里。"""
+    if cfg.name == "anthropic":
+        url = "https://api.anthropic.com/v1/models"
+        headers = {"x-api-key": cfg.api_key or "", "anthropic-version": "2023-06-01"}
+    else:
+        base = (cfg.base_url or OPENAI_URL.rsplit("/chat", 1)[0]).rstrip("/")
+        url = base + "/models"
+        headers = {"authorization": f"Bearer {cfg.api_key or ''}"}
+    req = urllib.request.Request(url, headers=headers)
+    try:
+        with urllib.request.urlopen(req, timeout=cfg.timeout) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        detail = exc.read().decode("utf-8", "replace")[:200]
+        raise ProviderError(f"HTTP {exc.code}：{detail}") from exc
+    except urllib.error.URLError as exc:
+        raise ProviderError(f"无法连接 {url}：{exc.reason}") from exc
+
+    items = data.get("data") if isinstance(data, dict) else data
+    ids = [str(item.get("id")) for item in (items or []) if isinstance(item, dict) and item.get("id")]
+    return sorted(set(ids))
 
 
 def parse_json(raw: str) -> dict[str, Any]:
