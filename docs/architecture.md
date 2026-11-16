@@ -37,7 +37,7 @@
 ## 3. 非目标
 
 - **不处理视频画面**。v1 不抽取视频帧。`ingest/media.py` 保留 `frames` 参数，后续扩展不构成架构变更。
-- **不生成无差别的前置知识**。无法得知读者既有知识范围，因此仅在读者明确提出缺口时生成补丁（见 §15）。
+- **不生成无差别的前置知识**。无法得知示例主体既有知识范围，因此仅在示例主体明确提出缺口时生成补丁（见 §15）。
 - **不提供在线服务**。无服务端、无账号体系，默认全本地离线运行。
 - **不在仓库内附带课程内容**。框架与内容严格分离（见 §18）。
 
@@ -112,7 +112,7 @@
 每个块占一行 JSONL。`loc` 字段为该块的坐标，是溯源、对齐与去重的基础。
 
 ```jsonl
-{"id":"s06-012","src":"lecture-06.pptx","type":"bullet","text":"二叉树的第 i 层至多有 2^(i-1) 个结点","loc":{"slide":12,"shape":4}}
+{"id":"s03-012","src":"lecture-03.pptx","type":"bullet","text":"每本示例条目最多同时被 3 位示例主体示例操作","loc":{"slide":12,"shape":4}}
 {"id":"s06-013","src":"lecture-06.pptx","type":"image","asset":"assets/s06-013.png","ocr_text":null,"semantics":null,"loc":{"slide":13}}
 {"id":"s06-013a","src":"lecture-06.pptx","type":"formula","latex":"T(n)=2T(n/2)+O(n)","loc":{"slide":13}}
 {"id":"rec06-0088","src":"rec-06.m4a","type":"speech","text":"第 i 层最多 2 的 i 减 1 次方","loc":{"t":[812.5,845.2]}}
@@ -182,7 +182,7 @@ L2 的触发条件不是「图片复杂」，而是 **L1 之后的信息缺口**
   "asset": "assets/s06-013.png",
   "question": "图中节点之间的有向边集合是什么？请以 [(源,目标), ...] 形式回答。",
   "context": {
-    "unit_hint": "二叉树遍历",
+    "unit_hint": "示例操作上限",
     "ocr_text": ["A", "B", "C", "D", "E"],
     "missing": "边的集合"
   }
@@ -228,7 +228,7 @@ L2 的触发条件不是「图片复杂」，而是 **L1 之后的信息缺口**
   text: 为什么是 2^(i-1)，没听懂
   kind: question          # 兼作对齐锚点
 
-- at: {unit: binary-tree-def}
+- at: {unit: book-def}
   text: 与高中所学的定义不一致
   kind: question
 
@@ -277,33 +277,33 @@ C 档必须能完整跑通全部流程，以保证无录音用户可用。v0.1 �
 
 ```markdown
 ---
-id: binary-tree-layer-max
-title: 二叉树每层结点数的上界
+id: loan-limit
+title: 单本示例条目的并发示例操作上限
 type: 性质
 evidence:
   - {src: lecture-06.pptx, loc: {slide: 12}}
   - {src: rec-06.m4a,     loc: {t: [812.5, 845.2]}}
   - {src: my-notes.yaml,  loc: {slide: 12}, kind: emphasis}
-depends_on: [binary-tree-def]
-see_also: [full-binary-tree-leaves]
+depends_on: [book-def]
+see_also: [overdue-freeze]
 emphasis: true
 origin: source
 revision: 3
-suspects: [full-binary-tree-leaves]
+suspects: [overdue-freeze]
 ---
 
-二叉树第 $i$ 层至多有 $2^{i-1}$ 个结点（$i$ 从 1 开始计，根为第 1 层）。
+单本示例条目最多同时被 $k$ 位示例主体示例操作（$k$ 由馆藏策略设定，默认 3）。
 
-**依据**：第 $i$ 层每个结点最多有两个子结点……
+**依据**：第 $i$ 层每个元素最多有两个子元素……
 
-**用途**：已知层数求最坏情况下的结点总数 $2^h-1$……
+**用途**：已知层数求最坏情况下的元素总数 $2^h-1$……
 ```
 
 ### 10.1 溯源的两个维度
 
 | 维度 | 取值 | 面向 | 是否进入正文 |
 |---|---|---|---|
-| `origin` | `source`（原文明确陈述）/ `derived`（可由原文推出）/ `synthesized`（补充内容） | 读者与门禁 | 是（`synthesized` 可选标注） |
+| `origin` | `source`（原文明确陈述）/ `derived`（可由原文推出）/ `synthesized`（补充内容） | 示例主体与门禁 | 是（`synthesized` 可选标注） |
 | `evidence` | `[{src, loc}]` | 仅维护者与审查 | 否，按 §6.3 策略输出 |
 
 补充内容与个人手记一律不写入知识点本体，而存于 `patches/`，原因有二：其一，更新课程素材时不会与个人笔记产生冲突；其二，个人数据不得进入公开仓库。
@@ -322,7 +322,7 @@ suspects: [full-binary-tree-leaves]
 
 1. 新讲次追加于末尾，既有章节编号不位移，版本差异集中且易审阅。
 2. 课件顺序为客观数据，可由程序直接计算，结果可复现、可比较。
-3. 与读者按周次学习的进度一致。
+3. 与示例主体按周次学习的进度一致。
 4. 授课顺序本身已隐含知识依赖。
 
 ### 11.1 结构规则
@@ -360,13 +360,13 @@ suspects: [full-binary-tree-leaves]
     {"kind": "front_matter", "title": "前言"},
     {"kind": "lecture", "no": 6, "title": "示例专题",
      "sections": [
-       {"title": "基本概念", "units": ["binary-tree-def", "binary-tree-terms"]},
-       {"title": "性质", "units": ["binary-tree-layer-max", "full-binary-tree-leaves"]}
+       {"title": "基本概念", "units": ["book-def", "binary-tree-terms"]},
+       {"title": "性质", "units": ["loan-limit", "overdue-freeze"]}
      ]},
     {"kind": "review_lecture", "title": "复习课"},
     {"kind": "appendix", "title": "公式速查"}
   ],
-  "moved_from": {"binary-tree-layer-max": "lecture-6/auto-2"}
+  "moved_from": {"loan-limit": "lecture-6/auto-2"}
 }
 ```
 
@@ -388,7 +388,7 @@ render(units, scope, profile, lang, outline, patches)
 - **learn**：依 outline 顺序；先陈述动机与问题；推导完整；每个概念配可计算的例子；`question` 处增加详解。
 - **review**：结论与判据前置；提供对照表与易错点；`emphasis` 项汇总为重点清单；附公式速查。
 
-模板以数据形式存于 `templates/`，不得硬编码于程序。
+模板以数据形式存于 `templates/`，不得硬映射于程序。
 
 ---
 
@@ -408,7 +408,7 @@ render(units, scope, profile, lang, outline, patches)
 | `patches_stale` | 补丁指向的知识点已删除或已修改 |
 | `workspace_clean` | `inputs/` 与 `.study/` 未被纳入仓库 |
 
-不设置 `self_sufficiency` 类门禁（要求知识点各段齐全）。由于无法获知读者既有知识范围，强制补全等价于生成无依据的前置知识。相关需求由 §15 的按需补丁承担，并辅以上述符号与术语检查。
+不设置 `self_sufficiency` 类门禁（要求知识点各段齐全）。由于无法获知示例主体既有知识范围，强制补全等价于生成无依据的前置知识。相关需求由 §15 的按需补丁承担，并辅以上述符号与术语检查。
 
 ---
 
@@ -438,8 +438,8 @@ render(units, scope, profile, lang, outline, patches)
 将每个知识点的正文拆分为可判定的断言，逐条判定：
 
 ```json
-{"unit": "binary-tree-layer-max", "claim_idx": 2,
- "text": "满二叉树的第 h 层有 2^(h-1) 个结点",
+{"unit": "loan-limit", "claim_idx": 2,
+ "text": "超期未还的示例条目会被自动冻结示例操作资格",
  "verdict": "supported", "evidence": [{"src":"lecture-06.pptx","loc":{"slide":12}}]}
 ```
 
@@ -467,7 +467,7 @@ render(units, scope, profile, lang, outline, patches)
 L2 与 L3 的 findings 汇总至 `review/findings.md`，按严重度排序：
 
 ```
-[blocker] u-binary-tree-layer-max  断言 3 无证据支撑，且与 u-full-binary-tree-leaves 矛盾
+[blocker] u-loan-limit  断言 3 无证据支撑，且与 u-overdue-freeze 矛盾
           建议：删除，或改为 synthesized 并标注
 [minor]   u-huffman-construct      「左小右大」与「左大右小」两种表述并存
 ```
@@ -478,14 +478,14 @@ L2 与 L3 的 findings 汇总至 `review/findings.md`，按严重度排序：
 
 ## 15. 按需补丁
 
-读者明确提出缺口时生成，用于替代无差别的前置知识补充：
+示例主体明确提出缺口时生成，用于替代无差别的前置知识补充：
 
 ```bash
-study explain binary-tree-layer-max      # 标记某知识点有疑问
+study explain loan-limit      # 标记某知识点有疑问
 study explain --prereq 递归               # 标记前置概念有疑问
 ```
 
-产物写入 `patches/remedial/<slug>.md`，含 `origin: synthesized` 与 `requested_by: student`，渲染时插入至需要它的知识点之前——正文中以「补充说明（非课程原有内容）」的引用块标出，读者始终能分清哪些是素材原有、哪些是补的。
+产物写入 `patches/remedial/<slug>.md`，含 `origin: synthesized` 与 `requested_by: student`，渲染时插入至需要它的知识点之前——正文中以「补充说明（非课程原有内容）」的引用块标出，示例主体始终能分清哪些是素材原有、哪些是补的。
 
 流程：
 
@@ -498,7 +498,7 @@ study explain --remove <unit>                              # 删除，原文自�
 ```
 
 - 不写入 `knowledge/units/`：删除无残留，课程更新时不产生冲突。
-- 明确标注为补充内容：读者可区分素材原有内容与补充内容。
+- 明确标注为补充内容：示例主体可区分素材原有内容与补充内容。
 - 仅补充被要求的部分：成本可控，结果可验证。
 
 ---
@@ -529,7 +529,7 @@ study explain --remove <unit>                              # 删除，原文自�
 | `page_text` | 页面无文字层（扫描/纯图页） | 转写页面文字 |
 | `figure_request` | 需要重画或新增的图 | 图规格文本（矢量），见 §7.1 |
 | `claim_entailment` | L2 审查 | 逐条断言的 verdict |
-| `remedial` | 读者声明缺口 | 前置讲解补丁 |
+| `remedial` | 示例主体声明缺口 | 前置讲解补丁 |
 
 答案校验：`gaps fill` 按缺口声明的 `answer_format` 校验，出现未声明字段即拒绝写入——宽松接受会让「模型自由发挥」重新进入管道。
 
@@ -613,7 +613,7 @@ study explain --remove <unit>                              # 删除，原文自�
 
 1. 教学重复本身是有意义的。同一概念在不同讲次的语境不同，老师第二次讲时强调的往往不是第一次的内容。合并会把两处陈述揉成一个，丢掉这层信息。
 2. 跨讲合并是不可逆的结构操作。合并后 `id`、证据、审查记录都要迁移，出错代价远高于「书里同一概念出现两次」。
-3. 读者的实际体验：跟着课学的人看到重复会觉得是复习，不会觉得是冗余；真正会困惑的是「这两处说的不一致」——那是**矛盾**问题，由 L3 审查覆盖，不靠合并解决。
+3. 示例主体的实际体验：跟着课学的人看到重复会觉得是复习，不会觉得是冗余；真正会困惑的是「这两处说的不一致」——那是**矛盾**问题，由 L3 审查覆盖，不靠合并解决。
 
 **替代方案**：`cross_lecture_repeat` 检查，输出 `info` 级 findings，列出重名知识点及其所在讲次。作者可据此在 unit 的 `see_also` 中加交叉引用，或什么都不做。
 

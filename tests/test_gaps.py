@@ -17,7 +17,7 @@ def _ws(tmp_path: Path, pptx: Path) -> Path:
     (ws / "inputs").mkdir(exist_ok=True)
     (ws / "inputs" / pptx.name).write_bytes(pptx.read_bytes())
     cfg = yaml.safe_load((ws / "study.config.yaml").read_text(encoding="utf-8"))
-    cfg["course"]["lectures"] = [{"number": 6, "title": "示例专题",
+    cfg["course"]["lectures"] = [{"number": 6, "title": "示例主题 A",
                                   "sources": [f"inputs/{pptx.name}"]}]
     (ws / "study.config.yaml").write_text(
         yaml.safe_dump(cfg, allow_unicode=True, sort_keys=False), encoding="utf-8")
@@ -50,12 +50,12 @@ def test_answer_flows_into_the_document(tmp_path, sample_pptx):
     ws = _ws(tmp_path, sample_pptx)
     main(["--workspace", str(ws), "build"])
     gap_id = open_gaps(ws)[0].stem
-    fill_gap(ws, gap_id, {"summary": "一棵三结点的二叉树示意", "relations": [["根", "左子树"]],
+    fill_gap(ws, gap_id, {"summary": "一棵三元素的示例结构示意", "relations": [["根", "左子结构"]],
                           "by": "tester"})
     main(["--workspace", str(ws), "build"])
     book = (ws / ".study" / "out" / "book.md").read_text(encoding="utf-8")
-    assert "一棵三结点的二叉树示意" in book
-    assert "根→左子树" in book
+    assert "一棵三元素的示例结构示意" in book
+    assert "根→左子结构" in book
 
 
 def test_answers_are_cached_not_rewritten(tmp_path, sample_pptx):

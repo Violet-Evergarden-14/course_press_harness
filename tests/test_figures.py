@@ -17,7 +17,7 @@ def _ws(tmp_path: Path, pptx: Path) -> Path:
     (ws / "inputs").mkdir(exist_ok=True)
     (ws / "inputs" / pptx.name).write_bytes(pptx.read_bytes())
     cfg = yaml.safe_load((ws / "study.config.yaml").read_text(encoding="utf-8"))
-    cfg["course"]["lectures"] = [{"number": 6, "title": "示例专题",
+    cfg["course"]["lectures"] = [{"number": 6, "title": "示例主题 A",
                                   "sources": [f"inputs/{pptx.name}"]}]
     (ws / "study.config.yaml").write_text(
         yaml.safe_dump(cfg, allow_unicode=True, sort_keys=False), encoding="utf-8")
@@ -28,8 +28,8 @@ def _ws(tmp_path: Path, pptx: Path) -> Path:
 def test_mermaid_figure_renders_as_fence(tmp_path: Path, sample_pptx: Path):
     ws = _ws(tmp_path, sample_pptx)
     spec = tmp_path / "shape.mmd"
-    spec.write_text("graph TD\n  A[根] --> B[子树]\n", encoding="utf-8")
-    add_figure(ws, "tree-shape", spec, provenance="synthesized", caption="二叉树形态")
+    spec.write_text("graph TD\n  A[根] --> B[子结构]\n", encoding="utf-8")
+    add_figure(ws, "tree-shape", spec, provenance="synthesized", caption="示例结构形态")
 
     units = sorted((ws / ".study" / "knowledge" / "units").glob("*.md"))
     text = units[0].read_text(encoding="utf-8").rstrip() + "\n\n[[fig:tree-shape]]\n"
@@ -73,7 +73,7 @@ def test_bitmap_is_only_allowed_for_extracted_figures(tmp_path: Path, sample_ppt
 def test_figure_request_writes_a_gap(tmp_path: Path):
     ws = tmp_path / "ws"
     main(["--workspace", str(ws), "init", "--course", "x"])
-    path = request_figure(ws, "tree-def", "画出二叉树的五种基本形态", preferred="mermaid")
+    path = request_figure(ws, "tree-def", "画出示例结构的五种基本形态", preferred="mermaid")
     gap = json.loads(path.read_text(encoding="utf-8"))
     assert gap["kind"] == "figure_request"
     assert gap["answer_format"]["format"] == "mermaid"
@@ -91,7 +91,7 @@ def test_semantic_id_survives_rebuild(tmp_path: Path, sample_pptx: Path):
     head, body = text.split("\n---\n", 1)
     head = head.replace(f"id: {old_id}", "id: tree-def")
     head = head.replace("draft: true\n", "") + f"\naliases: [{old_id}]"
-    body = body.replace("## 定义", "## 定义\n\n树是 n 个结点的有限集。", 1)
+    body = body.replace("## 定义", "## 定义\n\n树是 n 个元素的有限集。", 1)
     first.unlink()
     (units_dir / "tree-def.md").write_text(head + "\n---\n" + body, encoding="utf-8")
 
@@ -99,4 +99,4 @@ def test_semantic_id_survives_rebuild(tmp_path: Path, sample_pptx: Path):
     files = {p.name for p in units_dir.glob("*.md")}
     assert "tree-def.md" in files
     assert f"{old_id}.md" not in files, "the old machine id must not be resurrected"
-    assert "树是 n 个结点的有限集。" in (units_dir / "tree-def.md").read_text(encoding="utf-8")
+    assert "树是 n 个元素的有限集。" in (units_dir / "tree-def.md").read_text(encoding="utf-8")

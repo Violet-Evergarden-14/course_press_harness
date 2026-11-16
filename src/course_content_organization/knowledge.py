@@ -222,7 +222,7 @@ def _group_by_slide(blocks: list[dict[str, Any]]) -> list[tuple[int, list[dict[s
     return groups
 
 
-# "6.1 树的定义", "0.1指针的本质" (no space before CJK), "2. 链式存储结构"
+# "6.1 示例小节", "0.1示例小节" (no space before CJK), "2. 示例条目"
 HEADING_RE = re.compile(
     r"^\s*(?:"
     r"第\s*\d+\s*[章节]"
@@ -261,9 +261,9 @@ def _slide_title(blocks: list[dict[str, Any]]) -> str | None:
 def _is_section_start(blocks: list[dict[str, Any]]) -> str | None:
     """Only *numbered* headings open a section.
 
-    Decks frequently use full sentences as slide titles ("树是 n 个结点的有限集"),
+    Decks frequently use full sentences as slide titles ("树是 n 个元素的有限集"),
     which are content, not structure. Treating every title as a boundary yields one
-    unit per slide. Numbered headings ("6.1 树的定义和基本术语") are the reliable
+    unit per slide. Numbered headings ("6.1 示例小节") are the reliable
     structural signal.
     """
     title = _slide_title(blocks)

@@ -106,7 +106,7 @@ CHAPTER_TXT_RE = re.compile(r"^\s*第\s*(\d+)\s*[章]")
 def heading_level(title: str) -> int | None:
     """Numbering depth of a heading: "6.1" -> 2, "6.2.2" -> 3, "第6章" -> 1.
 
-    Single-level numbers ("2. 链式存储结构") are treated as absent: in practice they
+    Single-level numbers ("2. 示例条目") are treated as absent: in practice they
     are list markers inside a section, and accepting them splits a lecture at every
     enumerated bullet.
     """

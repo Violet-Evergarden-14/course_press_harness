@@ -18,7 +18,7 @@ def _ws(tmp_path: Path, pptx: Path) -> Path:
     (ws / "inputs").mkdir(exist_ok=True)
     (ws / "inputs" / pptx.name).write_bytes(pptx.read_bytes())
     cfg = yaml.safe_load((ws / "study.config.yaml").read_text(encoding="utf-8"))
-    cfg["course"]["lectures"] = [{"number": 6, "title": "示例专题",
+    cfg["course"]["lectures"] = [{"number": 6, "title": "示例主题 A",
                                   "sources": [f"inputs/{pptx.name}"]}]
     (ws / "study.config.yaml").write_text(
         yaml.safe_dump(cfg, allow_unicode=True, sort_keys=False), encoding="utf-8")
@@ -37,7 +37,7 @@ def test_escape_keeps_math_and_escapes_code_like_text():
 def test_emphasis_survives_an_escaped_math_glyph():
     from course_content_organization.latex import _inline_line
 
-    out = _inline_line("**树是 n（n≥0）个结点的有限集。**", None, {})
+    out = _inline_line("**树是 n（n≥0）个元素的有限集。**", None, {})
     assert out.startswith(r"\textbf{") and "**" not in out
 
 
@@ -45,7 +45,7 @@ def test_txt_is_written_and_readable(tmp_path, sample_pptx):
     ws = _ws(tmp_path, sample_pptx)
     main(["--workspace", str(ws), "render", "--format", "txt"])
     text = (ws / ".study" / "out" / "book.txt").read_text(encoding="utf-8")
-    assert "示例专题" in text
+    assert "示例主题" in text
     assert "**" not in text, "markdown emphasis must not leak into plain text"
     assert "## " not in text
 
@@ -77,7 +77,7 @@ def test_tex_is_written_even_without_an_engine(tmp_path, sample_pptx):
     main(["--workspace", str(ws), "render", "--format", "tex"])
     tex = (ws / ".study" / "out" / "book.tex").read_text(encoding="utf-8")
     assert r"\documentclass" in tex and r"\begin{document}" in tex
-    assert "示例专题" in tex
+    assert "示例主题" in tex
     assert "textbf" not in tex.split(r"\begin{document}")[0] or True
 
 
@@ -127,7 +127,7 @@ def test_math_is_rendered_by_katex(tmp_path, sample_pptx):
     text = target.read_text(encoding="utf-8")
     head, body = text.split("\n---\n", 1)
     target.write_text(head + "\n---\n" + body.rstrip() +
-                      "\n\n第 $i$ 层至多有 $2^{i-1}$ 个结点。\n", encoding="utf-8")
+                      "\n\n第 $i$ 层至多有 $2^{i-1}$ 个元素。\n", encoding="utf-8")
 
     main(["--workspace", str(ws), "render", "--format", "pdf"])
     html = (ws / ".study" / "out" / "book.html").read_text(encoding="utf-8")

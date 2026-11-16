@@ -17,7 +17,7 @@ def _workspace(tmp_path: Path, pptx: Path) -> Path:
     inputs.mkdir(exist_ok=True)
     (inputs / pptx.name).write_bytes(pptx.read_bytes())
     cfg = yaml.safe_load((ws / "study.config.yaml").read_text(encoding="utf-8"))
-    cfg["course"]["lectures"] = [{"number": 6, "title": "示例专题",
+    cfg["course"]["lectures"] = [{"number": 6, "title": "示例主题 A",
                                   "sources": [f"inputs/{pptx.name}"]}]
     (ws / "study.config.yaml").write_text(
         yaml.safe_dump(cfg, allow_unicode=True, sort_keys=False), encoding="utf-8")
@@ -30,7 +30,7 @@ def test_build_without_model_produces_document(tmp_path: Path, sample_pptx: Path
     book = ws / ".study" / "out" / "book.md"
     assert book.exists(), "build must succeed with no model and no network"
     text = book.read_text(encoding="utf-8")
-    assert "第 6 讲 示例专题" in text
+    assert "第 6 讲 示例主题 A" in text
     assert rc in (0, 1)
 
 
@@ -82,8 +82,8 @@ def test_sections_follow_deck_numbering(tmp_path: Path, sample_pptx: Path):
     ws = _workspace(tmp_path, sample_pptx)
     main(["--workspace", str(ws), "build"])
     text = (ws / ".study" / "out" / "book.md").read_text(encoding="utf-8")
-    assert "## 6.1 树的定义和基本术语" in text
-    assert "## 6.2 二叉树" in text
+    assert "## 6.1 示例小节一" in text
+    assert "## 6.2 示例小节二" in text
 
 
 def test_outline_is_lecture_ordered(tmp_path: Path, sample_pptx: Path):
@@ -144,7 +144,7 @@ def test_unformatted_formulas_are_reported(tmp_path: Path, sample_pptx: Path):
     text = target.read_text(encoding="utf-8")
     head, body = text.split("\n---\n", 1)
     target.write_text(head + "\n---\n" + body.rstrip() +
-                      "\n\n树是 n（n≥0）个结点的有限集。\n", encoding="utf-8")
+                      "\n\n树是 n（n≥0）个元素的有限集。\n", encoding="utf-8")
 
     main(["--workspace", str(ws), "render"])
     findings = [json.loads(l) for l in
@@ -154,7 +154,7 @@ def test_unformatted_formulas_are_reported(tmp_path: Path, sample_pptx: Path):
 
     # the same sentence written as maths is accepted
     target.write_text(head + "\n---\n" + body.rstrip() +
-                      "\n\n树是 $n(n \geq 0)$ 个结点的有限集。\n", encoding="utf-8")
+                      "\n\n树是 $n(n \geq 0)$ 个元素的有限集。\n", encoding="utf-8")
     main(["--workspace", str(ws), "render"])
     findings = [json.loads(l) for l in
                 (ws / ".study" / "review" / "findings.jsonl").read_text(encoding="utf-8").splitlines()

@@ -36,10 +36,10 @@ def request(workspace: Path, unit: Unit, *, focus: str | None = None,
     gid = gap_id(unit.id)
     kind = "prereq" if prereq else "explanation"
     question = (
-        f"读者表示在《{unit.title}》之前的基础概念上存在缺口，请只补充前置知识，"
+        f"示例主体表示在《{unit.title}》之前的基础概念上存在缺口，请只补充前置知识，"
         f"不要复述本节已经讲清楚的内容。"
         if prereq else
-        f"读者表示没读懂《{unit.title}》。请用更小的步骤重新讲解，"
+        f"示例主体表示没读懂《{unit.title}》。请用更小的步骤重新讲解，"
         f"保留原有结论但补上推导过程与一个可手算的例子。"
     )
     payload = {
@@ -61,7 +61,7 @@ def request(workspace: Path, unit: Unit, *, focus: str | None = None,
         },
         "rules": [
             "只讲这一个知识点，不要扩展成整章",
-            "不使用读者可能没有的资料作为依据，也不要提及出处",
+            "不使用示例主体可能没有的资料作为依据，也不要提及出处",
             "标注 origin: synthesized —— 这段不是课程原有内容",
             "篇幅控制在 300~800 字；写不出可手算的例子就不要硬编",
         ],

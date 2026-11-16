@@ -25,7 +25,7 @@ SCAN_CHAR_THRESHOLD = 50     # median chars per page below this -> scanned
 HEADER_RATIO = 0.4           # a line repeated on this share of pages is furniture
 COLUMN_GAP_RATIO = 0.18      # x-gap / page width that separates two columns
 
-# structural headings, recognized regardless of font size: "第3章 栈", "0.1 指针"
+# structural headings, recognized regardless of font size: "第 3 章 示例标题", "0.1 示例小节"
 CHAPTER_RE = re.compile(r"^\s*第\s*\d+\s*[章节]")
 STRUCT_RE = re.compile(
     r"^\s*(?:第\s*\d+\s*[章节]|\d+(?:\.\d+)+(?=\s|[^\x00-\x7f])|\d+\.\s)")

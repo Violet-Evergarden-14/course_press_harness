@@ -10,9 +10,9 @@
 
 术语表解决三个问题：
 
-1. **同一概念只有一种写法**。跨讲、跨素材、跨语言时不会出现「满二叉树」与「满二叉数」「完全满二叉树」并存。
+1. **同一概念只有一种写法**。跨讲、跨素材、跨语言时不会出现「示例术语」与「借书期限」「示例操作时长」并存。
 2. **多语言输出有唯一映射**。中英对照不在正文中维护，而在术语表中集中维护。
-3. **术语可追溯定义**。每个术语绑定一个知识点，读者首次遇到时可跳转。
+3. **术语可追溯定义**。每个术语绑定一个知识点，示例主体首次遇到时可跳转。
 
 术语表只管理**名称**，不管理解释。解释属于知识点。
 
@@ -36,13 +36,13 @@
 schema_version: 1
 
 terms:
-  - id: full-binary-tree
-    zh: 满二叉树
-    en: full binary tree
-    definition_unit: full-binary-tree-def
-    aliases: [完美二叉树]
-    forbidden: [满二叉数, 完全满二叉树]
-    first_use: lecture-06
+  - id: loan-period
+    zh: 示例术语
+    en: loan period
+    definition_unit: loan-period-def
+    aliases: [借书期限]
+    forbidden: [示例操作时长, 借书时长]
+    first_use: lecture-03
 
   - id: wpl
     zh: 带权路径长度
@@ -84,7 +84,7 @@ terms:
 | 通用引用 | `[[term:wpl]]` | 带权路径长度 |
 | 带简称 | `[[term:wpl\|short]]` | WPL |
 | 首次定义处 | 定义知识点内直接写全称，不加引用 | 带权路径长度（WPL） |
-| 需要强调术语 | `[[term:full-binary-tree\|**]]` | **满二叉树** |
+| 需要强调术语 | `[[term:loan-period\|**]]` | **示例术语** |
 
 规则：
 

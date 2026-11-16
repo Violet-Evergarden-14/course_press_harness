@@ -97,7 +97,7 @@
 | level | 判据 | 处理 |
 |---|---|---|
 | `blocker` | 会导致学习者形成错误理解，或使文档不可渲染 | 阻塞发布，必须处理 |
-| `major` | 内容有缺陷但读者仍能学到正确内容 | 应在发布前处理 |
+| `major` | 内容有缺陷但示例主体仍能学到正确内容 | 应在发布前处理 |
 | `minor` | 表述或结构可改进 | 可延后 |
 | `info` | 提示与建议 | 仅记录 |
 
@@ -135,8 +135,8 @@
 {
   "id": "g-l2-binary-tree-layer-max",
   "verdicts": [
-    {"claim_idx": 0, "verdict": "supported", "quote": "第 i 层至多有 2^(i-1) 个结点"},
-    {"claim_idx": 1, "verdict": "derived", "reason": "由「每个结点至多两个子结点」递推可得"},
+    {"claim_idx": 0, "verdict": "supported", "quote": "第 i 层至多有 2^(i-1) 个元素"},
+    {"claim_idx": 1, "verdict": "derived", "reason": "由「每个元素至多两个子元素」递推可得"},
     {"claim_idx": 2, "verdict": "unsupported", "reason": "证据中无对应陈述"}
   ],
   "by": "claude-code/opus",

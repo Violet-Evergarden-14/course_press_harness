@@ -263,7 +263,7 @@ appendices: [公式速查, 术语表]     # review 默认附加
   "kind": "figure_request",
   "unit": "binary-tree-def",
   "provenance": "synthesized",
-  "description": "画出二叉树的五种基本形态",
+  "description": "画出示例结构的五种基本形态",
   "answer_format": {"format": "mermaid", "content": "str", "caption": "str"},
   "rules": ["优先文本矢量格式", "图中文字使用术语表写法", "不得在图中标注出处"]
 }

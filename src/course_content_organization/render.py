@@ -69,7 +69,7 @@ TITLE_NUM_RE = re.compile(r"^\s*(?:\d+(?:\.\d+)+\.?|\d+\.)\s*")
 def display_title(title: str) -> str:
     """Drop a leading section number that the book already supplies.
 
-    Keeping both yields headings like "6.2.1 6.1 树的定义".
+    Keeping both yields headings like "6.2.1 6.1 示例小节".
     """
     stripped = TITLE_NUM_RE.sub("", title or "").strip()
     return stripped or (title or "")

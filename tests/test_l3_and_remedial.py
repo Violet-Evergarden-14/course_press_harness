@@ -19,7 +19,7 @@ def _ws(tmp_path: Path, pptx: Path) -> Path:
     (ws / "inputs").mkdir(exist_ok=True)
     (ws / "inputs" / pptx.name).write_bytes(pptx.read_bytes())
     cfg = yaml.safe_load((ws / "study.config.yaml").read_text(encoding="utf-8"))
-    cfg["course"]["lectures"] = [{"number": 6, "title": "示例专题",
+    cfg["course"]["lectures"] = [{"number": 6, "title": "示例主题 A",
                                   "sources": [f"inputs/{pptx.name}"]}]
     (ws / "study.config.yaml").write_text(
         yaml.safe_dump(cfg, allow_unicode=True, sort_keys=False), encoding="utf-8")
@@ -92,7 +92,7 @@ def test_explain_patch_is_overlaid_not_merged(tmp_path, sample_pptx):
     answers = ws / ".study" / "gaps" / "answers"
     answers.mkdir(parents=True, exist_ok=True)
     (answers / f"{remediate.gap_id(unit.id)}.json").write_text(
-        json.dumps({"markdown": "空树是一个合法的树：$n=0$ 时没有根也没有子树。",
+        json.dumps({"markdown": "空树是一个合法的树：$n=0$ 时没有根也没有子结构。",
                     "by": "tester"}, ensure_ascii=False), encoding="utf-8")
 
     main(["--workspace", str(ws), "explain", "--apply"])
