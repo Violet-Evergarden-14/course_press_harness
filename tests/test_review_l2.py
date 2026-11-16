@@ -7,8 +7,8 @@ from pathlib import Path
 
 import yaml
 
-from course_content_organization.cli import main
-from course_content_organization.review import apply, gap_id, prepare, split_claims, stats_from_answers
+from course_press_harness.cli import main
+from course_press_harness.review import apply, gap_id, prepare, split_claims, stats_from_answers
 
 
 def _ws(tmp_path: Path, pptx: Path) -> Path:
@@ -27,7 +27,7 @@ def _ws(tmp_path: Path, pptx: Path) -> Path:
 
 def test_claims_skip_non_prose(tmp_path, sample_pptx):
     ws = _ws(tmp_path, sample_pptx)
-    from course_content_organization.knowledge import load_units
+    from course_press_harness.knowledge import load_units
 
     units = load_units(ws / ".study" / "knowledge" / "units")
     claims = split_claims(units[0])
@@ -38,7 +38,7 @@ def test_claims_skip_non_prose(tmp_path, sample_pptx):
 
 def test_prepare_writes_one_gap_per_unit(tmp_path, sample_pptx):
     ws = _ws(tmp_path, sample_pptx)
-    from course_content_organization.knowledge import load_units
+    from course_press_harness.knowledge import load_units
 
     units = load_units(ws / ".study" / "knowledge" / "units")
     created = prepare(ws, units, {})
@@ -51,7 +51,7 @@ def test_prepare_writes_one_gap_per_unit(tmp_path, sample_pptx):
 
 def test_apply_recomputes_origin_and_never_edits_prose(tmp_path, sample_pptx):
     ws = _ws(tmp_path, sample_pptx)
-    from course_content_organization.knowledge import load_units
+    from course_press_harness.knowledge import load_units
 
     units_dir = ws / ".study" / "knowledge" / "units"
     units = load_units(units_dir)
@@ -88,7 +88,7 @@ def test_apply_recomputes_origin_and_never_edits_prose(tmp_path, sample_pptx):
 
 def test_bad_quote_is_ignored_not_crashing(tmp_path, sample_pptx):
     ws = _ws(tmp_path, sample_pptx)
-    from course_content_organization.knowledge import load_units
+    from course_press_harness.knowledge import load_units
 
     units_dir = ws / ".study" / "knowledge" / "units"
     units = load_units(units_dir)
@@ -108,7 +108,7 @@ def test_bad_quote_is_ignored_not_crashing(tmp_path, sample_pptx):
 
 def test_stats_report_ratios(tmp_path, sample_pptx):
     ws = _ws(tmp_path, sample_pptx)
-    from course_content_organization.knowledge import load_units
+    from course_press_harness.knowledge import load_units
 
     units = load_units(ws / ".study" / "knowledge" / "units")
     unit = next(u for u in units if len(split_claims(u)) >= 2)
@@ -135,7 +135,7 @@ def test_stats_report_ratios(tmp_path, sample_pptx):
 
 def test_review_metadata_survives_rebuild_without_churn(tmp_path, sample_pptx):
     ws = _ws(tmp_path, sample_pptx)
-    from course_content_organization.knowledge import load_units
+    from course_press_harness.knowledge import load_units
 
     units_dir = ws / ".study" / "knowledge" / "units"
     units = load_units(units_dir)

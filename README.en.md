@@ -1,4 +1,4 @@
-# course_content_organization
+# course_press_harness
 
 Turn a course's teaching materials into **one continuous, self-contained document**.
 

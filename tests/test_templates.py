@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import yaml
 
-from course_content_organization.cli import main
+from course_press_harness.cli import main
 
 
 def _ws(tmp_path, pptx):
@@ -51,9 +51,9 @@ def test_section_order_is_data(tmp_path, sample_pptx):
     (ws / "study.config.yaml").write_text(
         yaml.safe_dump(cfg, allow_unicode=True, sort_keys=False), encoding="utf-8")
 
-    from course_content_organization.knowledge import load_units
-    from course_content_organization.render import _ordered_sections
-    from course_content_organization.templates import TemplateSet
+    from course_press_harness.knowledge import load_units
+    from course_press_harness.render import _ordered_sections
+    from course_press_harness.templates import TemplateSet
 
     templates = TemplateSet.load(ws / "templates" / "learn" / "md")
     units = load_units(ws / ".study" / "knowledge" / "units")

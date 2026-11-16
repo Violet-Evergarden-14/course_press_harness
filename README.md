@@ -1,4 +1,4 @@
-# course_content_organization
+# course_press_harness
 
 把一门课的多种学习素材，整理成**一本可以脱离原始材料独立阅读的连续文档**。
 

@@ -6,9 +6,9 @@ from pathlib import Path
 
 import yaml
 
-from course_content_organization.cli import main
-from course_content_organization.ingest import adapter_for
-from course_content_organization.ingest.docx_adapter import DocxAdapter
+from course_press_harness.cli import main
+from course_press_harness.ingest import adapter_for
+from course_press_harness.ingest.docx_adapter import DocxAdapter
 
 
 def _ws(tmp_path: Path, docx_path: Path) -> Path:

@@ -3,7 +3,7 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "course-content-organization"
+name = "course-press-harness"
 version = "0.1.0"
 description = "Turn course materials into a self-contained study document"
 readme = "README.md"
@@ -21,7 +21,7 @@ audio = ["faster-whisper>=1.0"]
 dev = ["pytest>=8.0"]
 
 [project.scripts]
-study = "course_content_organization.cli:main"
+study = "course_press_harness.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

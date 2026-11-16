@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from course_content_organization.ingest.pdf_adapter import PdfAdapter
+from course_press_harness.ingest.pdf_adapter import PdfAdapter
 
 
 def _line(top: float, x0: float, x1: float, text: str, size: float = 10.5):
