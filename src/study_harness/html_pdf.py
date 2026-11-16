@@ -22,6 +22,7 @@ from pathlib import Path
 from typing import Any
 
 from .knowledge import Unit
+from .mdblocks import Block, Box, Code, Equation, Items, Paragraph, Table, parse_blocks
 from .render import display_title, number_units
 from .templates import TemplateSet
 
@@ -264,74 +265,40 @@ def inline(text: str, *, assets: Path | None = None, figures: dict | None = None
 
 def block(lines: list[str], *, assets: Path | None, figures: dict,
           numbers: dict[str, str]) -> str:
-    out: list[str] = []
-    i = 0
-    while i < len(lines):
-        raw = lines[i]
-        line = raw.strip()
-        if not line:
-            i += 1
-            continue
-        opener = BOX_OPEN_RE.match(line)
-        if opener:
-            kind, title = opener.group(1), opener.group(2).strip()
-            inner: list[str] = []
-            i += 1
-            while i < len(lines) and lines[i].strip() != ":::":
-                inner.append(lines[i])
-                i += 1
-            i += 1
-            cls = "box warn" if kind == "warn" else "box"
-            out.append(f"<div class='{cls}'><div class='head'>{esc(title)}</div>"
-                       f"<div class='body'>{block(inner, assets=assets, figures=figures, numbers=numbers)}</div></div>")
-            continue
-        if line.startswith("```"):
-            i += 1
-            code: list[str] = []
-            while i < len(lines) and not lines[i].strip().startswith("```"):
-                code.append(lines[i])
-                i += 1
-            i += 1
-            out.append("<pre>" + esc("\n".join(code)) + "</pre>")
-            continue
-        if line.startswith("|"):
-            rows = []
-            while i < len(lines) and lines[i].strip().startswith("|"):
-                cells = [c.strip() for c in lines[i].strip().strip("|").split("|")]
-                if not set("".join(cells)) <= set("-: "):
-                    rows.append(cells)
-                i += 1
-            if len(rows) >= 2:
-                head = "".join(f"<th>{inline(c, assets=assets, figures=figures, numbers=numbers)}</th>"
-                               for c in rows[0])
-                body = "".join(
-                    "<tr>" + "".join(f"<td>{inline(c, assets=assets, figures=figures, numbers=numbers)}</td>"
-                                     for c in row) + "</tr>"
-                    for row in rows[1:])
-                cls = " class='three'" if len(rows[0]) == 3 else ""
-                out.append(f"<table{cls}><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table>")
-            continue
-        if BULLET_RE.match(line) or NUM_ITEM_RE.match(line):
-            ordered = bool(NUM_ITEM_RE.match(line))
-            items: list[str] = []
-            pattern = NUM_ITEM_RE if ordered else BULLET_RE
-            while i < len(lines) and pattern.match(lines[i].strip()):
-                items.append(pattern.match(lines[i].strip()).group(1))
-                i += 1
-            tag = "ol" if ordered else "ul"
-            lis = "".join(f"<li>{inline(x, assets=assets, figures=figures, numbers=numbers)}</li>"
-                          for x in items)
-            out.append(f"<{tag}>{lis}</{tag}>")
-            continue
-        m = EQUATION_RE.match(line)
-        if m:
-            out.append("<p class='math' style='text-align:center;text-indent:0'>"
-                       + esc(m.group(1).strip()) + "</p>")
-            i += 1
-            continue
-        out.append(f"<p>{inline(line, assets=assets, figures=figures, numbers=numbers)}</p>")
-        i += 1
-    return "\n".join(out)
+    """Serialise neutral blocks (see mdblocks) as HTML."""
+    ctx = {"assets": assets, "figures": figures, "numbers": numbers}
+    return "\n".join(_html_block(b, ctx) for b in parse_blocks(lines))
+
+
+def _html_block(b, ctx: dict) -> str:
+    if isinstance(b, Box):
+        cls = "box warn" if b.kind == "warn" else "box"
+        inner = "\n".join(_html_block(c, ctx) for c in b.children)
+        return (f"<div class='{cls}'><div class='head'>{esc(b.title)}</div>"
+                f"<div class='body'>{inner}</div></div>")
+
+    if isinstance(b, Code):
+        return "<pre>" + esc(b.text) + "</pre>"
+
+    if isinstance(b, Table):
+        head = "".join(f"<th>{inline(c, **ctx)}</th>" for c in b.rows[0])
+        body = "".join(
+            "<tr>" + "".join(f"<td>{inline(c, **ctx)}</td>" for c in row) + "</tr>"
+            for row in b.rows[1:])
+        cls = " class='three'" if len(b.rows[0]) == 3 else ""
+        return f"<table{cls}><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table>"
+
+    if isinstance(b, Items):
+        tag = "ol" if b.ordered else "ul"
+        lis = "".join(f"<li>{inline(x, **ctx)}</li>" for x in b.items)
+        return f"<{tag}>{lis}</{tag}>"
+
+    if isinstance(b, Equation):
+        return "<p class='math' style='text-align:center;text-indent:0'>" + esc(b.tex) + "</p>"
+
+    return f"<p>{inline(b.text, **ctx)}</p>"
+
+
 
 
 def build_html(units: list[Unit], outline: dict[str, Any], *, title: str,

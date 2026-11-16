@@ -33,21 +33,6 @@ def _min_block(unit: Unit) -> int:
     return 0
 
 
-@dataclass
-class Section:
-    title: str
-    units: list[str]
-
-
-@dataclass
-class Part:
-    kind: str
-    title: str
-    no: int | None = None
-    label: str | None = None
-    sections: list[Section] = field(default_factory=list)
-
-
 def assign_lecture(unit: Unit, src_to_lecture: dict[str, int], default_lecture: int = 1) -> int:
     counts: dict[int, int] = {}
     for e in unit.evidence:

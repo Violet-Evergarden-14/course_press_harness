@@ -238,8 +238,3 @@ def to_pptx(items: list[DocItem], path: Path, *, title: str,
     return path
 
 
-EXPORTERS = {
-    "txt": "text",
-    "docx": "docx",
-    "pptx": "pptx",
-}

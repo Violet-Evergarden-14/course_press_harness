@@ -267,14 +267,6 @@ def _appendices(units: list[Unit], outline: dict[str, Any], numbers: dict[str, s
     return out
 
 
-def _insert_toc(text: str, toc: str) -> str:  # pragma: no cover - kept for API stability
-    """Deprecated: assembly now places the TOC explicitly."""
-    lines = text.splitlines()
-    if lines and lines[0].startswith("# "):
-        return "\n".join([lines[0], "", toc.rstrip(), "", *lines[1:]]).rstrip() + "\n"
-    return toc + "\n" + text
-
-
 def _apply_notes(unit: Unit, section: str, lines: list[str],
                  notes: list[dict[str, Any]], profile: str) -> list[str]:
     """Overlay student notes: correction replaces a section, emphasis appends a marker."""

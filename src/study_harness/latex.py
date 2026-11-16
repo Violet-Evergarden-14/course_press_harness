@@ -18,6 +18,7 @@ from pathlib import Path
 from typing import Any
 
 from .knowledge import Unit
+from .mdblocks import Block, Box, Code, Equation, Items, Paragraph, Table, parse_blocks
 from .render import display_title, number_units
 from .templates import TemplateSet
 
@@ -326,131 +327,67 @@ def _unit_body(unit: Unit, profile: str, notes: list[dict[str, Any]],
         if not BOX_OPEN_RE.match(first):
             out.append(r"\unitsec{" + escape_tex(name) + "}")
         out += _render_blocks(body, assets_dir, figures)
-        if name == "表格":
-            out += _tables(unit)
         out.append("")
     return out
 
 
 def _render_blocks(body: list[str], assets_dir: Path | None,
                    figures: dict[str, Any]) -> list[str]:
-    """Turn composer markdown into LaTeX: ::: boxes, bullet lists, pipe tables, math."""
+    """Serialise neutral blocks (see mdblocks) as LaTeX."""
     out: list[str] = []
-    table: list[str] = []
-    bullets: list[str] = []
-    numbers: list[str] = []
-    box: tuple[str, str, list[str]] | None = None
-
-    def flush_table() -> None:
-        nonlocal table
-        if table:
-            out.extend(_md_table(table))
-            table = []
-
-    def flush_bullets() -> None:
-        nonlocal bullets
-        if bullets:
-            out.append(r"\begin{itemize}")
-            for item in bullets:
-                out.append(r"  \item " + _inline_line(item, assets_dir, figures))
-            out.append(r"\end{itemize}")
-            bullets = []
-
-    def flush_numbers() -> None:
-        nonlocal numbers
-        if numbers:
-            out.append(r"\begin{enumerate}")
-            for item in numbers:
-                out.append(r"  \item " + _inline_line(item, assets_dir, figures))
-            out.append(r"\end{enumerate}")
-            numbers = []
-
-    def emit_line(line: str) -> None:
-        m = EQUATION_RE.match(line)
-        if m:
-            flush_numbers()
-            out.extend([r"\begin{equation*}", m.group(1).strip(), r"\end{equation*}"])
-            return
-        if line.startswith("|"):
-            flush_bullets()
-            flush_numbers()
-            table.append(line)
-            return
-        flush_table()
-        bm = BULLET_RE.match(line)
-        if bm:
-            flush_numbers()
-            bullets.append(bm.group(1).strip())
-            return
-        nm = NUM_ITEM_RE.match(line)
-        if nm:
-            flush_bullets()
-            numbers.append(nm.group(1).strip())
-            return
-        flush_bullets()
-        flush_numbers()
-        # one source line = one paragraph: without an explicit break, LaTeX joins
-        # consecutive lines and every 步骤/证明 step collapses into one blob
-        out.append(_inline_line(line, assets_dir, figures))
-        out.append("")
-
-    code: list[str] | None = None
-    for raw in body:
-        line = raw.strip()
-        # a fenced block belongs to whatever it sits in: while a box is open, the fence
-        # must be collected as box content, not consume the box's closing marker
-        if box is None:
-            if code is not None:
-                if line.startswith("```"):
-                    flush_bullets(); flush_numbers(); flush_table()
-                    out.extend([r"\begin{lstlisting}"] + code + [r"\end{lstlisting}"])
-                    code = None
-                else:
-                    code.append(raw)  # keep indentation: this is code, not prose
-                continue
-            if line.startswith("```"):
-                flush_bullets(); flush_numbers(); flush_table()
-                code = []
-                continue
-        if not line:
-            continue
-        if box is not None:
-            if line == ":::":
-                kind, title, inner = box
-                flush_bullets()
-                flush_numbers()
-                flush_table()
-                env = "nbox" if kind == "note" else "wbox"
-                out.append(r"\begin{%s}{%s}" % (env, escape_tex(title)))
-                out.extend(_render_blocks(inner, assets_dir, figures))
-                out.append(r"\end{%s}" % env)
-                box = None
-            else:
-                box[2].append(line)
-            continue
-        opener = BOX_OPEN_RE.match(line)
-        if opener:
-            flush_bullets()
-            flush_numbers()
-            flush_table()
-            box = (opener.group(1), opener.group(2).strip(), [])
-            continue
-        emit_line(line)
-
-    if box is not None:            # unclosed box: emit as a note rather than dropping it
-        kind, title, inner = box
-        env = "nbox" if kind == "note" else "wbox"
-        flush_bullets()
-        flush_numbers()
-        flush_table()
-        out.append(r"\begin{%s}{%s}" % (env, escape_tex(title)))
-        out.extend(_render_blocks(inner, assets_dir, figures))
-        out.append(r"\end{%s}" % env)
-
-    flush_bullets()
-    flush_numbers()
-    flush_table()
+    for blk in parse_blocks(body):
+        out.extend(_latex_block(blk, assets_dir, figures))
     return out
+
+
+def _latex_block(blk: Block, assets_dir: Path | None, figures: dict[str, Any]) -> list[str]:
+    if isinstance(blk, Box):
+        env = "nbox" if blk.kind == "note" else "wbox"
+        inner: list[str] = [r"\begin{%s}{%s}" % (env, escape_tex(blk.title))]
+        for child in blk.children:
+            inner.extend(_latex_block(child, assets_dir, figures))
+        inner.append(r"\end{%s}" % env)
+        return inner
+
+    if isinstance(blk, Code):
+        return [r"\begin{lstlisting}"] + blk.text.splitlines() + [r"\end{lstlisting}"]
+
+    if isinstance(blk, Table):
+        spec = _table_spec(len(blk.rows[0]))
+        lines = [r"\begin{tabularx}{\linewidth}{" + spec + "}", r"\toprule",
+                 r"\thead{" + _cells(blk.rows[0]) + r"} \\", r"\midrule"]
+        for row in blk.rows[1:]:
+            lines.append(_cells(row) + r" \\")
+        lines += [r"\bottomrule", r"\end{tabularx}"]
+        return [r"\begin{center}\small", *lines, r"\end{center}"]
+
+    if isinstance(blk, Items):
+        env = "enumerate" if blk.ordered else "itemize"
+        lines = [r"\begin{%s}" % env]
+        for item in blk.items:
+            lines.append(r"  \item " + _inline_line(item, assets_dir, figures))
+        lines.append(r"\end{%s}" % env)
+        return lines
+
+    if isinstance(blk, Equation):
+        return [r"\begin{equation*}", blk.tex, r"\end{equation*}"]
+
+    # one source line = one paragraph: without an explicit break LaTeX joins the
+    # consecutive lines and every proof step collapses into one blob
+    return [_inline_line(blk.text, assets_dir, figures), ""]
+
+
+def _table_spec(cols: int) -> str:
+    """First column natural width, the rest share what is left."""
+    if cols == 3:
+        return r"l >{\hsize=0.72\hsize}X >{\hsize=1.28\hsize}X"
+    if cols > 1:
+        return "l" + "X" * (cols - 1)
+    return "l"
+
+
+def _cells(row: list[str]) -> str:
+    return " & ".join(markers_to_tex(escape_tex(emph_to_markers(c))) for c in row)
 
 
 def _inline_line(line: str, assets_dir: Path | None, figures: dict[str, Any]) -> str:
@@ -496,55 +433,6 @@ def escape_tex_outside_refs(line: str, repl) -> str:
         last = m.end()
     pieces.append(escape_tex(line[last:]))
     return "".join(pieces)
-
-
-def _md_table(lines: list[str]) -> list[str]:
-    """Render a markdown pipe table (written by the composer) as a LaTeX tabular."""
-    rows: list[list[str]] = []
-    for raw in lines:
-        cells = [c.strip() for c in raw.strip().strip("|").split("|")]
-        if cells and not set("".join(cells)) <= set("-: "):
-            rows.append(cells)
-    if len(rows) < 2:
-        return []
-    cols = max(len(r) for r in rows)
-    # `l` columns never wrap: long cells overflow and the table reads as scrambled.
-    # First column keeps its natural width, the rest share what is left.
-    if cols == 3:
-        spec = r"l >{\hsize=0.72\hsize}X >{\hsize=1.28\hsize}X"
-    elif cols > 1:
-        spec = "l" + "X" * (cols - 1)
-    else:
-        spec = "l"
-    out = [r"\begin{center}\small\begin{tabularx}{\linewidth}{" + spec + "}",
-           r"\toprule"]
-    # shaded sans-serif header, no vertical rules — as in the reference document
-    out.append(r"\thead{" + " & ".join(md_inline_to_tex(escape_tex(c)) for c in rows[0]) + r"} \\")
-    out.append(r"\midrule")
-    for row in rows[1:]:
-        out.append(" & ".join(markers_to_tex(escape_tex(emph_to_markers(c))) for c in row) + r" \\")
-    out += [r"\bottomrule", r"\end{tabularx}\end{center}"]
-    return out
-
-
-def _tables(unit: Unit) -> list[str]:
-    out: list[str] = []
-    for raw in unit.sections.get("表格") or []:
-        rows = [r.strip().strip("|").split("|") for r in raw.splitlines() if r.strip().startswith("|")]
-        rows = [[c.strip() for c in row] for row in rows if not set("".join(row)) <= set("- ")]
-        if len(rows) < 2:
-            continue
-        cols = max(len(r) for r in rows)
-        spec = "l" * cols
-        out.append(r"\begin{center}\begin{tabular}{" + spec + "}")
-        out.append(r"\toprule")
-        out.append(" & ".join(escape_tex(c) for c in rows[0]) + r" \\")
-        out.append(r"\midrule")
-        for row in rows[1:]:
-            out.append(" & ".join(escape_tex(c) for c in row) + r" \\")
-        out.append(r"\bottomrule")
-        out.append(r"\end{tabular}\end{center}")
-    return out
 
 
 def _appendices(units: list[Unit], outline: dict[str, Any], numbers: dict[str, str],
