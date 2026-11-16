@@ -24,7 +24,7 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import unquote
 
-from . import agent, provider
+from . import agent, loop, provider
 
 WEB_DIR = Path(__file__).resolve().parent / "web"
 
@@ -243,8 +243,19 @@ class Handler(BaseHTTPRequestHandler):
             STATE["running"] = True
             publish("开始运行")
             try:
-                result = agent.auto_run(ws, opts, cfg, log=publish)
-                publish("完成" if result.get("ok") else f"中止：{result}")
+                if cfg.missing_key():
+                    publish(f"未配置 {cfg.missing_key()}：先用确定性草稿出书")
+                    agent.auto_run(ws, opts, cfg, log=publish)
+                else:
+                    instruction = (
+                        f"把工作区里的素材整理成书并产出 {', '.join(opts.formats)}。"
+                        f"视图用 {opts.profile}。"
+                        + (f"写作要求：{opts.style}。" if opts.style else "")
+                        + f"本轮最多合成 {opts.max_units} 个知识点。"
+                        "交付前先自查。")
+                    outcome = loop.run(ws, instruction, cfg,
+                                       max_steps=24, gap_budget=opts.max_units, log=publish)
+                    publish(outcome.final or "完成")
             except Exception as exc:  # noqa: BLE001
                 publish(f"出错：{exc}")
             finally:
@@ -262,15 +273,19 @@ class Handler(BaseHTTPRequestHandler):
         if not message:
             return _json(self, {"error": "消息为空"}, 400)
 
+        cfg = provider_cfg()
+        if cfg.missing_key():
+            return _json(self, {"reply": f"还没有配置模型：{cfg.missing_key()}。"
+                                         f"先在左上角填写 API key。"}, 400)
         try:
-            result = agent.chat_turn(ws, message, STATE["history"], provider_cfg(), log=publish)
+            outcome = loop.run(ws, message, cfg, history=STATE["history"], log=publish)
         except Exception as exc:  # noqa: BLE001
             return _json(self, {"reply": f"出错：{exc}"}, 500)
 
         STATE["history"].append({"role": "user", "content": message})
-        STATE["history"].append({"role": "assistant", "content": result.get("reply", "")})
-        result["state"] = agent.summarize(ws)
-        return _json(self, result)
+        STATE["history"].append({"role": "assistant", "content": outcome.final})
+        return _json(self, {"reply": outcome.final, "files": outcome.files,
+                            "state": agent.summarize(ws)})
 
 
 def _silent():

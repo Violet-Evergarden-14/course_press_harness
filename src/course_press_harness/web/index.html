@@ -38,6 +38,10 @@
   .msg b { color:var(--navy); }
   .msg.user b { color:var(--green); }
   .hint { color:#7A8A99; font-size:12px; margin-top:6px; }
+  .choices { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+  .chip { border:1px solid var(--line); background:#F7F9FB; color:#33475B; border-radius:12px;
+          padding:2px 10px; font-size:12px; cursor:pointer; }
+  .chip:hover { border-color:var(--navy); color:var(--navy); }
 </style>
 </head>
 <body>
@@ -64,9 +68,8 @@
         <button class="ghost" style="float:right;padding:2px 8px;font-size:12px"
                 onclick="listModels()">获取可用模型</button>
       </label>
-      <input id="modelInput" type="text" list="modelList"
-             placeholder="点右上角获取，或直接填模型名">
-      <datalist id="modelList"></datalist>
+      <input id="modelInput" type="text" placeholder="点右上角获取，或直接填模型名">
+      <div id="modelChoices" class="choices"></div>
 
       <label>端点（仅 OpenAI 兼容时需要）</label>
       <input id="baseUrl" type="text" placeholder="https://api.deepseek.com/v1 或 http://localhost:8000/v1">
@@ -203,15 +206,18 @@ async function listModels() {
     const data = await api("/api/settings", { method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ action: "models" }) });
-    const list = $("modelList");
-    list.innerHTML = "";
+    const box = $("modelChoices");
+    box.innerHTML = "";
     for (const id of data.models) {
-      const opt = document.createElement("option");
-      opt.value = id;
-      list.appendChild(opt);
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "chip";
+      btn.textContent = id;
+      btn.onclick = () => { $("modelInput").value = id; };
+      box.appendChild(btn);
     }
     $("settingsHint").textContent = data.models.length
-      ? `共 ${data.models.length} 个模型，点输入框可选：` + data.models.slice(0, 6).join("、")
+      ? `共 ${data.models.length} 个模型，点下面的标签填入`
       : "服务端没有返回模型列表（可手动填写模型名）";
   } catch (e) {
     $("settingsHint").textContent = "查询失败：" + e.message;

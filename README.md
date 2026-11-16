@@ -213,8 +213,32 @@ study serve --workspace my-course   # 打开 http://127.0.0.1:8765
 | 进度 | 实时日志（SSE），完成后出现下载链接 |
 | 对话 | 直接说人话：「换成复习版，输出 PDF 和 Word」「这一讲太简略，重写详细点」 |
 
-对话不是摆设：模型会从状态里读当前工作区，再决定**执行哪个动作**——直接生成、
-先补写更多知识点、还是回答你的问题。它输出结构化指令，由服务端执行真正的工具调用。
+对话背后是**工具循环**，不是一次性问答：
+
+```
+你说：这一讲太碎，先补 20 个知识点再出 PDF
+模型 → status            读工作区现状
+模型 → prepare(limit=20) 生成写作任务
+模型 → fill(limit=20)    调用模型逐条写作
+模型 → apply             并入知识点
+模型 → build → gate_report   自查：门禁有没有问题
+模型 → inspect_unit(...)     有问题就把正文读回来判断
+模型 → rewrite(unit, "把条目改写成连贯段落")   按意见重写
+模型 → render(pdf)       产出成品
+模型 → finish            汇报做了哪些、还差什么
+```
+
+模型自己决定顺序与参数；每一步的结果都会回喂给它，由它决定下一步。
+可用工具：`status` `list_units` `inspect_unit` `gate_report` `ingest` `build`
+`prepare` `fill` `apply` `rewrite` `render` `finish`。
+
+三条硬约束：
+
+- **可观察**：每次调用与结果写进 `.study/logs/agent-*.jsonl`，出问题能回放
+- **有预算**：工具调用次数与缺口数量都有上限，用完必须汇报（默认 60 个知识点/轮）
+- **要自查**：系统提示要求交付前先 `build` + `gate_report`，必要时读回正文再 `rewrite`
+
+`--dry-run` 看提示词、`.study/logs/` 看模型到底做了什么。
 
 ### 它内部做了什么
 
