@@ -1,0 +1,26 @@
+{
+  "id": "img-s03-029-1",
+  "kind": "image_semantics",
+  "unit": "sec-3-2",
+  "asset": "assets/00a8819b.png",
+  "loc": {
+    "slide": 29,
+    "shape": 5
+  },
+  "question": "这张图里承载了哪些正文没有写出的信息？若图中有文字，先完整转写；若图表达结构（节点、边、层级），给出节点集合与关系；若图表达趋势或数值，给出关键点。无法判断时回答 unknown。",
+  "answer_format": {
+    "text": "str  # 图中文字，逐字转写",
+    "relations": "[[源, 目标], ...]  # 可选，结构图填写",
+    "summary": "str  # 一句话说明这张图在讲什么"
+  },
+  "context": {
+    "nearby_text": [
+      "遇到左括号一律入栈",
+      "遇到）一律出栈计算直到遇到（或者#",
+      "原则上不出现",
+      "表3.1"
+    ],
+    "unit_hint": "sec-3-2"
+  },
+  "input_hash": "fb2486dd1b8e9c020225d60f527f2e69a4254aea48dec92350368363f57081f7"
+}

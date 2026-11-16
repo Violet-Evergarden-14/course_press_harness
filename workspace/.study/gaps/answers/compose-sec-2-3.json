@@ -1,0 +1,81 @@
+{
+  "title": "链式存储的线性表",
+  "sections": {
+    "概念": [
+      "链式存储结构用一组任意的存储单元存放线性表的数据元素，这些存储单元可以连续，也可以不连续。",
+      "每个结点由两部分信息组成：存放数据元素信息的数据域 `data`，以及存放直接后继存储位置信息的指针域（指针或链）。",
+      "头指针 `Head` 指向链表中的第一个结点；空指针记为 0，也写作 `NULL` 或 `∧`。",
+      "通常在第一个结点之前附加一个头结点，用来记录线性表的某些性质信息（如长度）。有了头结点，头指针指向头结点，`L->next == 0` 即为空表。",
+      "单链表的存储结构定义：\n```c\ntypedef struct LNode {\n    ElemType data;\n    struct LNode *next;\n} LNode, *LinkList;\n```"
+    ],
+    "为什么需要": [
+      "与顺序存储相比，链式存储中数据元素的插入、删除相对方便，不必移动元素。",
+      "代价是：不可随机存取表中任意数据元素；也不可直接获取线性表的长度。",
+      "两种存储结构要放在同一组运算上比较：在指定位置插入元素、返回第 i 个元素、删除指定元素、获取列表长度、查找元素、找前驱、找后继。"
+    ],
+    "怎么用": [
+      "取第 i 个元素：从头结点后第一个结点出发，`p = L->next; j = 1;`，边走边计数，`while ( p && j < i ) { p = p->next; ++j; }`，循环结束若 `!p || j > i` 说明 i 小于 1 或越界，返回 ERROR，否则 `e = p->data`。时间为 O(n)。",
+      "插入：先找到第 i-1 个结点，再用 `s = (LNode *) malloc ( sizeof (LNode) )` 申请新结点并填入 `s->data = e`，最后改两条指针。",
+      "改指针的次序不能颠倒：\n```c\ns->next = p->next;  // 先让新结点接住原后继\np->next = s;        // 再让前驱指向新结点\n```\n反过来写，`s->next` 取到的已是 s 本身，链就断了。插入时间为 O(n)，耗时全在找第 i-1 个结点上。",
+      "删除：同样先找第 i-1 个结点，判断 `!p->next || j > i - 1` 则报错；随后 `q = p->next; p->next = q->next; e = q->data; free(q);`。时间 O(n)。注意定位循环的条件是 `p->next` 而非 `p`。",
+      "动态变量需要动态分配内存，删除结点后必须 `free` 归还。任何时刻，每个内存单元都要有指针牵住，否则会出现内存泄露或者非法访问。",
+      "建表（头插法）：先 `L = (LinkList) malloc ( sizeof (LNode) ); L->next = NULL;` 建立头结点，再循环 n 次，每读入一个元素就插在表头：\n```c\np = (LNode *) malloc ( sizeof (LNode) );\nscanf ( &p->data );\np->next = L->next;\nL->next = p;\n```\n循环写成 `for ( i = n; i > 0; --i )`，得到的是按输入逆序排列的链表，总时间 O(n)。",
+      "合并两个有序单链表：令 `pa = La->next; pb = Lb->next;` 分别指向第一个结点，并令 `Lc = pc = La`，让 Lc 借用 La 的头结点、pc 指向 Lc 链尾；在 `while ( pa && pb )` 中比较 `pa->data` 与 `pb->data`，小的那个结点接到 pc 之后并把 pc 和相应指针后移；循环结束用 `pc->next = pa ? pa : pb;` 一次接上剩余部分，最后 `free (Lb)`。合并过程不申请新结点，直接改链。",
+      "两个线性表求并（扩展 La，把 Lb 中不在 La 里的元素插到 La 末尾）：依次取出 Lb 的元素，用 `LocateElem( La, e, equal )` 判断是否已在 La 中，不在则 `ListInsert( La, ++La_len, e )`。",
+      "两个有序线性表合并：i、j 分别指向 La、Lb 的当前元素，`while ( ( i <= La_len ) && ( j <= Lb_len ) )` 中把较小者插入 Lc，某一表取完后用两个 while 把另一表的剩余元素逐个插入。"
+    ],
+    "例子": [
+      "取第 3 个元素：表中依次为 Zhao、Qian、Sun，j 从 1 走到 3，p 停在 Sun 所在结点，`e = p->data = Sun`。",
+      "在第 3 个元素之前插入：j 只需走到 2（即 i-1），p 指向 Qian，新结点插在 Qian 与 Sun 之间。",
+      "删除第 3 个元素：j 停在 2（= 3 - 1），q 指向 Sun，`p->next = q->next` 后 Sun 脱链，`e = q->data = Sun`。",
+      "求并：La = (3, 13, 7, 9)、Lb = (5, 7, 10)，La_len = 4，Lb_len = 3。从 Lb 取 5，La 中没有，插入为第 5 个元素；取 7，在 La 中能找到，跳过；取 10，插入为第 6 个元素。",
+      "合并有序表：La = ( 3, 5, 8, 11 )，Lb = ( 2, 6, 8, 9, 11, 15, 20 )，合并得 Lc = ( 2, 3, 5, 6, 8, 8, 9, 11, 11, 15, 20 )。",
+      "另一组合并：La = ( 3, 5, 8 )，Lb = ( 2, 6, 8, 9, 15 )，合并得 Lc = ( 2, 3, 5, 6, 8, 8, 9, 15 )。",
+      "求并算法的时间为 O( ListLength(La) × ListLength(Lb) )，其前提是 GetElem() 和 ListInsert() 的执行时间与表长无关，而 LocateElem() 的执行时间与表长成正比。"
+    ],
+    "易错": [
+      "插入时把两条指针语句写反。必须先 `s->next = p->next`，再 `p->next = s`。",
+      "把删除写成 `p->next = p->next->next`。这样被删结点失去指针牵住，既取不出 `e`，也无法 `free`，导致内存泄露；并且没有判定 `p->next` 是否为空，会非法访问。",
+      "删除后忘记 `free(q)`：动态申请的内存不归还，同样造成内存泄露。调用删除操作之后，还要把取到的元素 `e` 交回调用者、把释放工作做完。",
+      "写插入或建表程序时只申请结点而不判定申请到的结点是否为空，就直接使用。",
+      "定位循环的判断对象容易混：取第 i 个元素用 `p && j < i`，删除定位前驱用 `p->next && j < i - 1`。"
+    ],
+    "自测": [
+      "在单链表中，如果在结点 p 之后插入一个新结点 s，其操作为（ ）。\nA. `s->next = p->next; p->next = s;`\nB. `p->next = s; s->next = p->next;`\nC. `s->next = p; p->next = s->next;`\nD. `p->next = s; s->next = p;`",
+      "求单链表中当前结点的后继和前驱的时间复杂度分别是（ ）。\nA. O(n) 和 O(1)\nB. O(1) 和 O(1)\nC. O(1) 和 O(n)\nD. O(n) 和 O(n)",
+      "在线性表的下列运算中，不改变数据元素之间结构关系的运算是（ ）。\nA. 插入\nB. 删除\nC. 排序\nD. 定位",
+      "链表不具有的特点是（ ）。\nA. 插入、删除不需要移动元素\nB. 可随机访问任一元素\nC. 不必事先估计存储空间\nD. 所需空间与线性长度成正比"
+    ]
+  },
+  "keep_images": [],
+  "redraw": [
+    {
+      "id": "singly-linked-node",
+      "format": "mermaid",
+      "description": "graph LR\n    H[\"Head（头指针）\"] --> A1[\"结点 a1：data | next\"]\n    A1 --> A2[\"结点 a2：data | next\"]\n    A2 --> A3[\"结点 a3：data | next\"]\n    A3 --> NULL[\"0（空指针）\"]",
+      "caption": "单链表的结点、头指针与空指针"
+    },
+    {
+      "id": "insert-pointer-order",
+      "format": "mermaid",
+      "description": "graph LR\n    S[\"新结点 s\"] -->|\"第 1 步 s->next = p->next\"| Q[\"a（p 的原后继）\"]\n    P[\"p\"] -->|\"第 2 步 p->next = s\"| S",
+      "caption": "在 p 之后插入 s 的两步指针操作"
+    },
+    {
+      "id": "merge-ordered-lists",
+      "format": "mermaid",
+      "description": "flowchart TD\n    A[\"pa = La->next，pb = Lb->next，Lc = pc = La\"] --> B{\"pa 与 pb 都非空？\"}\n    B -- 是 --> C{\"pa->data <= pb->data？\"}\n    C -- 是 --> D[\"pc->next = pa；pc = pa；pa = pa->next\"]\n    C -- 否 --> E[\"pc->next = pb；pc = pb；pb = pb->next\"]\n    D --> B\n    E --> B\n    B -- 否 --> F[\"pc->next = pa ? pa : pb\"]\n    F --> G[\"free(Lb)\"]",
+      "caption": "归并两个有序单链表的流程"
+    }
+  ],
+  "dropped": [
+    "原图的 8 张位图未保留，关键结构改用文本重画",
+    "图示上的零散标注字符（3、5、6、…、a1、a2、an、Li 等）",
+    "重复出现的引导语（“思想:”“算法结束！”“时间复杂度:”“这个程序有问题么？”等）",
+    "求并与有序合并两个算法的逐行代码复述，只保留思路、结论与例子",
+    "算法中示例表所用的姓名序列 Zhao、Qian、Sun 只用于说明指针走向，未展开为独立插图",
+    "自测题的答案（原文未给出，未补写）"
+  ],
+  "origin": "derived",
+  "by": "编写组"
+}

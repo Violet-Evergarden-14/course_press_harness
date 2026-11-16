@@ -111,7 +111,9 @@ def _run_cli(workspace: Path, *argv: str, log: Log = _noop) -> tuple[int, str]:
 # --------------------------------------------------------------------------
 
 GAP_SYSTEM = (
-    "你在为一份课程讲义补写内容。严格按 answer_format 输出一个 JSON 对象："
+    "你在为一份课程讲义补写内容。sections 里每个元素必须是一整段连贯论述，"
+    "不是要点条目：读起来要像教材的一节，而不是幻灯片的 bullet。"
+    "严格按 answer_format 输出一个 JSON 对象："
     "不得新增字段，不得省略必填字段，不写解释文字，不用代码围栏。"
     "不确定的内容宁可写 unknown，也不要编造。"
 )
@@ -149,7 +151,18 @@ def fill_gaps(workspace: Path, cfg: provider.ProviderConfig, *,
                 "role": "user",
                 "content": "完成任务并输出 JSON：\n\n" + json.dumps(payload, ensure_ascii=False, indent=2),
             }])
-            answer = provider.parse_json(raw)
+            try:
+                answer = provider.parse_json(raw)
+            except provider.ProviderError:
+                # 多半是输出被截断：要求压缩后重来一次，而不是直接判失败
+                log(f"↻ {gap['id']}：回答被截断，压缩后重试")
+                raw = provider.chat(cfg, system=GAP_SYSTEM, json_only=True, messages=[{
+                    "role": "user",
+                    "content": "上次输出被截断。请把每个小节压到一段、总长不超过 2500 字，"
+                               "只输出 JSON：\n\n"
+                               + json.dumps(payload, ensure_ascii=False, indent=2),
+                }])
+                answer = provider.parse_json(raw)
         except provider.ProviderError as exc:
             log(f"× {gap['id']}：{exc}")
             stats["failed"] += 1

@@ -315,13 +315,9 @@ def draft_units(
         if not groups:
             continue
 
-        numbered = sum(1 for _, sb in groups if _is_section_start(sb))
-        if numbered >= 2:
-            buckets = _bucket_by_heading(groups)
-        else:
-            # a deck whose headings are plain sentences ("摩尔定律", "内存泄露") has no
-            # numbering to read structure from; cluster consecutive slides by title.
-            buckets = _cluster_by_title(groups)
+        # 有编号标题就按编号分节，但**每个节内再按标题切段**：一节课件往往只有五六个
+        # 编号小节，若不再细分，一个知识点会被迫装下几十张幻灯片，模型只能压成要点。
+        buckets = _cluster_by_title(groups)
 
         for title, slides in buckets:
             unit = _build_unit(src, title, slides, src_to_lecture, used_ids)
@@ -349,25 +345,38 @@ def _bucket_by_heading(groups: list[tuple[int, list[dict[str, Any]]]]) -> list[t
 
 
 def _cluster_by_title(groups: list[tuple[int, list[dict[str, Any]]]]) -> list[tuple[str | None, list]]:
-    """One unit per title run; a one-slide run glues onto the previous unit.
+    """一个知识点 = 一段连续标题相同的幻灯片；单页段落并入前一个。
 
-    Single-slide units are almost always a stray large-font label, and a lecture made
-    of 80 one-slide units is not a book.
+    标题变了就切：编号标题（2.1）与句子标题（"线性表可以表示为…"）一视同仁。
+    不切的话，一整章会被压进一个知识点，写作层只能把内容压成要点列表。
     """
     buckets: list[tuple[str | None, list]] = []
     for slide, sb in groups:
         title = _slide_title(sb)
+        numbered = _is_section_start(sb)
         if not buckets:
             buckets.append((title, [(slide, sb)]))
             continue
         cur_title, cur_slides = buckets[-1]
-        if title and title != cur_title and len(cur_slides) >= 2:
+        boundary = bool(title) and title != cur_title and (
+            numbered is not None or len(cur_slides) >= 2)
+        if boundary:
             buckets.append((title, [(slide, sb)]))
         else:
             cur_slides.append((slide, sb))
             if title and not cur_title:
                 buckets[-1] = (title, cur_slides)
-    return buckets
+
+    # 只有一页且不是编号小节的段落，并进前一个；编号小节即使只有一页也保留，
+    # 否则一整节的边界会被吞掉（6.2 只有一页时曾整节消失）
+    merged: list[tuple[str | None, list]] = []
+    for title, slides in buckets:
+        keep = title and (HEADING_RE.match(title) or CHAPTER_RE.match(title))
+        if merged and len(slides) < 2 and not keep:
+            merged[-1][1].extend(slides)
+        else:
+            merged.append((title, slides))
+    return merged
 
 
 def _build_unit(src: str, title: str | None, slides, src_to_lecture, used_ids) -> Unit | None:

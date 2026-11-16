@@ -341,8 +341,10 @@ class PptxAdapter(Adapter):
                     continue
                 if CHAPTER_PATTERN.match(text) or text.endswith(("。", "，", "；", "：", ";", ",")):
                     continue
-                if CJK_RE.search(text) is None and len(text) <= 8:
-                    continue  # identifier / code fragment, not a heading
+                if CJK_RE.search(text) is None:
+                    continue  # 纯英文/符号片段，多半是代码或界面元素
+                if any(tok in text for tok in ("(", ")", "=", "//", "/*", ";", "->", "（）")):
+                    continue  # 代码行不是标题
                 if LIST_ITEM_RE.match(text):
                     continue  # "1. 依次取出 ..." is a list item, not a heading
                 scored.append((float((b.extra or {}).get("font") or 0),

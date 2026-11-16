@@ -1,0 +1,25 @@
+{
+  "id": "img-s03-023-5",
+  "kind": "image_semantics",
+  "unit": "sec-3-2",
+  "asset": "assets/4d7d781b.png",
+  "loc": {
+    "slide": 23,
+    "shape": 4098
+  },
+  "question": "这张图里承载了哪些正文没有写出的信息？若图中有文字，先完整转写；若图表达结构（节点、边、层级），给出节点集合与关系；若图表达趋势或数值，给出关键点。无法判断时回答 unknown。",
+  "answer_format": {
+    "text": "str  # 图中文字，逐字转写",
+    "relations": "[[源, 目标], ...]  # 可选，结构图填写",
+    "summary": "str  # 一句话说明这张图在讲什么"
+  },
+  "context": {
+    "nearby_text": [
+      "void conversion()//将十进制用栈转化为八进制{    SqStack S;       int N;    int e;    InitStack(S);    printf(\"输入N的值:\");    scanf(\"%d\",&N);    printf(\" 转换后的值:\");    while(N)    {        Push(S, N % 8);        N = N/8;    }    while(!StackEmpty(S))    {        Pop(S,e);        printf(\" %d\",e);    }}",
+      "一、数制转换",
+      "课后上机练习"
+    ],
+    "unit_hint": "sec-3-2"
+  },
+  "input_hash": "60714bfd6b3b6d864f14a95584d35b67452184d86a1601eb995d866e6c751999"
+}

@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "parts": [
+    {
+      "kind": "front_matter",
+      "title": "前言",
+      "sections": []
+    },
+    {
+      "kind": "lecture",
+      "no": 2,
+      "title": "第02章+线性表",
+      "sections": [
+        {
+          "title": "2.1 线性表的定义",
+          "units": [
+            "auto-57ca020a",
+            "sec-2-1"
+          ]
+        },
+        {
+          "title": "2.2 线性表的顺序表示和实现",
+          "units": [
+            "sec-2-2"
+          ]
+        },
+        {
+          "title": "2.3 线性表的链式表示和实现",
+          "units": [
+            "sec-2-3",
+            "sec-2-3-2"
+          ]
+        }
+      ]
+    },
+    {
+      "kind": "lecture",
+      "no": 3,
+      "title": "第03章+栈和队列",
+      "sections": [
+        {
+          "title": "第 1 页起",
+          "units": [
+            "auto-a45ea6d6",
+            "auto-69c0920b"
+          ]
+        },
+        {
+          "title": "3.2 栈的应用",
+          "units": [
+            "sec-3-2",
+            "sec-3-4"
+          ]
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "unit_lecture": {
+      "auto-57ca020a": 2,
+      "auto-69c0920b": 3,
+      "auto-a45ea6d6": 3,
+      "sec-2-1": 2,
+      "sec-2-2": 2,
+      "sec-2-3-2": 2,
+      "sec-2-3": 2,
+      "sec-3-2": 3,
+      "sec-3-4": 3
+    },
+    "orphans": [],
+    "unplaced": [],
+    "auto_hash": "687254d270d4076ad363c86dc4463c32b897e355527f88516d1621121fc461e2"
+  }
+}

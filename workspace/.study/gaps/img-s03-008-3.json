@@ -1,0 +1,23 @@
+{
+  "id": "img-s03-008-3",
+  "kind": "image_semantics",
+  "unit": "auto-69c0920b",
+  "asset": "assets/02fc628d.png",
+  "loc": {
+    "slide": 8,
+    "shape": 7
+  },
+  "question": "这张图里承载了哪些正文没有写出的信息？若图中有文字，先完整转写；若图表达结构（节点、边、层级），给出节点集合与关系；若图表达趋势或数值，给出关键点。无法判断时回答 unknown。",
+  "answer_format": {
+    "text": "str  # 图中文字，逐字转写",
+    "relations": "[[源, 目标], ...]  # 可选，结构图填写",
+    "summary": "str  # 一句话说明这张图在讲什么"
+  },
+  "context": {
+    "nearby_text": [
+      "卡塔兰数"
+    ],
+    "unit_hint": "auto-69c0920b"
+  },
+  "input_hash": "a7bb036b80e91b902edc6143be4528c340ab71c495b746ae2629d262b2aec461"
+}

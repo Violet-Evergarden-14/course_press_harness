@@ -1,0 +1,37 @@
+{
+  "inputs": {
+    "第02章+线性表.pptx": {
+      "sha256": "cfd9d46f25418db774e2c1021156322fc9a7077da8ad271e0156ab4a1649ac71",
+      "size": 1149258
+    },
+    "第03章+栈和队列.pptx": {
+      "sha256": "790c0812346c4fcd12b5bb70eba7cbba21989818efb5fbe9edfadcba59fade2e",
+      "size": 1703876
+    }
+  },
+  "modifications": [],
+  "pipeline_version": "0.1.0",
+  "schema_version": 1,
+  "stages": {
+    "gates": {
+      "key": "51802742d9ffa31fddf95ddecbb24e4da847a7c9d69ab3bda7cc35038a2080db",
+      "status": "done"
+    },
+    "ingest": {
+      "key": "51802742d9ffa31fddf95ddecbb24e4da847a7c9d69ab3bda7cc35038a2080db",
+      "status": "done",
+      "warnings": 4
+    },
+    "render": {
+      "key": "51802742d9ffa31fddf95ddecbb24e4da847a7c9d69ab3bda7cc35038a2080db",
+      "status": "done"
+    },
+    "units": {
+      "count": 9,
+      "key": "51802742d9ffa31fddf95ddecbb24e4da847a7c9d69ab3bda7cc35038a2080db",
+      "pending_gaps": 31,
+      "preserved": 0,
+      "status": "partial"
+    }
+  }
+}

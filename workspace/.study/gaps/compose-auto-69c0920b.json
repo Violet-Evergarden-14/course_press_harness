@@ -1,0 +1,268 @@
+{
+  "id": "compose-auto-69c0920b",
+  "kind": "compose_unit",
+  "unit": "auto-69c0920b",
+  "current_title": "第3章 栈和队列",
+  "style": "pdf排版要好看",
+  "style_example": "",
+  "hard_rules": [
+    "不许编造：原文没有的事实、例子、数字，一律不写。拿不准就删掉。",
+    "不许出现来源指称：不写「课件上」「第 X 页」「老师讲过」，全部用本书自己的口吻。",
+    "删掉不承载知识的内容：作者、单位、邮箱、网址、课程安排、致谢、软件操作步骤。",
+    "删掉重复：同一结论出现两次时，只保留讲得最清楚的那一次。",
+    "不要照抄原文条目顺序；按示例主体理解的顺序重排。",
+    "不要写死节号（「见 6.4 节」「6.6 讲过的」）：书里的节号会随增删变化，正确写法是 [[unit-id]] 或直接说「后面讲转换时」这种自然指代。",
+    "原文已经写清楚的定义直接沿用，把篇幅留给它没讲明白的地方。"
+  ],
+  "figure_rules": [
+    "只保留承载核心概念的图。装饰图、作者照片、软件截图一律不要。",
+    "保留原图时，必须能说出它在解释什么；说不出来就不要保留。",
+    "结构图、流程图、状态机、对比图优先重画为 mermaid 文本图，不要放位图原图。",
+    "重画时图中文字用中文术语，与正文一致，且不标注出处。"
+  ],
+  "input": {
+    "raw_sections": {
+      "定义": [
+        "栈和队列是两种重要的线性结构"
+      ],
+      "说明": [
+        "**出栈**",
+        "**栈的逻辑结构**",
+        "**还有其他情况吗？**",
+        "**给定n 个数顺序入栈，他们的出栈顺序有多少种？**",
+        "**InitStack( &S )：构造空栈**",
+        "**typedef struct {**",
+        "**栈不存在**",
+        "**初始**",
+        "**插入 A**",
+        "**Status InitStack (SqStack &S)**",
+        "**Status Push (SqStack &S, SElemType e)**",
+        "**Status Pop (SqStack &S, SElemType &e)**",
+        "**栈顶**",
+        "**入栈算法**",
+        "**顺序栈和链栈的比较**",
+        "栈和队列是操作受限的线性表",
+        "排队买票",
+        "汉诺塔",
+        "3.1 栈",
+        "3.1.1 栈的定义",
+        "栈是限定仅在表尾进行插入或删除操作的线性表。",
+        "通常，表头端称为栈底，表尾端称为栈顶。",
+        "a1为栈底元素",
+        "an为栈顶元素",
+        "按a1、a2…、an顺序进栈",
+        "按an…、 a2、a1顺序出栈",
+        "栈称为后进先出线性表(LIFO)",
+        "或先进后出（FILO）",
+        ". . .",
+        "例：有三个元素按a、b、c的次序依次进栈，且每个元素只允许进一次栈，则可能的出栈序列有多少种？",
+        "情况1：",
+        "出栈序列：c",
+        "出栈序列：c、b",
+        "出栈序列：c、b、a",
+        "情况1：",
+        "出栈序列：b",
+        "情况2：",
+        "出栈序列：b、c",
+        "出栈序列： b、 c、a",
+        "注意：栈只是对表插入和删除操作的位置进行了限制，并没有限定插入和删除操作进行的时间。",
+        "情况2：",
+        "卡塔兰数",
+        "基本操作包括:",
+        "StackEmpty ( S )：判断栈空",
+        "Push ( &S，e )：进栈",
+        "Pop ( &S，&e )：退栈/出栈",
+        "GetTop ( S，&e )：取栈顶元素（不退栈）",
+        "DestroyStack ( &S )：销毁栈",
+        "ClearStack ( &S )：清空栈",
+        "StackLength ( S )：栈长",
+        "StackTraverse ( S，visit( ) )：遍历",
+        "3.1.2 栈的表示和实现",
+        "1. 顺序栈",
+        "顺序栈 vs. 链式栈",
+        "base",
+        "top",
+        "栈底指针——base",
+        "栈顶指针——top",
+        "栈容量",
+        "SElemType * base ；",
+        "SElemType * top ；",
+        "int stacksize ；//当前可用量大小",
+        "} SqStack ；",
+        "base",
+        "top",
+        "栈中有三个元素",
+        "base",
+        "top",
+        "top = base",
+        "base==NULL",
+        "top在栈顶元素的下一个位置上",
+        "例，在栈中插入元素 A 和 B",
+        "base",
+        "top = top + 1",
+        "插入 A",
+        "插入 A",
+        "插入 A",
+        "插入 B",
+        "例，删除栈顶元素 B 和 A",
+        "删除 B",
+        "base",
+        "top",
+        "删除 A",
+        "e = B",
+        "e = A",
+        "插入 A",
+        "删除 C",
+        "ERROR",
+        "{// 构造一个空栈S",
+        "S.base=(ElemType*)malloc(STACK_INIT_SIZE*",
+        "sizeof(ElemType));",
+        "if (!S.base) exit (OVERFLOW); //存储分配失败",
+        "S.top = S.base;",
+        "S.stacksize = STACK_INIT_SIZE;",
+        "return OK;",
+        "if (S.top - S.base >= S.stacksize) {//栈满，追加存储空间",
+        "S.base = (ElemType *) realloc ( S.base,",
+        "(S.stacksize + STACKINCREMENT) *",
+        "*S.top++ = e; //入栈后修改栈顶指针",
+        "（当限定栈长时，栈满，此时入栈，则上溢（overflow)",
+        "S.top = S.base + S.stacksize;//该语句是否必要?",
+        "// 若栈不空，则删除S的栈顶元素，",
+        "// 用e返回其值，并返回OK；",
+        "// 否则返回ERROR",
+        "if (S.top == S.base) return ERROR;",
+        "e = *--S.top; //退e后修改栈顶",
+        "top=0,栈空，此时出栈，则下溢（underflow)",
+        "2. 链式栈",
+        "an-1",
+        "Top",
+        "typedef struct SNode {",
+        "SElemType data ；",
+        "struct SNode * next ；",
+        "} SNode ，* LinkStack ；",
+        "空表:",
+        "Top",
+        "为什么栈顶在头？",
+        "课后练习：实现",
+        "top",
+        "top",
+        "出栈算法",
+        "top",
+        "top",
+        "时间性能：相同，都是常数时间O(1)。",
+        "空间性能：",
+        "顺序栈：有元素个数的限制和空间浪费的问题。",
+        "链栈：没有栈满的问题，只有当内存没有可用空间时才会出现栈满，但是每个元素都需要一个指针域，从而产生了结构性开销。",
+        "总之，当栈的使用过程中元素个数变化较大时，用链栈是适宜的，反之，应该采用顺序栈。"
+      ],
+      "图示标注": [
+        "a1、a2、an、a、b、c、A、B、C、D、E、…、0、…...、x、p、q"
+      ],
+      "图示": [
+        "[[asset:ef1d8f06]]",
+        "[[asset:02fc628d]]",
+        "[[asset:7a8e15d3]]",
+        "[[asset:ae9d0548]]",
+        "[[asset:c49ba1d7]]"
+      ]
+    },
+    "images": [
+      "[[asset:ef1d8f06]]",
+      "[[asset:02fc628d]]",
+      "[[asset:7a8e15d3]]",
+      "[[asset:ae9d0548]]",
+      "[[asset:c49ba1d7]]"
+    ],
+    "evidence_locs": [
+      {
+        "slide": 2,
+        "shape": 30758
+      },
+      {
+        "slide": 2,
+        "shape": 30759
+      },
+      {
+        "slide": 2,
+        "shape": 30813
+      },
+      {
+        "slide": 2,
+        "shape": 30815
+      },
+      {
+        "slide": 2,
+        "shape": 30817
+      },
+      {
+        "slide": 2,
+        "shape": 30819
+      },
+      {
+        "slide": 2,
+        "shape": 30829
+      },
+      {
+        "slide": 2,
+        "shape": 30831
+      },
+      {
+        "slide": 3,
+        "shape": 36866
+      },
+      {
+        "slide": 3,
+        "shape": 36867
+      },
+      {
+        "slide": 3,
+        "shape": 36868
+      },
+      {
+        "slide": 3,
+        "shape": 36869
+      },
+      {
+        "slide": 3,
+        "shape": 36884
+      },
+      {
+        "slide": 3,
+        "shape": 36892
+      },
+      {
+        "slide": 3,
+        "shape": 36893
+      },
+      {
+        "slide": 3,
+        "shape": 36894
+      },
+      {
+        "slide": 3,
+        "shape": 36895
+      },
+      {
+        "slide": 3,
+        "shape": 36896
+      },
+      {
+        "slide": 3,
+        "shape": 36896
+      },
+      {
+        "slide": 3,
+        "shape": 36888
+      }
+    ]
+  },
+  "answer_format": {
+    "title": "str  # 面向示例主体的标题，去掉章节编号",
+    "sections": "{'概念': [str], '为什么需要': [str], '怎么用': [str], '例子': [str], '易错': [str]}  # 只写有内容的，小节名可自定",
+    "keep_images": "[str]  # 必须保留的原图 id",
+    "redraw": "[{id, format: mermaid|svg, description, caption}]",
+    "dropped": "[str]  # 删掉的原文要点，便于作者核对",
+    "origin": "derived | synthesized",
+    "by": "str"
+  }
+}

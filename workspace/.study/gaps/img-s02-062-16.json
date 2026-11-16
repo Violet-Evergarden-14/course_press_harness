@@ -1,0 +1,28 @@
+{
+  "id": "img-s02-062-16",
+  "kind": "image_semantics",
+  "unit": "sec-2-3",
+  "asset": "assets/cd87b76d.png",
+  "loc": {
+    "slide": 62,
+    "shape": 58370
+  },
+  "question": "这张图里承载了哪些正文没有写出的信息？若图中有文字，先完整转写；若图表达结构（节点、边、层级），给出节点集合与关系；若图表达趋势或数值，给出关键点。无法判断时回答 unknown。",
+  "answer_format": {
+    "text": "str  # 图中文字，逐字转写",
+    "relations": "[[源, 目标], ...]  # 可选，结构图填写",
+    "summary": "str  # 一句话说明这张图在讲什么"
+  },
+  "context": {
+    "nearby_text": [
+      "算法2.12   将两个有序单链表合并为一个有序单链表",
+      "pa = La->next;  pb = Lb->next; //分别指向第一个结点",
+      "pc->next = pa ? pa : pb; //处理剩余部分",
+      "while  ( pa && pb )  {",
+      "if  ( pa->data <= pb->data )   {",
+      "pc->next = pa; pc = pa; pa = pa->next;}"
+    ],
+    "unit_hint": "sec-2-3"
+  },
+  "input_hash": "ba35bcde7016ab7c2f0c94592ac8f697c37f50e4304a9d793aa1d34feb922a2f"
+}

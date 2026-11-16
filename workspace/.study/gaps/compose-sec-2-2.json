@@ -1,0 +1,274 @@
+{
+  "id": "compose-sec-2-2",
+  "kind": "compose_unit",
+  "unit": "sec-2-2",
+  "current_title": "2.2 线性表的顺序表示和实现",
+  "style": "pdf排版要好看",
+  "style_example": "",
+  "hard_rules": [
+    "不许编造：原文没有的事实、例子、数字，一律不写。拿不准就删掉。",
+    "不许出现来源指称：不写「课件上」「第 X 页」「老师讲过」，全部用本书自己的口吻。",
+    "删掉不承载知识的内容：作者、单位、邮箱、网址、课程安排、致谢、软件操作步骤。",
+    "删掉重复：同一结论出现两次时，只保留讲得最清楚的那一次。",
+    "不要照抄原文条目顺序；按示例主体理解的顺序重排。",
+    "不要写死节号（「见 6.4 节」「6.6 讲过的」）：书里的节号会随增删变化，正确写法是 [[unit-id]] 或直接说「后面讲转换时」这种自然指代。",
+    "原文已经写清楚的定义直接沿用，把篇幅留给它没讲明白的地方。"
+  ],
+  "figure_rules": [
+    "只保留承载核心概念的图。装饰图、作者照片、软件截图一律不要。",
+    "保留原图时，必须能说出它在解释什么；说不出来就不要保留。",
+    "结构图、流程图、状态机、对比图优先重画为 mermaid 文本图，不要放位图原图。",
+    "重画时图中文字用中文术语，与正文一致，且不标注出处。"
+  ],
+  "input": {
+    "raw_sections": {
+      "定义": [
+        "线性表的顺序表示指的是用一组地址连续的存储单元依次存储线性表的数据元素。"
+      ],
+      "说明": [
+        "**特点:**",
+        "**线性表顺序存储结构表示**",
+        "**这段代码，是否有Bug？**",
+        "**L.elem = (ElemType *)malloc**",
+        "**线性表的顺序存储结构的优缺点**",
+        "**算法2.4 在第 i 个数据元素之前插入一个新的元素**",
+        "*** (p+1) = * p; // 后移元素**",
+        "**// 当前空间已满，越界处理**",
+        "**插入25**",
+        "**算法时间复杂度:**",
+        "**则长度为 n 的线性表中插入一个元素所需移动元素次数的期望值为: Eis = ∑ pi (n – i + 1)**",
+        "**算法2.5 删除第 i 个数据元素**",
+        "**{ // 在顺序线性表L中删除第i个元素，并用e返回其值**",
+        "**删除25**",
+        "**则长度为 n 的线性表中删除一个元素所需移动元素次数的期望值为: Edl = ∑ qi (n – i)**",
+        "**比较**",
+        "**指针函数**",
+        "**函数指针**",
+        "**函数指针示例**",
+        "b+l",
+        "b+(i-1)l",
+        "b+(n-1)l",
+        "b+nl",
+        "存储地址",
+        "内存状态",
+        "设每个元素需占用 l 个存储单元",
+        "LOC(ai)表示元素ai的存储地址",
+        "则LOC(a1)是第一个数据元素a1的存储地址，也是整个线性表的起始地址",
+        "LOC(ai+1) = LOC(ai) + l",
+        "LOC(ai) = LOC(a1) + (i - 1)l",
+        "@dou：一定要会计算某个元素的存储地址！",
+        "以元素在计算机内的“物理位置相邻”来表示线性表中数据元素之间的“逻辑关系相邻”。",
+        "只要确定线性表的起始地址，线性表中的任意数据元素都可随意存取，故线性表的顺序存贮结构又称为随机存取存储结构。",
+        "例，数组数据类型",
+        "# define LIST_INIT_SIZE 100",
+        "# define LISTINCREMENT 10",
+        "// typedef int Elemtype;",
+        "typedef struct {",
+        "Elemtype *elem;",
+        "int length; // 表长，初始为 0",
+        "int listsize; // 表存储容量，元素个数",
+        "} SqList;",
+        "L.elem = (ElemType *)malloc(sizeof(ElemType) );",
+        "if ( !L.elem ) exit(OVERFLOW);",
+        "L.length = 0 ;",
+        "L.listsize = LIST_INIT_SIZE;",
+        "return OK;",
+        "Status InitList_Sq ( SqList &L )",
+        "( LIST_INIT_SIZE * sizeof(ElemType) );",
+        "可随机存取表中任意数据元素",
+        "优点:",
+        "直接可获取线性表的长度",
+        "例，L.elem[i-1]表示第 i 个数据元素",
+        "例，L.length表示线性表长度",
+        "缺点:",
+        "数据元素的插入、删除相对麻烦",
+        "思想:",
+        "1. 将第 n 到 i 个元素均向后移动一个位置。",
+        "2. 将新元素放置在第 i 个位置。",
+        "ai-1",
+        "例，在第 i 个元素前插入 b",
+        "ai-1",
+        "if ( i < 1 || i > L.length +1 ) return ERROR;",
+        "if ( L.length >= L.listsize ) // 当前空间已满，越界处理",
+        "q = & ( L.elem[i-1]);",
+        "for ( p = &L.elem[L.length-1]; p >= q; --p )",
+        "* q = e; // 插入新元素",
+        "++L.length;",
+        "Status ListInsert_Sq ( Sqlist &L, int i, ElemType e )",
+        "newbase = ( ElemType * ) realloc ( L.elem,",
+        "( L.listsize + LISTINCREMENT ) * sizeof(ElemType) );",
+        "if ( ! newbase ) exit(OVERFLOW);",
+        "L.listsize += LISTINCREMENT;",
+        "if ( L.length >= L.listsize )",
+        "L.elem = newbase;",
+        "realloc: 先判断当前的指针是否有足够的连续空间，如果有，扩大mem_address指向的地址，并且将mem_address返回，如果空间不够，先按照newsize指定的大小分配空间，将原有数据从头到尾拷贝到新分配的内存区域，而后释放原来mem_address所指内存区域（注意：原来指针是自动释放，不需要使用free），同时返回新分配的内存区域的首地址。即重新分配存储器块的地址。",
+        "例，在第4个元素之前插入元素25。",
+        "时间主要花在移动元素上，而移动元素的个数取决于插入元素位置。",
+        "i=1，需移动 n 个元素；",
+        "i=k，需移动 n – k +1 个元素；",
+        "i=n+1，需移动 0 个元素；",
+        "假设pi是在第 i 个元素之前插入一个新元素的概率",
+        "n+1",
+        "i=1",
+        "设在任何位置插入元素等概率， pi =",
+        "n+1",
+        "Eis = ∑ (n – i + 1) =",
+        "n+1",
+        "i=1",
+        "n+1",
+        "O(n)",
+        "思想:",
+        "ai-1",
+        "ai+1",
+        "ai-1",
+        "ai+1",
+        "1. 删除第 i 个数据元素。",
+        "2. 将第 i+1 到 n 个元素均向前移动一个位置。",
+        "if ( i < 1 || i > L.length ) return ERROR;",
+        "p = &L.elem[i-1];",
+        "for ( ++p; p <= q; ++p )",
+        "* (p - 1) = * p; // 前移",
+        "e = * p; // 取第 i 个元素的值",
+        "q = L.elem + L.length – 1; //表尾",
+        "Status ListDelete_Sq ( Sqlist &L, int i, ElemType &e )",
+        "例，删除第4个元素25。",
+        "时间主要花在移动元素上，而移动元素的个数取决于删除元素位置。",
+        "i=1，需移动n - 1个元素；",
+        "i=k，需移动n – k个元素；",
+        "i=n，需移动0个元素；",
+        "假设qi是删除第 i 个元素的概率",
+        "i=1",
+        "设删除任何位置的元素等概率， qi =",
+        "Edl = ∑ (n – i) =",
+        "i=1",
+        "n - 1",
+        "O(n)",
+        "int LocateElem_Sq(SqList L, ElemType e,",
+        "Status (*compare) (ElemType, ElemType))",
+        "i=1;",
+        "p=L.elem;",
+        "while(i<=L.length && !(*compare)(*p++, e)) ++i;",
+        "if(i<=L.length) return i;",
+        "else return 0;",
+        "第三个参数",
+        "二者差异？",
+        "指针函数",
+        "int *f(int a, int b);",
+        "指针函数f返回的类型是一个指针类型",
+        "函数指针说的就是一个指针，但这个指针指向的函数，不是普通的基本数据类型或者类对象",
+        "int (*f)(int a, int b); // 声明函数指针",
+        "函数指针与指针函数的最大区别是函数指针的函数名是一个指针，即函数名前面有一个指针类型的标志型号“*”。",
+        "int max(int a, int b) {",
+        "return a > b ? a : b;",
+        "int min(int a, int b) {",
+        "int (*f)(int, int); // 声明函数指针，指向返回值类型为int，有两个参数类型都是int的函数",
+        "int _tmain(int argc, _TCHAR* argv[])",
+        "printf(\"------------------------------ Start\\n\");",
+        "f = max; // 函数指针f指向求最大值的函数max",
+        "int c = (*f)(1, 2);",
+        "printf(\"The max value is %d \\n\", c);",
+        "f = min; // 函数指针f指向求最小值的函数min",
+        "c = (*f)(1, 2);",
+        "printf(\"The min value is %d \\n\", c);",
+        "getchar();",
+        "return 0;",
+        "i=1;"
+      ],
+      "图示标注": [
+        "a1、a2、ai、an、…、b、45、12、9、33、69、5、1、2、3、4、6、7、25、n"
+      ]
+    },
+    "images": [],
+    "evidence_locs": [
+      {
+        "slide": 6,
+        "shape": 10243
+      },
+      {
+        "slide": 6,
+        "shape": 10253
+      },
+      {
+        "slide": 6,
+        "shape": 10255
+      },
+      {
+        "slide": 6,
+        "shape": 10257
+      },
+      {
+        "slide": 6,
+        "shape": 10258
+      },
+      {
+        "slide": 6,
+        "shape": 10259
+      },
+      {
+        "slide": 6,
+        "shape": 10260
+      },
+      {
+        "slide": 6,
+        "shape": 10245
+      },
+      {
+        "slide": 6,
+        "shape": 10246
+      },
+      {
+        "slide": 6,
+        "shape": 10247
+      },
+      {
+        "slide": 6,
+        "shape": 10248
+      },
+      {
+        "slide": 6,
+        "shape": 10249
+      },
+      {
+        "slide": 6,
+        "shape": 10250
+      },
+      {
+        "slide": 7,
+        "shape": 11266
+      },
+      {
+        "slide": 7,
+        "shape": 11267
+      },
+      {
+        "slide": 7,
+        "shape": 11268
+      },
+      {
+        "slide": 8,
+        "shape": 12291
+      },
+      {
+        "slide": 8,
+        "shape": 12291
+      },
+      {
+        "slide": 8,
+        "shape": 12291
+      },
+      {
+        "slide": 8,
+        "shape": 12291
+      }
+    ]
+  },
+  "answer_format": {
+    "title": "str  # 面向示例主体的标题，去掉章节编号",
+    "sections": "{'概念': [str], '为什么需要': [str], '怎么用': [str], '例子': [str], '易错': [str]}  # 只写有内容的，小节名可自定",
+    "keep_images": "[str]  # 必须保留的原图 id",
+    "redraw": "[{id, format: mermaid|svg, description, caption}]",
+    "dropped": "[str]  # 删掉的原文要点，便于作者核对",
+    "origin": "derived | synthesized",
+    "by": "str"
+  }
+}

@@ -105,8 +105,8 @@ def prepare(workspace: Path, units: list[Unit], *, style: str, example: str | No
             },
             "answer_format": {
                 "title": "str  # 面向示例主体的标题，去掉章节编号",
-                "sections": "{'概念': [str], '为什么需要': [str], '怎么用': [str], "
-                            "'例子': [str], '易错': [str]}  # 只写有内容的，小节名可自定",
+                "sections": "{'小节名': [段落, 段落, ...]}  # 每个元素是一整段连贯文字；"
+                            "小节名按内容自定，不要套固定栏目",
                 "keep_images": "[str]  # 必须保留的原图 id",
                 "redraw": "[{id, format: mermaid|svg, description, caption}]",
                 "dropped": "[str]  # 删掉的原文要点，便于作者核对",

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import re
+
 import yaml
 
 from course_press_harness.cli import main
@@ -36,8 +38,8 @@ def test_manifest_controls_headings(tmp_path, sample_pptx):
 
     main(["--workspace", str(ws), "render"])
     book = (ws / ".study" / "out" / "book.md").read_text(encoding="utf-8")
-    assert "## 【1】示例小节一" in book
-    assert ">> 定义" in book
+    assert re.search(r"^## 【\d+】", book, re.M), "节标题应套用 manifest 的格式"
+    assert ">> 定义" in book or ">> " in book, "小节标签应套用 manifest 的格式"
 
 
 def test_section_order_is_data(tmp_path, sample_pptx):

@@ -1,0 +1,26 @@
+{
+  "id": "img-s02-044-5",
+  "kind": "image_semantics",
+  "unit": "sec-2-3",
+  "asset": "assets/9efdec0a.png",
+  "loc": {
+    "slide": 44,
+    "shape": 11
+  },
+  "question": "这张图里承载了哪些正文没有写出的信息？若图中有文字，先完整转写；若图表达结构（节点、边、层级），给出节点集合与关系；若图表达趋势或数值，给出关键点。无法判断时回答 unknown。",
+  "answer_format": {
+    "text": "str  # 图中文字，逐字转写",
+    "relations": "[[源, 目标], ...]  # 可选，结构图填写",
+    "summary": "str  # 一句话说明这张图在讲什么"
+  },
+  "context": {
+    "nearby_text": [
+      "typedef struct {",
+      "char name[100];",
+      "} ElemType;",
+      "非法访问"
+    ],
+    "unit_hint": "sec-2-3"
+  },
+  "input_hash": "ec93e138b0549378caa395229d78dc39df637abcf3d2882ddb78c046ca211c77"
+}

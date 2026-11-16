@@ -1,0 +1,20 @@
+schema_version: 1
+course:
+  name: 示例课程
+  lang: zh
+  lectures:
+  - number: 2
+    title: 第02章+线性表
+    sources:
+    - inputs/第02章+线性表.pptx
+  - number: 3
+    title: 第03章+栈和队列
+    sources:
+    - inputs/第03章+栈和队列.pptx
+render:
+  profile: learn
+  scope: semester
+  source_references: none
+  template: templates/learn/md
+compose:
+  style: pdf排版要好看

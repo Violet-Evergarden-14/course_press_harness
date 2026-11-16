@@ -1,0 +1,28 @@
+{
+  "id": "img-s02-038-15",
+  "kind": "image_semantics",
+  "unit": "sec-2-3",
+  "asset": "assets/15e7f077.png",
+  "loc": {
+    "slide": 38,
+    "shape": 34864
+  },
+  "question": "这张图里承载了哪些正文没有写出的信息？若图中有文字，先完整转写；若图表达结构（节点、边、层级），给出节点集合与关系；若图表达趋势或数值，给出关键点。无法判断时回答 unknown。",
+  "answer_format": {
+    "text": "str  # 图中文字，逐字转写",
+    "relations": "[[源, 目标], ...]  # 可选，结构图填写",
+    "summary": "str  # 一句话说明这张图在讲什么"
+  },
+  "context": {
+    "nearby_text": [
+      "例，在第3个元素之插入一个新元素。",
+      "Zhao",
+      "Qian",
+      "0",
+      "Li",
+      "L"
+    ],
+    "unit_hint": "sec-2-3"
+  },
+  "input_hash": "0ad55a24626a594e91f02cb8aef833c1d29c9d712a2e20ff13efffcebe37c394"
+}

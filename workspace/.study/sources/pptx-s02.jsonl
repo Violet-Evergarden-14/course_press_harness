@@ -1,0 +1,1076 @@
+{"id": "s02-001-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 1, "shape": 5122}, "text": "第2章    线性表", "level": 1, "extra": {"font": 28.0, "top": 457200}}
+{"id": "s02-001-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 1, "shape": 5123}, "text": "唯一头元素", "level": 1, "extra": {"top": 2590800}}
+{"id": "s02-001-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 1, "shape": 5124}, "text": "唯一尾元素", "level": 1, "extra": {"top": 3124200}}
+{"id": "s02-001-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 1, "shape": 5125}, "text": "除头元素外，均有一个直接前驱", "level": 1, "extra": {"top": 3657600}}
+{"id": "s02-001-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 1, "shape": 5126}, "text": "除尾元素外，均有一个直接后继", "level": 1, "extra": {"top": 4191000}}
+{"id": "s02-001-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 1, "shape": 5130}, "text": "线性结构特点:", "level": 1, "extra": {"top": 768}}
+{"id": "s02-001-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 1, "shape": 5134}, "text": "O", "level": 1, "extra": {"font": 16.0, "top": 2976}}
+{"id": "s02-001-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 1, "shape": 5135}, "text": "O", "level": 1, "extra": {"font": 16.0, "top": 2976}}
+{"id": "s02-001-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 1, "shape": 5136}, "text": "O", "level": 1, "extra": {"font": 16.0, "top": 2976}}
+{"id": "s02-001-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 1, "shape": 5137}, "text": "O", "level": 1, "extra": {"font": 16.0, "top": 2976}}
+{"id": "s02-001-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 1, "shape": 5138}, "text": "O", "level": 1, "extra": {"font": 16.0, "top": 2976}}
+{"id": "s02-001-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 1, "shape": 5143}, "text": "线性", "level": 1, "extra": {"font": 20.0, "top": 2976}}
+{"id": "s02-001-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 1, "shape": 5132}, "text": "头", "level": 1, "extra": {"font": 20.0, "top": 945}}
+{"id": "s02-001-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 1, "shape": 5133}, "text": "尾", "level": 1, "extra": {"font": 20.0, "top": 945}}
+{"id": "s02-001-15", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 1, "shape": 5129}, "text": "1    2     3     4    5", "level": 1, "extra": {"font": 20.0, "top": 1286}}
+{"id": "s02-002-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 2, "shape": 6146}, "text": "2.1  线性表的定义", "level": 2, "extra": {"font": 28.0, "top": 228600}}
+{"id": "s02-002-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 2, "shape": 6147}, "text": "1.  线性表的语言定义", "level": 1, "extra": {"top": 990600}}
+{"id": "s02-002-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 2, "shape": 6148}, "text": "线性表是n个数据元素的有限序列。", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-002-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 2, "shape": 6149}, "text": "例，英文字母表   (A，B，C，……，Z)", "level": 1, "extra": {"font": 20.0, "top": 2209800}}
+{"id": "s02-002-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 2, "shape": 6150}, "text": "线性表中的数据元素可以由若干个数据项组成。", "level": 1, "extra": {"top": 2819400}}
+{"id": "s02-002-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 2, "shape": 6151}, "text": "例，包含大量记录的登记表", "level": 1, "extra": {"font": 20.0, "top": 3429000}}
+{"id": "s02-002-7", "src": "第02章+线性表.pptx", "type": "table", "loc": {"slide": 2, "shape": 35875}, "rows": [["姓名", "学号", "性别", "年龄", "班级"], ["王晓林", "790631", "男", "25", "计90"], ["陈红", "790632", "女", "24", "计90"]]}
+{"id": "s02-003-6", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 3, "shape": 7176}, "text": "线性表可以表示为 n 个数据元素的有限序列:", "level": 2, "extra": {"top": 816}}
+{"id": "s02-003-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 3, "shape": 7170}, "text": "2.  线性表的形式定义", "level": 1, "extra": {"top": 304800}}
+{"id": "s02-003-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 3, "shape": 7171}, "text": "其中a1是头元素， an是尾元素， ai是第i个元素。", "level": 1, "extra": {"top": 2133600}}
+{"id": "s02-003-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 3, "shape": 7172}, "text": "ai-1是ai的直接前驱， ai是ai-1的直接后继。", "level": 1, "extra": {"top": 2819400}}
+{"id": "s02-003-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 3, "shape": 7173}, "text": "当2≤i≤n时， ai有且只有一个直接前驱。", "level": 1, "extra": {"top": 3581400}}
+{"id": "s02-003-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 3, "shape": 7174}, "text": "当1≤i≤n-1时， ai有且只有一个直接后继。", "level": 1, "extra": {"top": 4343400}}
+{"id": "s02-003-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 3, "shape": 7177}, "text": "(a1，…，ai-1，ai，…，an)", "level": 1, "extra": {"top": 1104}}
+{"id": "s02-004-9", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 4, "shape": 8199}, "text": "基本操作:", "level": 2, "extra": {"font": 20.0, "top": 2133600}}
+{"id": "s02-004-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 4, "shape": 8194}, "text": "抽象数据类型  线性表List  的定义:", "level": 1, "extra": {"top": 228600}}
+{"id": "s02-004-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 4, "shape": 8210}, "text": "InitList( &L )", "level": 1, "extra": {"font": 20.0, "top": 1440}}
+{"id": "s02-004-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 4, "shape": 8211}, "text": "结果: 构造一个空的线性表 L。", "level": 1, "extra": {"font": 20.0, "top": 1680}}
+{"id": "s02-004-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 4, "shape": 8207}, "text": "ClearList( &L )", "level": 1, "extra": {"font": 20.0, "top": 2966}}
+{"id": "s02-004-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 4, "shape": 8208}, "text": "结果: 将 L 重置为空表。", "level": 1, "extra": {"font": 20.0, "top": 3446}}
+{"id": "s02-004-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 4, "shape": 8209}, "text": "条件: 线性表 L 已存在。", "level": 1, "extra": {"font": 20.0, "top": 3216}}
+{"id": "s02-004-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 4, "shape": 8197}, "text": "数据对象: D = { ai | ai ∈ElemSet，i = 1, 2, …, n }", "level": 1, "extra": {"font": 20.0, "top": 1219200}}
+{"id": "s02-004-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 4, "shape": 8198}, "text": "数据关系: R1 = { < ai-1, ai > | ai-1, ai  ∈ D ，i = 1, 2, …, n }", "level": 1, "extra": {"font": 20.0, "top": 1676400}}
+{"id": "s02-004-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 4, "shape": 8205}, "text": "ADT  List  {", "level": 1, "extra": {"font": 20.0, "top": 480}}
+{"id": "s02-004-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 4, "shape": 8206}, "text": "}  ADT  List", "level": 1, "extra": {"font": 20.0, "top": 3830}}
+{"id": "s02-004-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 4, "shape": 8202}, "text": "DestroyList( &L )", "level": 1, "extra": {"font": 20.0, "top": 2342}}
+{"id": "s02-004-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 4, "shape": 8203}, "text": "结果: 销毁线性表 L。", "level": 1, "extra": {"font": 20.0, "top": 2822}}
+{"id": "s02-004-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 4, "shape": 8204}, "text": "条件: 线性表 L 已存在。", "level": 1, "extra": {"font": 20.0, "top": 2582}}
+{"id": "s02-005-2", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 5, "shape": 9219}, "text": "ListEmpty ( L )：判断列表是否为空", "level": 2, "extra": {"font": 20.0, "top": 762000}}
+{"id": "s02-005-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 5, "shape": 9218}, "text": "主要基本操作包括:", "level": 1, "extra": {"top": 152400}}
+{"id": "s02-005-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 5, "shape": 9220}, "text": "ListLength ( L )：获取列表长度", "level": 1, "extra": {"font": 20.0, "top": 1295400}}
+{"id": "s02-005-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 5, "shape": 9221}, "text": "GetElem ( L，i，&e )：返回L中的第i个元素到e", "level": 1, "extra": {"font": 20.0, "top": 1812925}}
+{"id": "s02-005-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 5, "shape": 9222}, "text": "LocateElem ( L，e，compare( ) )：查找元素e（比较）的位置", "level": 1, "extra": {"font": 20.0, "top": 2286000}}
+{"id": "s02-005-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 5, "shape": 9223}, "text": "PriorElem ( L，cur_e，&pre_e )：查找前驱元素", "level": 1, "extra": {"font": 20.0, "top": 2803525}}
+{"id": "s02-005-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 5, "shape": 9224}, "text": "NextElem ( L，cur_e，&next_e )：查找后继元素", "level": 1, "extra": {"font": 20.0, "top": 3276600}}
+{"id": "s02-005-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 5, "shape": 9225}, "text": "ListInsert ( &L，i，e )：在位置i处插入元素", "level": 1, "extra": {"font": 20.0, "top": 3794125}}
+{"id": "s02-005-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 5, "shape": 9226}, "text": "ListDelete ( &L，i，&e )：删除位置i处的元素", "level": 1, "extra": {"font": 20.0, "top": 4327525}}
+{"id": "s02-005-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 5, "shape": 9227}, "text": "ListTraverse ( L，visit( ) )：遍历元素", "level": 1, "extra": {"font": 20.0, "top": 4860925}}
+{"id": "s02-005-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 5, "shape": 9228}, "text": "一些复杂操作，如合并、拆分、复制等等均可以通过上述简单操作实现（后面介绍）。", "level": 1, "extra": {"top": 5410200}}
+{"id": "s02-006-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 6, "shape": 10242}, "text": "2.2  线性表的顺序表示和实现", "level": 2, "extra": {"font": 28.0, "top": 228600}}
+{"id": "s02-006-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 6, "shape": 10243}, "text": "线性表的顺序表示指的是用一组地址连续的存储单元依次存储线性表的数据元素。", "level": 1, "extra": {"top": 838200}}
+{"id": "s02-006-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 6, "shape": 10263}, "text": "a1", "level": 1, "extra": {"top": 1392}}
+{"id": "s02-006-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 6, "shape": 10274}, "text": "a2", "level": 1, "extra": {"top": 1632}}
+{"id": "s02-006-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 6, "shape": 10275}, "text": "ai", "level": 1, "extra": {"top": 2208}}
+{"id": "s02-006-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 6, "shape": 10276}, "text": "an", "level": 1, "extra": {"top": 2784}}
+{"id": "s02-006-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 6, "shape": 10277}, "text": "…", "level": 1, "extra": {"top": 2005}}
+{"id": "s02-006-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 6, "shape": 10278}, "text": "…", "level": 1, "extra": {"top": 2570}}
+{"id": "s02-006-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 6, "shape": 10252}, "text": "b", "level": 1, "extra": {"font": 20.0, "top": 1477}}
+{"id": "s02-006-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 6, "shape": 10253}, "text": "b+l", "level": 1, "extra": {"font": 20.0, "top": 1718}}
+{"id": "s02-006-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 6, "shape": 10254}, "text": "…", "level": 1, "extra": {"top": 2016}}
+{"id": "s02-006-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 6, "shape": 10255}, "text": "b+(i-1)l", "level": 1, "extra": {"font": 20.0, "top": 2294}}
+{"id": "s02-006-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 6, "shape": 10256}, "text": "…", "level": 1, "extra": {"top": 2592}}
+{"id": "s02-006-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 6, "shape": 10257}, "text": "b+(n-1)l", "level": 1, "extra": {"font": 20.0, "top": 2870}}
+{"id": "s02-006-15", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 6, "shape": 10258}, "text": "b+nl", "level": 1, "extra": {"font": 20.0, "top": 3110}}
+{"id": "s02-006-16", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 6, "shape": 10259}, "text": "存储地址", "level": 1, "extra": {"font": 20.0, "top": 1200}}
+{"id": "s02-006-17", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 6, "shape": 10260}, "text": "内存状态", "level": 1, "extra": {"font": 20.0, "top": 1200}}
+{"id": "s02-006-18", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 6, "shape": 10245}, "text": "设每个元素需占用 l 个存储单元", "level": 1, "extra": {"font": 20.0, "top": 2209800}}
+{"id": "s02-006-19", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 6, "shape": 10246}, "text": "LOC(ai)表示元素ai的存储地址", "level": 1, "extra": {"font": 20.0, "top": 2743200}}
+{"id": "s02-006-20", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 6, "shape": 10247}, "text": "则LOC(a1)是第一个数据元素a1的存储地址，也是整个线性表的起始地址", "level": 1, "extra": {"font": 20.0, "top": 3292475}}
+{"id": "s02-006-21", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 6, "shape": 10248}, "text": "LOC(ai+1) = LOC(ai) + l", "level": 1, "extra": {"font": 20.0, "top": 4435475}}
+{"id": "s02-006-22", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 6, "shape": 10249}, "text": "LOC(ai) = LOC(a1) + (i - 1)l", "level": 1, "extra": {"font": 20.0, "top": 5029200}}
+{"id": "s02-006-23", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 6, "shape": 10250}, "text": "@dou：一定要会计算某个元素的存储地址！", "level": 1, "extra": {"font": 20.0, "top": 6200775}}
+{"id": "s02-007-4", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 7, "shape": 11269}, "text": "特点:", "level": 2, "extra": {"font": 28.0, "top": 319088}}
+{"id": "s02-007-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 7, "shape": 11266}, "text": "以元素在计算机内的“物理位置相邻”来表示线性表中数据元素之间的“逻辑关系相邻”。", "level": 1, "extra": {"top": 1023938}}
+{"id": "s02-007-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 7, "shape": 11267}, "text": "只要确定线性表的起始地址，线性表中的任意数据元素都可随意存取，故线性表的顺序存贮结构又称为随机存取存储结构。", "level": 1, "extra": {"top": 2293938}}
+{"id": "s02-007-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 7, "shape": 11268}, "text": "例，数组数据类型", "level": 1, "extra": {"top": 4267200}}
+{"id": "s02-008-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 8, "shape": 12290}, "text": "线性表顺序存储结构表示", "level": 2, "extra": {"top": 609600}}
+{"id": "s02-008-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 8, "shape": 12291}, "text": "# define    LIST_INIT_SIZE       100", "level": 1, "extra": {"top": 1252538}}
+{"id": "s02-008-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 8, "shape": 12291}, "text": "# define    LISTINCREMENT    10", "level": 1, "extra": {"top": 1252538}}
+{"id": "s02-008-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 8, "shape": 12291}, "text": "// typedef\tint\tElemtype;", "level": 1, "extra": {"top": 1252538}}
+{"id": "s02-008-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 8, "shape": 12291}, "text": "typedef    struct {", "level": 1, "extra": {"top": 1252538}}
+{"id": "s02-008-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 8, "shape": 12291}, "text": "Elemtype      *elem;", "level": 1, "extra": {"top": 1252538}}
+{"id": "s02-008-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 8, "shape": 12291}, "text": "int                 length;  // 表长，初始为 0", "level": 1, "extra": {"top": 1252538}}
+{"id": "s02-008-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 8, "shape": 12291}, "text": "int                 listsize; // 表存储容量，元素个数", "level": 1, "extra": {"top": 1252538}}
+{"id": "s02-008-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 8, "shape": 12291}, "text": "} SqList;", "level": 1, "extra": {"top": 1252538}}
+{"id": "s02-009-9", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 9, "shape": 2}, "text": "这段代码，是否有Bug？", "level": 2, "extra": {"top": 4725144}}
+{"id": "s02-009-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 9, "shape": 13314}, "text": "L.elem = (ElemType *)malloc(sizeof(ElemType) );", "level": 1, "extra": {"top": 1466850}}
+{"id": "s02-009-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 9, "shape": 13315}, "text": "if  ( !L.elem ) exit(OVERFLOW);", "level": 1, "extra": {"top": 2438400}}
+{"id": "s02-009-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 9, "shape": 13316}, "text": "L.length = 0 ;", "level": 1, "extra": {"top": 2971800}}
+{"id": "s02-009-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 9, "shape": 13317}, "text": "L.listsize = LIST_INIT_SIZE;", "level": 1, "extra": {"top": 3581400}}
+{"id": "s02-009-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 9, "shape": 13318}, "text": "return  OK;", "level": 1, "extra": {"top": 4114800}}
+{"id": "s02-009-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 9, "shape": 13320}, "text": "Status   InitList_Sq ( SqList  &L )", "level": 1, "extra": {"top": 288}}
+{"id": "s02-009-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 9, "shape": 13320}, "text": "{", "level": 1, "extra": {"top": 288}}
+{"id": "s02-009-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 9, "shape": 13321}, "text": "}", "level": 1, "extra": {"top": 3072}}
+{"id": "s02-010-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 10, "shape": 13314}, "text": "L.elem = (ElemType *)malloc", "level": 2, "extra": {"top": 1466850}}
+{"id": "s02-010-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 10, "shape": 13314}, "text": "( LIST_INIT_SIZE * sizeof(ElemType) );", "level": 1, "extra": {"top": 1466850}}
+{"id": "s02-010-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 10, "shape": 13315}, "text": "if  ( !L.elem ) exit(OVERFLOW);", "level": 1, "extra": {"top": 2438400}}
+{"id": "s02-010-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 10, "shape": 13316}, "text": "L.length = 0 ;", "level": 1, "extra": {"top": 2971800}}
+{"id": "s02-010-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 10, "shape": 13317}, "text": "L.listsize = LIST_INIT_SIZE;", "level": 1, "extra": {"top": 3581400}}
+{"id": "s02-010-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 10, "shape": 13318}, "text": "return  OK;", "level": 1, "extra": {"top": 4114800}}
+{"id": "s02-010-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 10, "shape": 13320}, "text": "Status   InitList_Sq ( SqList  &L )", "level": 1, "extra": {"top": 288}}
+{"id": "s02-010-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 10, "shape": 13320}, "text": "{", "level": 1, "extra": {"top": 288}}
+{"id": "s02-010-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 10, "shape": 13321}, "text": "}", "level": 1, "extra": {"top": 3072}}
+{"id": "s02-011-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 11, "shape": 14338}, "text": "线性表的顺序存储结构的优缺点", "level": 2, "extra": {"font": 28.0, "top": 304800}}
+{"id": "s02-011-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 11, "shape": 14339}, "text": "可随机存取表中任意数据元素", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-011-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 11, "shape": 14340}, "text": "优点:", "level": 1, "extra": {"top": 990600}}
+{"id": "s02-011-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 11, "shape": 14341}, "text": "直接可获取线性表的长度", "level": 1, "extra": {"top": 2819400}}
+{"id": "s02-011-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 11, "shape": 14342}, "text": "例，L.elem[i-1]表示第 i 个数据元素", "level": 1, "extra": {"top": 2133600}}
+{"id": "s02-011-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 11, "shape": 14343}, "text": "例，L.length表示线性表长度", "level": 1, "extra": {"top": 3352800}}
+{"id": "s02-011-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 11, "shape": 14344}, "text": "缺点:", "level": 1, "extra": {"top": 4038600}}
+{"id": "s02-011-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 11, "shape": 14345}, "text": "数据元素的插入、删除相对麻烦", "level": 1, "extra": {"top": 4648200}}
+{"id": "s02-012-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 12, "shape": 15363}, "text": "算法2.4   在第 i 个数据元素之前插入一个新的元素", "level": 2, "extra": {"top": 381000}}
+{"id": "s02-012-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 12, "shape": 15364}, "text": "思想:", "level": 1, "extra": {"top": 3581400}}
+{"id": "s02-012-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 12, "shape": 15365}, "text": "1.  将第 n 到 i 个元素均向后移动一个位置。", "level": 1, "extra": {"top": 4038600}}
+{"id": "s02-012-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 12, "shape": 15366}, "text": "2.  将新元素放置在第 i 个位置。", "level": 1, "extra": {"top": 4648200}}
+{"id": "s02-012-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 12, "shape": 15391}, "text": "a1", "level": 1, "extra": {"top": 1503}}
+{"id": "s02-012-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 12, "shape": 15392}, "text": "ai-1", "level": 1, "extra": {"top": 1514}}
+{"id": "s02-012-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 12, "shape": 15393}, "text": "ai", "level": 1, "extra": {"top": 1510}}
+{"id": "s02-012-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 12, "shape": 15394}, "text": "an", "level": 1, "extra": {"top": 1514}}
+{"id": "s02-012-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 12, "shape": 15395}, "text": "…", "level": 1, "extra": {"top": 1488}}
+{"id": "s02-012-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 12, "shape": 15396}, "text": "…", "level": 1, "extra": {"top": 1488}}
+{"id": "s02-012-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 12, "shape": 15368}, "text": "例，在第 i 个元素前插入 b", "level": 1, "extra": {"top": 1066800}}
+{"id": "s02-012-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 12, "shape": 15375}, "text": "a1", "level": 1, "extra": {"top": 2690813}}
+{"id": "s02-012-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 12, "shape": 15376}, "text": "ai-1", "level": 1, "extra": {"top": 2708275}}
+{"id": "s02-012-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 12, "shape": 15377}, "text": "ai", "level": 1, "extra": {"top": 2701925}}
+{"id": "s02-012-15", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 12, "shape": 15378}, "text": "an", "level": 1, "extra": {"top": 2708275}}
+{"id": "s02-012-16", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 12, "shape": 15379}, "text": "…", "level": 1, "extra": {"top": 2667000}}
+{"id": "s02-012-17", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 12, "shape": 15380}, "text": "…", "level": 1, "extra": {"top": 2667000}}
+{"id": "s02-012-18", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 12, "shape": 15382}, "text": "b", "level": 1, "extra": {"top": 2755900}}
+{"id": "s02-013-5", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 13, "shape": 16397}, "text": "* (p+1) = * p;  // 后移元素", "level": 2, "extra": {"font": 22.0, "top": 2784}}
+{"id": "s02-013-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 13, "shape": 16386}, "text": "if  ( i < 1 || i > L.length +1 )  return  ERROR;", "level": 1, "extra": {"font": 22.0, "top": 1325563}}
+{"id": "s02-013-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 13, "shape": 16387}, "text": "if  ( L.length >= L.listsize )   // 当前空间已满，越界处理", "level": 1, "extra": {"font": 22.0, "top": 1858963}}
+{"id": "s02-013-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 13, "shape": 16388}, "text": "q = & ( L.elem[i-1]);", "level": 1, "extra": {"font": 22.0, "top": 2316163}}
+{"id": "s02-013-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 13, "shape": 16396}, "text": "for  ( p = &L.elem[L.length-1]; p >= q; --p )", "level": 1, "extra": {"font": 22.0, "top": 2496}}
+{"id": "s02-013-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 13, "shape": 16390}, "text": "* q = e;  // 插入新元素", "level": 1, "extra": {"font": 22.0, "top": 3611563}}
+{"id": "s02-013-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 13, "shape": 16391}, "text": "++L.length;", "level": 1, "extra": {"font": 22.0, "top": 4038600}}
+{"id": "s02-013-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 13, "shape": 16392}, "text": "return  OK;", "level": 1, "extra": {"font": 22.0, "top": 4572000}}
+{"id": "s02-013-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 13, "shape": 16394}, "text": "Status  ListInsert_Sq ( Sqlist  &L, int  i, ElemType  e )", "level": 1, "extra": {"font": 22.0, "top": 192}}
+{"id": "s02-013-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 13, "shape": 16394}, "text": "{", "level": 1, "extra": {"font": 22.0, "top": 192}}
+{"id": "s02-013-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 13, "shape": 16395}, "text": "}", "level": 1, "extra": {"font": 22.0, "top": 3360}}
+{"id": "s02-014-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 14, "shape": 17410}, "text": "// 当前空间已满，越界处理", "level": 2, "extra": {"font": 22.0, "top": 457200}}
+{"id": "s02-014-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 14, "shape": 17411}, "text": "newbase = ( ElemType * ) realloc ( L.elem,", "level": 1, "extra": {"font": 20.0, "top": 1676400}}
+{"id": "s02-014-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 14, "shape": 17411}, "text": "( L.listsize + LISTINCREMENT ) * sizeof(ElemType) );", "level": 1, "extra": {"font": 20.0, "top": 1676400}}
+{"id": "s02-014-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 14, "shape": 17412}, "text": "if  ( ! newbase )  exit(OVERFLOW);", "level": 1, "extra": {"font": 20.0, "top": 2422525}}
+{"id": "s02-014-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 14, "shape": 17414}, "text": "L.listsize += LISTINCREMENT;", "level": 1, "extra": {"font": 20.0, "top": 3489325}}
+{"id": "s02-014-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 14, "shape": 17417}, "text": "if  ( L.length >= L.listsize )", "level": 1, "extra": {"font": 20.0, "top": 720}}
+{"id": "s02-014-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 14, "shape": 17417}, "text": "{", "level": 1, "extra": {"font": 20.0, "top": 720}}
+{"id": "s02-014-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 14, "shape": 17418}, "text": "}", "level": 1, "extra": {"font": 20.0, "top": 2592}}
+{"id": "s02-014-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 14, "shape": 10}, "text": "这段代码，是否有Bug？", "level": 1, "extra": {"top": 4725144}}
+{"id": "s02-015-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 15, "shape": 17410}, "text": "// 当前空间已满，越界处理", "level": 2, "extra": {"font": 22.0, "top": 457200}}
+{"id": "s02-015-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 15, "shape": 17411}, "text": "newbase = ( ElemType * ) realloc ( L.elem,", "level": 1, "extra": {"font": 20.0, "top": 1676400}}
+{"id": "s02-015-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 15, "shape": 17411}, "text": "( L.listsize + LISTINCREMENT ) * sizeof(ElemType) );", "level": 1, "extra": {"font": 20.0, "top": 1676400}}
+{"id": "s02-015-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 15, "shape": 17412}, "text": "if  ( ! newbase )  exit(OVERFLOW);", "level": 1, "extra": {"font": 20.0, "top": 2422525}}
+{"id": "s02-015-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 15, "shape": 17413}, "text": "L.elem = newbase;", "level": 1, "extra": {"font": 20.0, "top": 2955925}}
+{"id": "s02-015-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 15, "shape": 17414}, "text": "L.listsize += LISTINCREMENT;", "level": 1, "extra": {"font": 20.0, "top": 3489325}}
+{"id": "s02-015-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 15, "shape": 17417}, "text": "if  ( L.length >= L.listsize )", "level": 1, "extra": {"font": 20.0, "top": 720}}
+{"id": "s02-015-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 15, "shape": 17417}, "text": "{", "level": 1, "extra": {"font": 20.0, "top": 720}}
+{"id": "s02-015-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 15, "shape": 17418}, "text": "}", "level": 1, "extra": {"font": 20.0, "top": 2592}}
+{"id": "s02-015-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 15, "shape": 17416}, "text": "realloc: 先判断当前的指针是否有足够的连续空间，如果有，扩大mem_address指向的地址，并且将mem_address返回，如果空间不够，先按照newsize指定的大小分配空间，将原有数据从头到尾拷贝到新分配的内存区域，而后释放原来mem_address所指内存区域（注意：原来指针是自动释放，不需要使用free），同时返回新分配的内存区域的首地址。即重新分配存储器块的地址。", "level": 1, "extra": {"font": 16.0, "top": 4868863}}
+{"id": "s02-016-19", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 16, "shape": 18441}, "text": "插入25", "level": 2, "extra": {"font": 20.0, "top": 1584}}
+{"id": "s02-016-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 16, "shape": 18434}, "text": "例，在第4个元素之前插入元素25。", "level": 1, "extra": {"top": 533400}}
+{"id": "s02-016-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 16, "shape": 18460}, "text": "45", "level": 1, "extra": {"font": 20.0, "top": 982}}
+{"id": "s02-016-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 16, "shape": 18461}, "text": "12", "level": 1, "extra": {"font": 20.0, "top": 1222}}
+{"id": "s02-016-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 16, "shape": 18462}, "text": "9", "level": 1, "extra": {"font": 20.0, "top": 1462}}
+{"id": "s02-016-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 16, "shape": 18463}, "text": "33", "level": 1, "extra": {"font": 20.0, "top": 1702}}
+{"id": "s02-016-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 16, "shape": 18464}, "text": "69", "level": 1, "extra": {"font": 20.0, "top": 1942}}
+{"id": "s02-016-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 16, "shape": 18465}, "text": "5", "level": 1, "extra": {"font": 20.0, "top": 2182}}
+{"id": "s02-016-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 16, "shape": 18466}, "text": "1", "level": 1, "extra": {"top": 960}}
+{"id": "s02-016-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 16, "shape": 18467}, "text": "2", "level": 1, "extra": {"top": 1200}}
+{"id": "s02-016-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 16, "shape": 18468}, "text": "3", "level": 1, "extra": {"top": 1451}}
+{"id": "s02-016-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 16, "shape": 18469}, "text": "4", "level": 1, "extra": {"top": 1691}}
+{"id": "s02-016-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 16, "shape": 18470}, "text": "5", "level": 1, "extra": {"top": 1920}}
+{"id": "s02-016-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 16, "shape": 18471}, "text": "6", "level": 1, "extra": {"top": 2160}}
+{"id": "s02-016-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 16, "shape": 18449}, "text": "5", "level": 1, "extra": {"font": 20.0, "top": 2433}}
+{"id": "s02-016-15", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 16, "shape": 18448}, "text": "7", "level": 1, "extra": {"top": 2411}}
+{"id": "s02-016-16", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 16, "shape": 18446}, "text": "69", "level": 1, "extra": {"font": 20.0, "top": 2187}}
+{"id": "s02-016-17", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 16, "shape": 18444}, "text": "33", "level": 1, "extra": {"font": 20.0, "top": 1947}}
+{"id": "s02-016-18", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 16, "shape": 61486}, "text": "25", "level": 1, "extra": {"font": 20.0, "top": 2701925}}
+{"id": "s02-017-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 17, "shape": 19458}, "text": "算法时间复杂度:", "level": 2, "extra": {"top": 457200}}
+{"id": "s02-017-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 17, "shape": 19459}, "text": "时间主要花在移动元素上，而移动元素的个数取决于插入元素位置。", "level": 1, "extra": {"top": 1143000}}
+{"id": "s02-017-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 17, "shape": 19460}, "text": "i=1，需移动 n 个元素；", "level": 1, "extra": {"font": 20.0, "top": 2193925}}
+{"id": "s02-017-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 17, "shape": 19461}, "text": "i=k，需移动 n – k +1 个元素；", "level": 1, "extra": {"font": 20.0, "top": 3413125}}
+{"id": "s02-017-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 17, "shape": 19462}, "text": "i=n+1，需移动 0 个元素；", "level": 1, "extra": {"font": 20.0, "top": 2803525}}
+{"id": "s02-018-2", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 18, "shape": 20500}, "text": "则长度为 n 的线性表中插入一个元素所需移动元素次数的期望值为:   Eis = ∑ pi (n – i + 1)", "level": 2, "extra": {"font": 32.0, "top": 2736}}
+{"id": "s02-018-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 18, "shape": 20482}, "text": "假设pi是在第 i 个元素之前插入一个新元素的概率", "level": 1, "extra": {"top": 381000}}
+{"id": "s02-018-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 18, "shape": 20501}, "text": "n+1", "level": 1, "extra": {"font": 18.0, "top": 2965}}
+{"id": "s02-018-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 18, "shape": 20502}, "text": "i=1", "level": 1, "extra": {"font": 18.0, "top": 3332}}
+{"id": "s02-018-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 18, "shape": 20496}, "text": "设在任何位置插入元素等概率， pi =", "level": 1, "extra": {"top": 3552}}
+{"id": "s02-018-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 18, "shape": 20498}, "text": "n+1", "level": 1, "extra": {"top": 3648}}
+{"id": "s02-018-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 18, "shape": 20499}, "text": "1", "level": 1, "extra": {"top": 3408}}
+{"id": "s02-018-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 18, "shape": 20486}, "text": "Eis =         ∑ (n – i + 1) =", "level": 1, "extra": {"font": 32.0, "top": 3571}}
+{"id": "s02-018-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 18, "shape": 20488}, "text": "n+1", "level": 1, "extra": {"top": 3766}}
+{"id": "s02-018-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 18, "shape": 20489}, "text": "1", "level": 1, "extra": {"top": 3530}}
+{"id": "s02-018-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 18, "shape": 20490}, "text": "i=1", "level": 1, "extra": {"font": 18.0, "top": 3840}}
+{"id": "s02-018-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 18, "shape": 20491}, "text": "n+1", "level": 1, "extra": {"font": 18.0, "top": 3467}}
+{"id": "s02-018-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 18, "shape": 20493}, "text": "2", "level": 1, "extra": {"top": 3777}}
+{"id": "s02-018-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 18, "shape": 20494}, "text": "n", "level": 1, "extra": {"top": 3541}}
+{"id": "s02-018-15", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 18, "shape": 20495}, "text": "O(n)", "level": 1, "extra": {"font": 28.0, "top": 3609}}
+{"id": "s02-019-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 19, "shape": 21506}, "text": "算法2.5   删除第 i 个数据元素", "level": 2, "extra": {"top": 381000}}
+{"id": "s02-019-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 19, "shape": 53251}, "text": "思想:", "level": 1, "extra": {"top": 3048000}}
+{"id": "s02-019-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 19, "shape": 21534}, "text": "a1", "level": 1, "extra": {"top": 927}}
+{"id": "s02-019-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 19, "shape": 21535}, "text": "ai-1", "level": 1, "extra": {"top": 938}}
+{"id": "s02-019-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 19, "shape": 21536}, "text": "ai+1", "level": 1, "extra": {"top": 934}}
+{"id": "s02-019-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 19, "shape": 21537}, "text": "an", "level": 1, "extra": {"top": 938}}
+{"id": "s02-019-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 19, "shape": 21538}, "text": "…", "level": 1, "extra": {"top": 912}}
+{"id": "s02-019-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 19, "shape": 21539}, "text": "…", "level": 1, "extra": {"top": 912}}
+{"id": "s02-019-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 19, "shape": 21521}, "text": "a1", "level": 1, "extra": {"top": 1503}}
+{"id": "s02-019-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 19, "shape": 21522}, "text": "ai-1", "level": 1, "extra": {"top": 1514}}
+{"id": "s02-019-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 19, "shape": 21523}, "text": "ai+1", "level": 1, "extra": {"top": 1510}}
+{"id": "s02-019-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 19, "shape": 21524}, "text": "an", "level": 1, "extra": {"top": 1514}}
+{"id": "s02-019-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 19, "shape": 21525}, "text": "…", "level": 1, "extra": {"top": 1488}}
+{"id": "s02-019-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 19, "shape": 21526}, "text": "…", "level": 1, "extra": {"top": 1488}}
+{"id": "s02-019-15", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 19, "shape": 21514}, "text": "ai", "level": 1, "extra": {"top": 790}}
+{"id": "s02-019-16", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 19, "shape": 53297}, "text": "1.  删除第 i 个数据元素。", "level": 1, "extra": {"top": 3657600}}
+{"id": "s02-019-17", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 19, "shape": 53298}, "text": "2.  将第 i+1 到 n 个元素均向前移动一个位置。", "level": 1, "extra": {"top": 4343400}}
+{"id": "s02-020-9", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 20, "shape": 22538}, "text": "{   // 在顺序线性表L中删除第i个元素，并用e返回其值", "level": 2, "extra": {"font": 22.0, "top": 259}}
+{"id": "s02-020-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 20, "shape": 22530}, "text": "if  ( i < 1 || i > L.length )  return  ERROR;", "level": 1, "extra": {"font": 22.0, "top": 1325563}}
+{"id": "s02-020-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 20, "shape": 22531}, "text": "p = &L.elem[i-1];", "level": 1, "extra": {"font": 22.0, "top": 1706563}}
+{"id": "s02-020-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 20, "shape": 22540}, "text": "for  ( ++p; p <= q; ++p )", "level": 1, "extra": {"font": 22.0, "top": 2496}}
+{"id": "s02-020-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 20, "shape": 22541}, "text": "* (p - 1) = * p;  // 前移", "level": 1, "extra": {"font": 22.0, "top": 2784}}
+{"id": "s02-020-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 20, "shape": 22533}, "text": "e = * p;   // 取第 i 个元素的值", "level": 1, "extra": {"font": 22.0, "top": 2239963}}
+{"id": "s02-020-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 20, "shape": 22534}, "text": "q = L.elem + L.length – 1; //表尾", "level": 1, "extra": {"font": 22.0, "top": 2773363}}
+{"id": "s02-020-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 20, "shape": 22535}, "text": "return  OK;", "level": 1, "extra": {"font": 22.0, "top": 4754563}}
+{"id": "s02-020-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 20, "shape": 22538}, "text": "Status  ListDelete_Sq ( Sqlist  &L, int  i, ElemType  &e )", "level": 1, "extra": {"font": 22.0, "top": 259}}
+{"id": "s02-020-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 20, "shape": 22539}, "text": "}", "level": 1, "extra": {"font": 22.0, "top": 3331}}
+{"id": "s02-020-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 20, "shape": 22537}, "text": "-- L.length;", "level": 1, "extra": {"font": 22.0, "top": 4221163}}
+{"id": "s02-021-2", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 21, "shape": 23591}, "text": "删除25", "level": 2, "extra": {"font": 20.0, "top": 1584}}
+{"id": "s02-021-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 21, "shape": 23554}, "text": "例，删除第4个元素25。", "level": 1, "extra": {"top": 533400}}
+{"id": "s02-021-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 21, "shape": 23576}, "text": "45", "level": 1, "extra": {"font": 20.0, "top": 982}}
+{"id": "s02-021-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 21, "shape": 23577}, "text": "12", "level": 1, "extra": {"font": 20.0, "top": 1222}}
+{"id": "s02-021-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 21, "shape": 23578}, "text": "9", "level": 1, "extra": {"font": 20.0, "top": 1462}}
+{"id": "s02-021-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 21, "shape": 23579}, "text": "25", "level": 1, "extra": {"font": 20.0, "top": 1702}}
+{"id": "s02-021-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 21, "shape": 23580}, "text": "33", "level": 1, "extra": {"font": 20.0, "top": 1942}}
+{"id": "s02-021-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 21, "shape": 23581}, "text": "69", "level": 1, "extra": {"font": 20.0, "top": 2182}}
+{"id": "s02-021-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 21, "shape": 23582}, "text": "1", "level": 1, "extra": {"top": 960}}
+{"id": "s02-021-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 21, "shape": 23583}, "text": "2", "level": 1, "extra": {"top": 1200}}
+{"id": "s02-021-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 21, "shape": 23584}, "text": "3", "level": 1, "extra": {"top": 1451}}
+{"id": "s02-021-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 21, "shape": 23585}, "text": "4", "level": 1, "extra": {"top": 1680}}
+{"id": "s02-021-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 21, "shape": 23586}, "text": "5", "level": 1, "extra": {"top": 1920}}
+{"id": "s02-021-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 21, "shape": 23587}, "text": "6", "level": 1, "extra": {"top": 2160}}
+{"id": "s02-021-15", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 21, "shape": 23589}, "text": "7", "level": 1, "extra": {"top": 2400}}
+{"id": "s02-021-16", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 21, "shape": 23590}, "text": "5", "level": 1, "extra": {"font": 20.0, "top": 2438}}
+{"id": "s02-021-17", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 21, "shape": 23566}, "text": "33", "level": 1, "extra": {"font": 20.0, "top": 1702}}
+{"id": "s02-021-18", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 21, "shape": 23563}, "text": "69", "level": 1, "extra": {"font": 20.0, "top": 1947}}
+{"id": "s02-021-19", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 21, "shape": 23561}, "text": "5", "level": 1, "extra": {"font": 20.0, "top": 2187}}
+{"id": "s02-022-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 22, "shape": 24578}, "text": "算法时间复杂度:", "level": 2, "extra": {"top": 381000}}
+{"id": "s02-022-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 22, "shape": 54275}, "text": "时间主要花在移动元素上，而移动元素的个数取决于删除元素位置。", "level": 1, "extra": {"top": 1066800}}
+{"id": "s02-022-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 22, "shape": 54276}, "text": "i=1，需移动n - 1个元素；", "level": 1, "extra": {"font": 20.0, "top": 2117725}}
+{"id": "s02-022-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 22, "shape": 54277}, "text": "i=k，需移动n – k个元素；", "level": 1, "extra": {"font": 20.0, "top": 3336925}}
+{"id": "s02-022-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 22, "shape": 54278}, "text": "i=n，需移动0个元素；", "level": 1, "extra": {"font": 20.0, "top": 2727325}}
+{"id": "s02-023-2", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 23, "shape": 25620}, "text": "则长度为 n 的线性表中删除一个元素所需移动元素次数的期望值为:   Edl = ∑ qi (n – i)", "level": 2, "extra": {"font": 32.0, "top": 2736}}
+{"id": "s02-023-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 23, "shape": 25602}, "text": "假设qi是删除第 i 个元素的概率", "level": 1, "extra": {"top": 533400}}
+{"id": "s02-023-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 23, "shape": 25621}, "text": "n", "level": 1, "extra": {"font": 18.0, "top": 2965}}
+{"id": "s02-023-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 23, "shape": 25622}, "text": "i=1", "level": 1, "extra": {"font": 18.0, "top": 3332}}
+{"id": "s02-023-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 23, "shape": 25616}, "text": "设删除任何位置的元素等概率， qi =", "level": 1, "extra": {"top": 3552}}
+{"id": "s02-023-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 23, "shape": 25618}, "text": "n", "level": 1, "extra": {"top": 3648}}
+{"id": "s02-023-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 23, "shape": 25619}, "text": "1", "level": 1, "extra": {"top": 3408}}
+{"id": "s02-023-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 23, "shape": 25606}, "text": "Edl =         ∑ (n – i) =", "level": 1, "extra": {"font": 32.0, "top": 3560}}
+{"id": "s02-023-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 23, "shape": 25608}, "text": "n", "level": 1, "extra": {"top": 3755}}
+{"id": "s02-023-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 23, "shape": 25609}, "text": "1", "level": 1, "extra": {"top": 3519}}
+{"id": "s02-023-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 23, "shape": 25610}, "text": "i=1", "level": 1, "extra": {"font": 18.0, "top": 3829}}
+{"id": "s02-023-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 23, "shape": 25611}, "text": "n", "level": 1, "extra": {"font": 18.0, "top": 3456}}
+{"id": "s02-023-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 23, "shape": 25613}, "text": "2", "level": 1, "extra": {"top": 3766}}
+{"id": "s02-023-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 23, "shape": 25614}, "text": "n - 1", "level": 1, "extra": {"top": 3530}}
+{"id": "s02-023-15", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 23, "shape": 25615}, "text": "O(n)", "level": 1, "extra": {"font": 28.0, "top": 3598}}
+{"id": "s02-024-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 24, "shape": 2}, "text": "int LocateElem_Sq(SqList L, ElemType e,", "level": 1, "extra": {"top": 980728}}
+{"id": "s02-024-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 24, "shape": 2}, "text": "Status (*compare) (ElemType, ElemType))", "level": 1, "extra": {"top": 980728}}
+{"id": "s02-024-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 24, "shape": 2}, "text": "{", "level": 1, "extra": {"top": 980728}}
+{"id": "s02-024-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 24, "shape": 2}, "text": "i=1;", "level": 1, "extra": {"top": 980728}}
+{"id": "s02-024-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 24, "shape": 2}, "text": "p=L.elem;", "level": 1, "extra": {"top": 980728}}
+{"id": "s02-024-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 24, "shape": 2}, "text": "while(i<=L.length && !(*compare)(*p++, e))    ++i;", "level": 1, "extra": {"top": 980728}}
+{"id": "s02-024-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 24, "shape": 2}, "text": "if(i<=L.length) return i;", "level": 1, "extra": {"top": 980728}}
+{"id": "s02-024-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 24, "shape": 2}, "text": "else return 0;", "level": 1, "extra": {"top": 980728}}
+{"id": "s02-024-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 24, "shape": 2}, "text": "}", "level": 1, "extra": {"top": 980728}}
+{"id": "s02-025-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 25, "shape": 2}, "text": "比较", "level": 1}
+{"id": "s02-025-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 25, "shape": 3}, "text": "第三个参数", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-025-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 25, "shape": 3}, "text": "Status (*compare) (ElemType, ElemType)", "level": 2, "extra": {"top": 1600200}}
+{"id": "s02-025-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 25, "shape": 3}, "text": "Status *compare(ElemType, ElemType)", "level": 2, "extra": {"top": 1600200}}
+{"id": "s02-025-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 25, "shape": 3}, "text": "二者差异？", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-026-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 26, "shape": 2}, "text": "指针函数", "level": 1}
+{"id": "s02-026-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 26, "shape": 3}, "text": "指针函数", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-026-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 26, "shape": 3}, "text": "int *f(int a, int b);", "level": 2, "extra": {"top": 1600200}}
+{"id": "s02-026-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 26, "shape": 3}, "text": "int* f(int a, int b);", "level": 2, "extra": {"top": 1600200}}
+{"id": "s02-026-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 26, "shape": 3}, "text": "指针函数f返回的类型是一个指针类型", "level": 2, "extra": {"top": 1600200}}
+{"id": "s02-027-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 27, "shape": 2}, "text": "函数指针", "level": 1}
+{"id": "s02-027-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 27, "shape": 3}, "text": "函数指针说的就是一个指针，但这个指针指向的函数，不是普通的基本数据类型或者类对象", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-027-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 27, "shape": 3}, "text": "int (*f)(int a, int b); // 声明函数指针", "level": 2, "extra": {"top": 1600200}}
+{"id": "s02-027-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 27, "shape": 3}, "text": "函数指针与指针函数的最大区别是函数指针的函数名是一个指针，即函数名前面有一个指针类型的标志型号“*”。", "level": 2, "extra": {"top": 1600200}}
+{"id": "s02-028-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 28, "shape": 2}, "text": "函数指针示例", "level": 1}
+{"id": "s02-028-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 28, "shape": 3}, "text": "int max(int a, int b) {", "level": 1, "extra": {"font": 12.0, "top": 1196752}}
+{"id": "s02-028-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 28, "shape": 3}, "text": "return a > b ? a : b;", "level": 1, "extra": {"font": 12.0, "top": 1196752}}
+{"id": "s02-028-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 28, "shape": 3}, "text": "}", "level": 1, "extra": {"font": 12.0, "top": 1196752}}
+{"id": "s02-028-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 28, "shape": 3}, "text": "int min(int a, int b) {", "level": 1, "extra": {"font": 12.0, "top": 1196752}}
+{"id": "s02-028-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 28, "shape": 3}, "text": "return a < b ? a : b;", "level": 1, "extra": {"font": 12.0, "top": 1196752}}
+{"id": "s02-028-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 28, "shape": 3}, "text": "}", "level": 1, "extra": {"font": 12.0, "top": 1196752}}
+{"id": "s02-028-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 28, "shape": 3}, "text": "int (*f)(int, int); // 声明函数指针，指向返回值类型为int，有两个参数类型都是int的函数", "level": 1, "extra": {"font": 12.0, "top": 1196752}}
+{"id": "s02-028-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 28, "shape": 3}, "text": "int _tmain(int argc, _TCHAR* argv[])", "level": 1, "extra": {"font": 12.0, "top": 1196752}}
+{"id": "s02-028-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 28, "shape": 3}, "text": "{", "level": 1, "extra": {"font": 12.0, "top": 1196752}}
+{"id": "s02-028-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 28, "shape": 3}, "text": "printf(\"------------------------------ Start\\n\");", "level": 1, "extra": {"font": 12.0, "top": 1196752}}
+{"id": "s02-028-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 28, "shape": 3}, "text": "f = max; // 函数指针f指向求最大值的函数max", "level": 1, "extra": {"font": 12.0, "top": 1196752}}
+{"id": "s02-028-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 28, "shape": 3}, "text": "int c = (*f)(1, 2);", "level": 1, "extra": {"font": 12.0, "top": 1196752}}
+{"id": "s02-028-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 28, "shape": 3}, "text": "printf(\"The max value is %d \\n\", c);", "level": 1, "extra": {"font": 12.0, "top": 1196752}}
+{"id": "s02-028-15", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 28, "shape": 3}, "text": "f = min; // 函数指针f指向求最小值的函数min", "level": 1, "extra": {"font": 12.0, "top": 1196752}}
+{"id": "s02-028-16", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 28, "shape": 3}, "text": "c = (*f)(1, 2);", "level": 1, "extra": {"font": 12.0, "top": 1196752}}
+{"id": "s02-028-17", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 28, "shape": 3}, "text": "printf(\"The min value is %d \\n\", c);", "level": 1, "extra": {"font": 12.0, "top": 1196752}}
+{"id": "s02-028-18", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 28, "shape": 3}, "text": "getchar();", "level": 1, "extra": {"font": 12.0, "top": 1196752}}
+{"id": "s02-028-19", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 28, "shape": 3}, "text": "return 0;", "level": 1, "extra": {"font": 12.0, "top": 1196752}}
+{"id": "s02-028-20", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 28, "shape": 3}, "text": "}", "level": 1, "extra": {"font": 12.0, "top": 1196752}}
+{"id": "s02-029-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 29, "shape": 2}, "text": "int LocateElem_Sq(SqList L, ElemType e,", "level": 1, "extra": {"top": 980728}}
+{"id": "s02-029-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 29, "shape": 2}, "text": "Status (*compare) (ElemType, ElemType))", "level": 1, "extra": {"top": 980728}}
+{"id": "s02-029-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 29, "shape": 2}, "text": "{", "level": 1, "extra": {"top": 980728}}
+{"id": "s02-029-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 29, "shape": 2}, "text": "i=1;", "level": 1, "extra": {"top": 980728}}
+{"id": "s02-029-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 29, "shape": 2}, "text": "p=L.elem;", "level": 1, "extra": {"top": 980728}}
+{"id": "s02-029-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 29, "shape": 2}, "text": "while(i<=L.length && !(*compare)(*p++, e))    ++i;", "level": 1, "extra": {"top": 980728}}
+{"id": "s02-029-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 29, "shape": 2}, "text": "if(i<=L.length) return i;", "level": 1, "extra": {"top": 980728}}
+{"id": "s02-029-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 29, "shape": 2}, "text": "else return 0;", "level": 1, "extra": {"top": 980728}}
+{"id": "s02-029-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 29, "shape": 2}, "text": "}", "level": 1, "extra": {"top": 980728}}
+{"id": "s02-030-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 30, "shape": 26626}, "text": "2.3  线性表的链式表示和实现", "level": 2, "extra": {"font": 28.0, "top": 228600}}
+{"id": "s02-030-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 30, "shape": 26627}, "text": "线性表的链式存储结构的特点是用一组任意的存储单元存储线性表的数据元素。", "level": 1, "extra": {"top": 914400}}
+{"id": "s02-030-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 30, "shape": 26628}, "text": "存储单元可以是连续的，也可以是不连续的。", "level": 1, "extra": {"top": 1905000}}
+{"id": "s02-030-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 30, "shape": 26635}, "text": "3", "level": 1, "extra": {"font": 20.0, "top": 3352800}}
+{"id": "s02-030-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 30, "shape": 26636}, "text": "5", "level": 1, "extra": {"font": 20.0, "top": 5216525}}
+{"id": "s02-030-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 30, "shape": 26637}, "text": "6", "level": 1, "extra": {"font": 20.0, "top": 4327525}}
+{"id": "s02-030-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 30, "shape": 26638}, "text": "0208", "level": 1, "extra": {"font": 20.0, "top": 3352800}}
+{"id": "s02-030-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 30, "shape": 26639}, "text": "0366", "level": 1, "extra": {"font": 20.0, "top": 4327525}}
+{"id": "s02-030-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 30, "shape": 26640}, "text": "0542", "level": 1, "extra": {"font": 20.0, "top": 5224463}}
+{"id": "s02-030-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 30, "shape": 26641}, "text": "…", "level": 1, "extra": {"top": 4953000}}
+{"id": "s02-030-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 30, "shape": 26643}, "text": "0542", "level": 1, "extra": {"font": 20.0, "top": 3683000}}
+{"id": "s02-030-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 30, "shape": 26644}, "text": "…", "level": 1, "extra": {"top": 4038600}}
+{"id": "s02-030-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 30, "shape": 26649}, "text": "0366", "level": 1, "extra": {"font": 20.0, "top": 5511800}}
+{"id": "s02-030-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 30, "shape": 26650}, "text": "0", "level": 1, "extra": {"font": 20.0, "top": 4614863}}
+{"id": "s02-030-15", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 30, "shape": 26651}, "text": "链式存储结构", "level": 1, "extra": {"font": 20.0, "top": 3810000}}
+{"id": "s02-030-16", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 30, "shape": 55335}, "text": "例，整数数组a[3]={3，5，6}", "level": 1, "extra": {"font": 20.0, "top": 2590800}}
+{"id": "s02-031-4", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 31, "shape": 27656}, "text": "数据域，存放数据信息", "level": 2, "extra": {"font": 20.0, "top": 2304}}
+{"id": "s02-031-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 31, "shape": 27650}, "text": "结点: 两部分信息组成，存储数据元素信息的数据域，存储直接后继存储位置信息的指针域。指针域信息为指针或链。", "level": 1, "extra": {"top": 381000}}
+{"id": "s02-031-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 31, "shape": 27654}, "text": "data", "level": 1, "extra": {"top": 2880}}
+{"id": "s02-031-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 31, "shape": 27655}, "text": "link", "level": 1, "extra": {"top": 2880}}
+{"id": "s02-031-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 31, "shape": 27658}, "text": "指针域，指向下一个数据单元", "level": 1, "extra": {"font": 20.0, "top": 3504}}
+{"id": "s02-032-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 32, "shape": 28674}, "text": "2.3.1   线性单链表", "level": 1, "extra": {"top": 381000}}
+{"id": "s02-032-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 32, "shape": 28711}, "text": "a1", "level": 1, "extra": {"top": 923}}
+{"id": "s02-032-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 32, "shape": 28712}, "text": "a2", "level": 1, "extra": {"top": 923}}
+{"id": "s02-032-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 32, "shape": 28715}, "text": "…", "level": 1, "extra": {"top": 901}}
+{"id": "s02-032-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 32, "shape": 28717}, "text": "0", "level": 1, "extra": {"font": 20.0, "top": 971}}
+{"id": "s02-032-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 32, "shape": 28718}, "text": "an", "level": 1, "extra": {"top": 923}}
+{"id": "s02-032-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 32, "shape": 28720}, "text": "Head", "level": 1, "extra": {"top": 624}}
+{"id": "s02-032-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 32, "shape": 28676}, "text": "Head: 头指针，指向链表中第一个结点。", "level": 1, "extra": {"top": 2362200}}
+{"id": "s02-032-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 32, "shape": 28677}, "text": "0: 空指针，有时也表示为“NULL”或“∧”。", "level": 1, "extra": {"top": 2971800}}
+{"id": "s02-032-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 32, "shape": 28678}, "text": "头结点: 通常需要在链表第一个结点之前附加一个结点，用于记录线性表的某些性质信息(如长度)。", "level": 1, "extra": {"top": 3597275}}
+{"id": "s02-032-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 32, "shape": 28686}, "text": "a1", "level": 1, "extra": {"top": 3179}}
+{"id": "s02-032-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 32, "shape": 28687}, "text": "a2", "level": 1, "extra": {"top": 3179}}
+{"id": "s02-032-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 32, "shape": 28690}, "text": "…", "level": 1, "extra": {"top": 3157}}
+{"id": "s02-032-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 32, "shape": 28692}, "text": "0", "level": 1, "extra": {"font": 20.0, "top": 3227}}
+{"id": "s02-032-15", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 32, "shape": 28693}, "text": "an", "level": 1, "extra": {"top": 3179}}
+{"id": "s02-032-16", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 32, "shape": 28694}, "text": "Head", "level": 1, "extra": {"top": 2880}}
+{"id": "s02-033-7", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 33, "shape": 29699}, "text": "线性表的单链表存储结构", "level": 2, "extra": {"top": 1981200}}
+{"id": "s02-033-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 33, "shape": 29725}, "text": "a1", "level": 1, "extra": {"top": 3371}}
+{"id": "s02-033-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 33, "shape": 29726}, "text": "a2", "level": 1, "extra": {"top": 3371}}
+{"id": "s02-033-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 33, "shape": 29729}, "text": "…", "level": 1, "extra": {"top": 3349}}
+{"id": "s02-033-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 33, "shape": 29731}, "text": "0", "level": 1, "extra": {"font": 20.0, "top": 3419}}
+{"id": "s02-033-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 33, "shape": 29732}, "text": "an", "level": 1, "extra": {"top": 3371}}
+{"id": "s02-033-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 33, "shape": 29734}, "text": "Head", "level": 1, "extra": {"top": 3072}}
+{"id": "s02-033-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 33, "shape": 29715}, "text": "typedef    struct   LNode  {", "level": 1, "extra": {"top": 1728}}
+{"id": "s02-033-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 33, "shape": 29716}, "text": "ElemType            data;", "level": 1, "extra": {"top": 2064}}
+{"id": "s02-033-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 33, "shape": 29717}, "text": "struct  LNode      * next;", "level": 1, "extra": {"top": 2352}}
+{"id": "s02-033-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 33, "shape": 29718}, "text": "} LNode, * LinkList;", "level": 1, "extra": {"top": 2688}}
+{"id": "s02-033-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 33, "shape": 29701}, "text": "空表:", "level": 1, "extra": {"top": 5486400}}
+{"id": "s02-033-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 33, "shape": 29703}, "text": "0", "level": 1, "extra": {"font": 20.0, "top": 3563}}
+{"id": "s02-033-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 33, "shape": 29705}, "text": "Head", "level": 1, "extra": {"top": 3216}}
+{"id": "s02-034-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 34, "shape": 30722}, "text": "线性表的链式存储结构的特点", "level": 2, "extra": {"top": 152400}}
+{"id": "s02-034-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 34, "shape": 30723}, "text": "不可随机存取表中任意数据元素", "level": 1, "extra": {"top": 762000}}
+{"id": "s02-034-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 34, "shape": 30724}, "text": "缺点:", "level": 1, "extra": {"top": 762000}}
+{"id": "s02-034-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 34, "shape": 30725}, "text": "不可直接获取线性表的长度", "level": 1, "extra": {"top": 1371600}}
+{"id": "s02-034-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 34, "shape": 30726}, "text": "算法2.8:  取线性单链表第 i 个元素。", "level": 1, "extra": {"top": 1981200}}
+{"id": "s02-034-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 34, "shape": 30727}, "text": "Status  GetElem_L ( LinkList  L, int  i, ElemType  &e )", "level": 1, "extra": {"font": 22.0, "top": 2590800}}
+{"id": "s02-034-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 34, "shape": 30727}, "text": "{", "level": 1, "extra": {"font": 22.0, "top": 2590800}}
+{"id": "s02-034-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 34, "shape": 30727}, "text": "p = L->next; j=1;", "level": 1, "extra": {"font": 22.0, "top": 2590800}}
+{"id": "s02-034-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 34, "shape": 30727}, "text": "while   ( p &&  j < i )  { p = p->next; ++j; }", "level": 1, "extra": {"font": 22.0, "top": 2590800}}
+{"id": "s02-034-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 34, "shape": 30727}, "text": "if  ( !p || j >i )   return  ERROR; //i<1或者i越界", "level": 1, "extra": {"font": 22.0, "top": 2590800}}
+{"id": "s02-034-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 34, "shape": 30727}, "text": "e = p->data;", "level": 1, "extra": {"font": 22.0, "top": 2590800}}
+{"id": "s02-034-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 34, "shape": 30727}, "text": "return  OK;", "level": 1, "extra": {"font": 22.0, "top": 2590800}}
+{"id": "s02-034-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 34, "shape": 30727}, "text": "}", "level": 1, "extra": {"font": 22.0, "top": 2590800}}
+{"id": "s02-035-8", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 35, "shape": 31760}, "text": "p = L->next", "level": 2, "extra": {"font": 20.0, "top": 613}}
+{"id": "s02-035-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 35, "shape": 31746}, "text": "例，取第i=3个元素。", "level": 1, "extra": {"top": 457200}}
+{"id": "s02-035-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 35, "shape": 31769}, "text": "Zhao", "level": 1, "extra": {"top": 1082}}
+{"id": "s02-035-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 35, "shape": 31770}, "text": "Qian", "level": 1, "extra": {"top": 1089}}
+{"id": "s02-035-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 35, "shape": 31774}, "text": "0", "level": 1, "extra": {"font": 20.0, "top": 1115}}
+{"id": "s02-035-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 35, "shape": 31775}, "text": "Li", "level": 1, "extra": {"top": 1093}}
+{"id": "s02-035-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 35, "shape": 31777}, "text": "L", "level": 1, "extra": {"top": 768}}
+{"id": "s02-035-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 35, "shape": 31790}, "text": "Sun", "level": 1, "extra": {"top": 1089}}
+{"id": "s02-035-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 35, "shape": 31761}, "text": "j = 1", "level": 1, "extra": {"font": 20.0, "top": 1632}}
+{"id": "s02-035-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 35, "shape": 31757}, "text": "p = p->next", "level": 1, "extra": {"font": 20.0, "top": 816}}
+{"id": "s02-035-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 35, "shape": 31758}, "text": "j = 2", "level": 1, "extra": {"font": 20.0, "top": 1835}}
+{"id": "s02-035-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 35, "shape": 31754}, "text": "p = p->next", "level": 1, "extra": {"font": 20.0, "top": 816}}
+{"id": "s02-035-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 35, "shape": 31755}, "text": "j = 3", "level": 1, "extra": {"font": 20.0, "top": 1835}}
+{"id": "s02-035-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 35, "shape": 60463}, "text": "e = p->data = Sun", "level": 1, "extra": {"top": 3657600}}
+{"id": "s02-035-15", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 35, "shape": 60464}, "text": "时间复杂度:", "level": 1, "extra": {"top": 4724400}}
+{"id": "s02-035-16", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 35, "shape": 60465}, "text": "O(n)", "level": 1, "extra": {"top": 4724400}}
+{"id": "s02-035-17", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 35, "shape": 2}, "text": "Status  GetElem_L ( LinkList  L, int  i, ElemType  &e )", "level": 1, "extra": {"font": 14.0, "top": 4293096}}
+{"id": "s02-035-18", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 35, "shape": 2}, "text": "{", "level": 1, "extra": {"font": 14.0, "top": 4293096}}
+{"id": "s02-035-19", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 35, "shape": 2}, "text": "p = L->next; j=1;", "level": 1, "extra": {"font": 14.0, "top": 4293096}}
+{"id": "s02-035-20", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 35, "shape": 2}, "text": "while   ( p &&  j < i )  { p = p->next; ++j; }", "level": 1, "extra": {"font": 14.0, "top": 4293096}}
+{"id": "s02-035-21", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 35, "shape": 2}, "text": "if  ( !p || j >i )   return  ERROR;", "level": 1, "extra": {"font": 14.0, "top": 4293096}}
+{"id": "s02-035-22", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 35, "shape": 2}, "text": "e = p->data;", "level": 1, "extra": {"font": 14.0, "top": 4293096}}
+{"id": "s02-035-23", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 35, "shape": 2}, "text": "return  OK;", "level": 1, "extra": {"font": 14.0, "top": 4293096}}
+{"id": "s02-035-24", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 35, "shape": 2}, "text": "}", "level": 1, "extra": {"font": 14.0, "top": 4293096}}
+{"id": "s02-036-2", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 36, "shape": 32796}, "text": "数据元素的插入、删除相对方便", "level": 2, "extra": {"top": 266}}
+{"id": "s02-036-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 36, "shape": 32795}, "text": "优点:", "level": 1, "extra": {"top": 288}}
+{"id": "s02-036-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 36, "shape": 32771}, "text": "在a，b之间插入元素x :", "level": 1, "extra": {"top": 1143000}}
+{"id": "s02-036-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 36, "shape": 32784}, "text": "a", "level": 1, "extra": {"top": 1573}}
+{"id": "s02-036-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 36, "shape": 32785}, "text": "b", "level": 1, "extra": {"top": 1591}}
+{"id": "s02-036-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 36, "shape": 32787}, "text": "p", "level": 1, "extra": {"top": 1104}}
+{"id": "s02-036-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 36, "shape": 32792}, "text": "x", "level": 1, "extra": {"top": 2145}}
+{"id": "s02-036-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 36, "shape": 32794}, "text": "s", "level": 1, "extra": {"top": 2160}}
+{"id": "s02-036-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 36, "shape": 59457}, "text": "s->next = p->next", "level": 1, "extra": {"top": 4267200}}
+{"id": "s02-036-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 36, "shape": 59461}, "text": "p->next = s", "level": 1, "extra": {"top": 4800600}}
+{"id": "s02-036-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 36, "shape": 2}, "text": "务必记住操作顺序", "level": 1, "extra": {"top": 1268760}}
+{"id": "s02-036-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 36, "shape": 2}, "text": "任何时刻，每个内存单元都要有指针牵住，否则会出现内存泄露或者非法访问", "level": 1, "extra": {"top": 1268760}}
+{"id": "s02-037-13", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 37, "shape": 33803}, "text": "//找到第 i 个结点的前驱第i-1结点", "level": 2, "extra": {"font": 20.0, "top": 1632}}
+{"id": "s02-037-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 37, "shape": 33794}, "text": "算法2.9   在第 i 个数据元素之前插入一个新的元素", "level": 1, "extra": {"top": 381000}}
+{"id": "s02-037-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 37, "shape": 63492}, "text": "p = L; j = 0;", "level": 1, "extra": {"font": 22.0, "top": 1858963}}
+{"id": "s02-037-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 37, "shape": 63500}, "text": "return  OK;", "level": 1, "extra": {"font": 22.0, "top": 5592763}}
+{"id": "s02-037-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 37, "shape": 33808}, "text": "Status  ListInsert_L ( LinkList  &L, int  i, ElemType  e )", "level": 1, "extra": {"font": 22.0, "top": 624}}
+{"id": "s02-037-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 37, "shape": 33808}, "text": "{", "level": 1, "extra": {"font": 22.0, "top": 624}}
+{"id": "s02-037-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 37, "shape": 33809}, "text": "}", "level": 1, "extra": {"font": 22.0, "top": 3763}}
+{"id": "s02-037-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 37, "shape": 63505}, "text": "if  ( ! p || j > i - 1 )  return  ERROR; //i小于1或者越界", "level": 1, "extra": {"font": 22.0, "top": 2971800}}
+{"id": "s02-037-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 37, "shape": 33806}, "text": "p->next = s; //插入新结点", "level": 1, "extra": {"top": 3168}}
+{"id": "s02-037-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 37, "shape": 33807}, "text": "s->next = p->next;", "level": 1, "extra": {"top": 2832}}
+{"id": "s02-037-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 37, "shape": 33804}, "text": "s->data = e; //建立新结点", "level": 1, "extra": {"top": 2496}}
+{"id": "s02-037-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 37, "shape": 33805}, "text": "s = (LNode *) malloc ( sizeof (LNode) );", "level": 1, "extra": {"top": 2160}}
+{"id": "s02-037-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 37, "shape": 33802}, "text": "while   ( p  &&  j < i - 1 )  { p = p->next; ++j; }", "level": 1, "extra": {"font": 22.0, "top": 1392}}
+{"id": "s02-037-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 37, "shape": 2}, "text": "这段代码有什么问题？", "level": 1, "speaker_notes": "没有对S是否为空进行判定", "extra": {"top": 6237312}}
+{"id": "s02-038-7", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 38, "shape": 34837}, "text": "p = L->next", "level": 2, "extra": {"font": 20.0, "top": 613}}
+{"id": "s02-038-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 38, "shape": 34818}, "text": "例，在第3个元素之插入一个新元素。", "level": 1, "extra": {"top": 457200}}
+{"id": "s02-038-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 38, "shape": 34846}, "text": "Zhao", "level": 1, "extra": {"top": 1285}}
+{"id": "s02-038-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 38, "shape": 34847}, "text": "Qian", "level": 1, "extra": {"top": 1292}}
+{"id": "s02-038-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 38, "shape": 34850}, "text": "0", "level": 1, "extra": {"font": 20.0, "top": 1318}}
+{"id": "s02-038-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 38, "shape": 34851}, "text": "Li", "level": 1, "extra": {"top": 1296}}
+{"id": "s02-038-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 38, "shape": 34853}, "text": "L", "level": 1, "extra": {"top": 971}}
+{"id": "s02-038-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 38, "shape": 34838}, "text": "j = 1", "level": 1, "extra": {"font": 20.0, "top": 1632}}
+{"id": "s02-038-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 38, "shape": 34834}, "text": "p = p->next", "level": 1, "extra": {"font": 20.0, "top": 816}}
+{"id": "s02-038-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 38, "shape": 34835}, "text": "j = 2", "level": 1, "extra": {"font": 20.0, "top": 1835}}
+{"id": "s02-038-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 38, "shape": 34831}, "text": "Sun", "level": 1, "extra": {"top": 1872}}
+{"id": "s02-038-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 38, "shape": 34833}, "text": "s", "level": 1, "extra": {"top": 1872}}
+{"id": "s02-038-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 38, "shape": 64584}, "text": "时间复杂度:", "level": 1, "extra": {"top": 4495800}}
+{"id": "s02-038-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 38, "shape": 64585}, "text": "O(n)", "level": 1, "extra": {"top": 4495800}}
+{"id": "s02-038-15", "src": "第02章+线性表.pptx", "type": "image", "loc": {"slide": 38, "shape": 34864}, "asset": "assets/15e7f077.png"}
+{"id": "s02-039-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 39, "shape": 35842}, "text": "删除元素b :", "level": 2, "extra": {"top": 381000}}
+{"id": "s02-039-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 39, "shape": 35867}, "text": "a", "level": 1, "extra": {"top": 1141}}
+{"id": "s02-039-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 39, "shape": 35868}, "text": "c", "level": 1, "extra": {"top": 1148}}
+{"id": "s02-039-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 39, "shape": 35870}, "text": "p", "level": 1, "extra": {"top": 672}}
+{"id": "s02-039-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 39, "shape": 35875}, "text": "b", "level": 1, "extra": {"top": 1152}}
+{"id": "s02-039-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 39, "shape": 35861}, "text": "q=p->next", "level": 1, "extra": {"top": 672}}
+{"id": "s02-039-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 39, "shape": 35859}, "text": "p ->next = p ->next ->next ?", "level": 1, "extra": {"top": 1728}}
+{"id": "s02-039-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 39, "shape": 35856}, "text": "p->next = q->next", "level": 1, "extra": {"top": 2880}}
+{"id": "s02-039-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 39, "shape": 35857}, "text": "q = p->next", "level": 1, "extra": {"top": 2533}}
+{"id": "s02-040-13", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 40, "shape": 36876}, "text": "//找到第 i 个结点的前驱结点", "level": 2, "extra": {"font": 20.0, "top": 1536}}
+{"id": "s02-040-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 40, "shape": 36866}, "text": "算法2.10   删除第 i 个数据元素", "level": 1, "extra": {"top": 381000}}
+{"id": "s02-040-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 40, "shape": 3}, "text": "p = L; j = 0;", "level": 1, "extra": {"font": 22.0, "top": 1785938}}
+{"id": "s02-040-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 40, "shape": 4}, "text": "return  OK;", "level": 1, "extra": {"font": 22.0, "top": 5592763}}
+{"id": "s02-040-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 40, "shape": 36879}, "text": "Status  ListDelete_L ( LinkList  &L, int i, ElemType  &e )", "level": 1, "extra": {"font": 22.0, "top": 624}}
+{"id": "s02-040-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 40, "shape": 36879}, "text": "{", "level": 1, "extra": {"font": 22.0, "top": 624}}
+{"id": "s02-040-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 40, "shape": 36880}, "text": "}", "level": 1, "extra": {"font": 22.0, "top": 3691}}
+{"id": "s02-040-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 40, "shape": 8}, "text": "if  ( ! p->next || j > i - 1 )  return  ERROR;", "level": 1, "extra": {"font": 22.0, "top": 3157538}}
+{"id": "s02-040-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 40, "shape": 36877}, "text": "p->next = q->next; //删除第 i 个结点", "level": 1, "extra": {"top": 2496}}
+{"id": "s02-040-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 40, "shape": 36878}, "text": "q = p->next;", "level": 1, "extra": {"top": 2160}}
+{"id": "s02-040-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 40, "shape": 12}, "text": "e = q->data;", "level": 1, "extra": {"top": 4757738}}
+{"id": "s02-040-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 40, "shape": 13}, "text": "free(q);", "level": 1, "extra": {"top": 5291138}}
+{"id": "s02-040-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 40, "shape": 36875}, "text": "while   ( p->next &&  j < i - 1 )  {  p = p->next; ++j; }", "level": 1, "extra": {"font": 22.0, "top": 1296}}
+{"id": "s02-041-8", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 41, "shape": 37910}, "text": "p = L->next", "level": 2, "extra": {"font": 20.0, "top": 613}}
+{"id": "s02-041-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 41, "shape": 37890}, "text": "例，删除第3个元素。", "level": 1, "extra": {"top": 457200}}
+{"id": "s02-041-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 41, "shape": 37919}, "text": "Zhao", "level": 1, "extra": {"top": 1082}}
+{"id": "s02-041-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 41, "shape": 37920}, "text": "Qian", "level": 1, "extra": {"top": 1089}}
+{"id": "s02-041-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 41, "shape": 37924}, "text": "0", "level": 1, "extra": {"font": 20.0, "top": 1115}}
+{"id": "s02-041-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 41, "shape": 37925}, "text": "Li", "level": 1, "extra": {"top": 1093}}
+{"id": "s02-041-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 41, "shape": 37927}, "text": "L", "level": 1, "extra": {"top": 768}}
+{"id": "s02-041-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 41, "shape": 37940}, "text": "Sun", "level": 1, "extra": {"top": 1089}}
+{"id": "s02-041-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 41, "shape": 37911}, "text": "j = 1", "level": 1, "extra": {"font": 20.0, "top": 1632}}
+{"id": "s02-041-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 41, "shape": 37907}, "text": "p = p->next", "level": 1, "extra": {"font": 20.0, "top": 816}}
+{"id": "s02-041-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 41, "shape": 37908}, "text": "j = 2(= 3 - 1)", "level": 1, "extra": {"font": 20.0, "top": 1835}}
+{"id": "s02-041-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 41, "shape": 67671}, "text": "e = q->data = Sun", "level": 1, "extra": {"top": 3763888}}
+{"id": "s02-041-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 41, "shape": 37905}, "text": "q = p->next", "level": 1, "extra": {"font": 20.0, "top": 816}}
+{"id": "s02-041-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 41, "shape": 67685}, "text": "时间复杂度:", "level": 1, "extra": {"top": 4876800}}
+{"id": "s02-041-15", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 41, "shape": 67686}, "text": "O(n)", "level": 1, "extra": {"top": 4876800}}
+{"id": "s02-041-16", "src": "第02章+线性表.pptx", "type": "image", "loc": {"slide": 41, "shape": 37941}, "asset": "assets/ad4f403a.png"}
+{"id": "s02-042-13", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 42, "shape": 36876}, "text": "//找到第 i 个结点的前驱结点", "level": 2, "extra": {"font": 20.0, "top": 1536}}
+{"id": "s02-042-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 42, "shape": 36866}, "text": "问题：为什么删除函数不能如下写？", "level": 1, "extra": {"top": 381000}}
+{"id": "s02-042-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 42, "shape": 3}, "text": "p = L; j = 0;", "level": 1, "extra": {"font": 22.0, "top": 1785938}}
+{"id": "s02-042-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 42, "shape": 4}, "text": "return  OK;", "level": 1, "extra": {"font": 22.0, "top": 5592763}}
+{"id": "s02-042-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 42, "shape": 36879}, "text": "Status  ListDelete_L ( LinkList  &L, int i, ElemType  &e )", "level": 1, "extra": {"font": 22.0, "top": 624}}
+{"id": "s02-042-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 42, "shape": 36879}, "text": "{", "level": 1, "extra": {"font": 22.0, "top": 624}}
+{"id": "s02-042-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 42, "shape": 36880}, "text": "}", "level": 1, "extra": {"font": 22.0, "top": 3691}}
+{"id": "s02-042-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 42, "shape": 8}, "text": "if  ( ! p->next || j > i - 1 )  return  ERROR;", "level": 1, "extra": {"font": 22.0, "top": 3157538}}
+{"id": "s02-042-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 42, "shape": 36877}, "text": "p->next = q->next; //删除第 i 个结点", "level": 1, "extra": {"top": 2496}}
+{"id": "s02-042-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 42, "shape": 36878}, "text": "q = p->next;", "level": 1, "extra": {"top": 2160}}
+{"id": "s02-042-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 42, "shape": 12}, "text": "e = q->data;", "level": 1, "extra": {"top": 4757738}}
+{"id": "s02-042-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 42, "shape": 13}, "text": "free(q);", "level": 1, "extra": {"top": 5291138}}
+{"id": "s02-042-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 42, "shape": 36875}, "text": "while   ( p->next &&  j < i - 1 )  {  p = p->next; ++j; }", "level": 1, "extra": {"font": 22.0, "top": 1296}}
+{"id": "s02-043-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 43, "shape": 2}, "text": "调用ListDelete_L后还需要做什么？", "level": 1}
+{"id": "s02-043-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 43, "shape": 3}, "text": "typedef struct {", "level": 1, "extra": {"font": 10.0, "top": 1235893}}
+{"id": "s02-043-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 43, "shape": 3}, "text": "char name[100];", "level": 1, "extra": {"font": 10.0, "top": 1235893}}
+{"id": "s02-043-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 43, "shape": 3}, "text": "} ElemType;", "level": 1, "extra": {"font": 10.0, "top": 1235893}}
+{"id": "s02-043-5", "src": "第02章+线性表.pptx", "type": "image", "loc": {"slide": 43, "shape": 11}, "asset": "assets/9efdec0a.png", "speaker_notes": "#include <stdlib.h>\n#include <stdio.h>\n#include <string.h>\n\ntypedef  struct{\n         char name[100];\n} ElemType;\n\ntypedef    struct   LNode  {\n\tElemType            data;\n\tstruct  LNode      * next;\n} LNode;\n\nint main()\n{\n    \n\tLNode* s = (LNode *) malloc ( sizeof (LNode) );\t\n\t\n\tstrcpy(s->data.name, \"default\");    \t\n\tprintf (\"The value is: \");\n    printf(s->data.name);\t\n    \n    ElemType data = s->data;\n    \n\tfree (s);\n\tprintf (\"\\nThen the value is: \");\n    printf(data.name);\t\n    return(0);\n}"}
+{"id": "s02-044-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 44, "shape": 2}, "text": "调用ListDelete_L后还需要做什么？", "level": 1}
+{"id": "s02-044-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 44, "shape": 3}, "text": "typedef struct {", "level": 1, "extra": {"font": 10.0, "top": 1235893}}
+{"id": "s02-044-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 44, "shape": 3}, "text": "char name[100];", "level": 1, "extra": {"font": 10.0, "top": 1235893}}
+{"id": "s02-044-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 44, "shape": 3}, "text": "} ElemType;", "level": 1, "extra": {"font": 10.0, "top": 1235893}}
+{"id": "s02-044-5", "src": "第02章+线性表.pptx", "type": "image", "loc": {"slide": 44, "shape": 11}, "asset": "assets/9efdec0a.png"}
+{"id": "s02-044-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 44, "shape": 4}, "text": "非法访问", "level": 1, "extra": {"top": 4941168}}
+{"id": "s02-044-7", "src": "第02章+线性表.pptx", "type": "image", "loc": {"slide": 44, "shape": 6}, "asset": "assets/a06d93ad.png", "speaker_notes": "#include <stdlib.h>\n#include <stdio.h>\n#include <string.h>\n\ntypedef  struct{\n         char name[100];\n} ElemType;\n\ntypedef    struct   LNode  {\n\tElemType            data;\n\tstruct  LNode      * next;\n} LNode;\n\nint main()\n{\n    \n\tLNode* s = (LNode *) malloc ( sizeof (LNode) );\t\n\t\n\tstrcpy(s->data.name, \"default\");    \t\n\tprintf (\"The value is: \");\n    printf(s->data.name);\t\n    \n    ElemType data = s->data;\n    \n\tfree (s);\n\tprintf (\"\\nThen the value is: \");\n    printf(data.name);\t\n    return(0);\n}"}
+{"id": "s02-045-2", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 45, "shape": 6}, "text": "动态变量需要动态分配内存", "level": 2, "extra": {"top": 4365104}}
+{"id": "s02-045-1", "src": "第02章+线性表.pptx", "type": "image", "loc": {"slide": 45, "shape": 8}, "asset": "assets/8c2c6905.png"}
+{"id": "s02-046-2", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 46, "shape": 6}, "text": "这个程序有问题么？", "level": 2, "extra": {"top": 3989426}}
+{"id": "s02-046-1", "src": "第02章+线性表.pptx", "type": "image", "loc": {"slide": 46, "shape": 8}, "asset": "assets/6c4319e4.png"}
+{"id": "s02-047-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 47, "shape": 2}, "text": "内存泄露", "level": 1}
+{"id": "s02-048-1", "src": "第02章+线性表.pptx", "type": "image", "loc": {"slide": 48, "shape": 5}, "asset": "assets/9097963c.png"}
+{"id": "s02-049-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 49, "shape": 2}, "text": "ListDelete_L调用后需要做什么？", "level": 1}
+{"id": "s02-050-11", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 50, "shape": 38920}, "text": "{    // 逆位序输入n个元素的值，建立带头结点的单链表", "level": 2, "extra": {"top": 624}}
+{"id": "s02-050-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 50, "shape": 38914}, "text": "算法2.11   利用插入操作构造一条完整的单链表。", "level": 1, "extra": {"top": 304800}}
+{"id": "s02-050-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 50, "shape": 38927}, "text": "L = (LinkList) malloc ( sizeof (LNode) );", "level": 1, "extra": {"top": 960}}
+{"id": "s02-050-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 50, "shape": 38928}, "text": "L->next = NULL; //建立头结点", "level": 1, "extra": {"top": 1296}}
+{"id": "s02-050-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 50, "shape": 38916}, "text": "p = (LNode *) malloc ( sizeof (LNode) );", "level": 1, "extra": {"top": 3276600}}
+{"id": "s02-050-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 50, "shape": 38924}, "text": "scanf ( &p->data );", "level": 1, "extra": {"top": 2352}}
+{"id": "s02-050-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 50, "shape": 38925}, "text": "p->next = L->next;", "level": 1, "extra": {"top": 2688}}
+{"id": "s02-050-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 50, "shape": 38926}, "text": "L->next = p; //在表头插入新结点", "level": 1, "extra": {"top": 3072}}
+{"id": "s02-050-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 50, "shape": 38922}, "text": "for  ( i = n; i > 0; --i )  {", "level": 1, "extra": {"top": 1632}}
+{"id": "s02-050-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 50, "shape": 38923}, "text": "}", "level": 1, "extra": {"top": 3360}}
+{"id": "s02-050-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 50, "shape": 38920}, "text": "void    CreateList_L ( LinkList  &L, int  n )", "level": 1, "extra": {"top": 624}}
+{"id": "s02-050-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 50, "shape": 38921}, "text": "}", "level": 1, "extra": {"top": 3601}}
+{"id": "s02-051-14", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 51, "shape": 69721}, "text": "时间复杂度:", "level": 2, "extra": {"top": 4800600}}
+{"id": "s02-051-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 51, "shape": 39938}, "text": "例，", "level": 1, "extra": {"top": 228600}}
+{"id": "s02-051-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 51, "shape": 69642}, "text": "Zhao", "level": 1, "extra": {"top": 1184275}}
+{"id": "s02-051-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 51, "shape": 69643}, "text": "Qian", "level": 1, "extra": {"top": 2098675}}
+{"id": "s02-051-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 51, "shape": 39989}, "text": "0", "level": 1, "extra": {"font": 20.0, "top": 1115}}
+{"id": "s02-051-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 51, "shape": 39993}, "text": "L", "level": 1, "extra": {"top": 768}}
+{"id": "s02-051-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 51, "shape": 69664}, "text": "0", "level": 1, "extra": {"font": 20.0, "top": 1236663}}
+{"id": "s02-051-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 51, "shape": 39986}, "text": "p", "level": 1, "extra": {"top": 672}}
+{"id": "s02-051-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 51, "shape": 39982}, "text": "p", "level": 1, "extra": {"top": 1584}}
+{"id": "s02-051-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 51, "shape": 39955}, "text": "Zhao", "level": 1, "extra": {"top": 2769}}
+{"id": "s02-051-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 51, "shape": 39956}, "text": "Qian", "level": 1, "extra": {"top": 2773}}
+{"id": "s02-051-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 51, "shape": 39958}, "text": "0", "level": 1, "extra": {"font": 20.0, "top": 2795}}
+{"id": "s02-051-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 51, "shape": 39960}, "text": "L", "level": 1, "extra": {"top": 2448}}
+{"id": "s02-051-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 51, "shape": 39972}, "text": "p", "level": 1, "extra": {"top": 2352}}
+{"id": "s02-051-15", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 51, "shape": 69722}, "text": "O(n)", "level": 1, "extra": {"top": 4800600}}
+{"id": "s02-052-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 52, "shape": 2}, "text": "顺序存储和链式存储的对比", "level": 1}
+{"id": "s02-052-2", "src": "第02章+线性表.pptx", "type": "table", "loc": {"slide": 52, "shape": 4}, "rows": [["", "顺序表", "链表"], ["在指定位置插入元素", "", ""], ["返回第i个元素", "", ""], ["删除指定元素", "", ""], ["获取列表长度", "", ""], ["查找元素", "", ""], ["找前驱", "", ""], ["找后继", "", ""]]}
+{"id": "s02-053-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 53, "shape": 43011}, "text": "链表的合并（原教材第2.1节中介绍，p20-21）", "level": 2, "extra": {"top": 2906713}}
+{"id": "s02-054-3", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 54, "shape": 44036}, "text": "思想:", "level": 2, "extra": {"top": 2133600}}
+{"id": "s02-054-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 54, "shape": 44034}, "text": "算法2.1，两个线性表La，Lb的合并。", "level": 1, "extra": {"top": 381000}}
+{"id": "s02-054-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 54, "shape": 44035}, "text": "要求: 扩展线性表La，将存在于Lb中而不存在于La中的数据元素插入到La中。", "level": 1, "extra": {"top": 1012825}}
+{"id": "s02-054-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 54, "shape": 44037}, "text": "1.  依次取出 Lb 中的数据元素进行处理", "level": 1, "extra": {"font": 20.0, "top": 2651125}}
+{"id": "s02-054-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 54, "shape": 44038}, "text": "2.  判断该数据元素是否存在于 La 中", "level": 1, "extra": {"font": 20.0, "top": 3276600}}
+{"id": "s02-054-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 54, "shape": 44039}, "text": "3.  在则取下一个数据元素，否则插入到 La 中", "level": 1, "extra": {"font": 20.0, "top": 3946525}}
+{"id": "s02-055-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 55, "shape": 45058}, "text": "La_len = ListLength ( La );", "level": 1, "extra": {"font": 20.0, "top": 1295400}}
+{"id": "s02-055-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 55, "shape": 45058}, "text": "Lb_len = ListLength ( Lb );", "level": 1, "extra": {"font": 20.0, "top": 1295400}}
+{"id": "s02-055-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 55, "shape": 45059}, "text": "for  ( i = 1; i <= Lb_len; i++ )", "level": 1, "extra": {"font": 20.0, "top": 2362200}}
+{"id": "s02-055-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 55, "shape": 45059}, "text": "{", "level": 1, "extra": {"font": 20.0, "top": 2362200}}
+{"id": "s02-055-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 55, "shape": 45060}, "text": "GetElem ( Lb, i, e );", "level": 1, "extra": {"font": 20.0, "top": 3124200}}
+{"id": "s02-055-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 55, "shape": 45061}, "text": "if  ( ! LocateElem( La, e, equal ) )", "level": 1, "extra": {"font": 20.0, "top": 3803650}}
+{"id": "s02-055-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 55, "shape": 45061}, "text": "ListInsert( La, ++La_len, e );", "level": 1, "extra": {"font": 20.0, "top": 3803650}}
+{"id": "s02-055-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 55, "shape": 45062}, "text": "}", "level": 1, "extra": {"font": 20.0, "top": 4387850}}
+{"id": "s02-055-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 55, "shape": 45064}, "text": "void  union ( List  &La, List  Lb )", "level": 1, "extra": {"font": 20.0, "top": 1344}}
+{"id": "s02-055-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 55, "shape": 45064}, "text": "{", "level": 1, "extra": {"font": 20.0, "top": 1344}}
+{"id": "s02-055-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 55, "shape": 45065}, "text": "}", "level": 1, "extra": {"font": 20.0, "top": 3264}}
+{"id": "s02-056-13", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 56, "shape": 40998}, "text": "查找La，未找到", "level": 2, "extra": {"top": 2133600}}
+{"id": "s02-056-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 56, "shape": 46082}, "text": "例，  La = (3,13,7,9)     Lb = (5,7,10)", "level": 1, "extra": {"top": 381000}}
+{"id": "s02-056-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 56, "shape": 40964}, "text": "首先，La_len = 4；Lb_len = 3；", "level": 1, "extra": {"top": 990600}}
+{"id": "s02-056-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 56, "shape": 46115}, "text": "3", "level": 1, "extra": {"top": 1355}}
+{"id": "s02-056-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 56, "shape": 46116}, "text": "13", "level": 1, "extra": {"top": 1595}}
+{"id": "s02-056-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 56, "shape": 46117}, "text": "7", "level": 1, "extra": {"top": 1839}}
+{"id": "s02-056-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 56, "shape": 46118}, "text": "9", "level": 1, "extra": {"top": 2075}}
+{"id": "s02-056-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 56, "shape": 46119}, "text": "La", "level": 1, "extra": {"top": 1056}}
+{"id": "s02-056-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 56, "shape": 46104}, "text": "5", "level": 1, "extra": {"top": 1355}}
+{"id": "s02-056-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 56, "shape": 46105}, "text": "7", "level": 1, "extra": {"top": 1595}}
+{"id": "s02-056-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 56, "shape": 46106}, "text": "10", "level": 1, "extra": {"top": 1839}}
+{"id": "s02-056-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 56, "shape": 46107}, "text": "Lb", "level": 1, "extra": {"top": 1056}}
+{"id": "s02-056-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 56, "shape": 46097}, "text": "5", "level": 1, "extra": {"top": 2570}}
+{"id": "s02-056-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 56, "shape": 40999}, "text": "查找La，找到", "level": 1, "extra": {"top": 2514600}}
+{"id": "s02-056-15", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 56, "shape": 41000}, "text": "查找La，未找到", "level": 1, "extra": {"top": 2895600}}
+{"id": "s02-056-16", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 56, "shape": 46094}, "text": "10", "level": 1, "extra": {"top": 2806}}
+{"id": "s02-057-15", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 57, "shape": 42026}, "text": "思想:", "level": 2, "extra": {"top": 1828800}}
+{"id": "s02-057-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 57, "shape": 47106}, "text": "算法2.2，两个有序线性表La，Lb的合并。", "level": 1, "extra": {"top": 304800}}
+{"id": "s02-057-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 57, "shape": 41987}, "text": "要求: 线性表La、Lb中的数据元素按值非递减有序排列，合并La、Lb构造Lc，使Lc中的数据元素仍按值非递减有序排列。", "level": 1, "extra": {"font": 22.0, "top": 838200}}
+{"id": "s02-057-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 57, "shape": 41997}, "text": "例，La = ( 3, 5, 8, 11 )", "level": 1, "extra": {"top": 2438400}}
+{"id": "s02-057-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 57, "shape": 41997}, "text": "Lb = ( 2, 6, 8, 9, 11, 15, 20 )", "level": 1, "extra": {"top": 2438400}}
+{"id": "s02-057-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 57, "shape": 41998}, "text": "构造 Lc = ( 2, 3, 5, 6, 8, 8, 9, 11, 11, 15, 20 )", "level": 1, "extra": {"top": 3886200}}
+{"id": "s02-057-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 57, "shape": 47136}, "text": "i", "level": 1, "extra": {"font": 20.0, "top": 1152}}
+{"id": "s02-057-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 57, "shape": 47134}, "text": "j", "level": 1, "extra": {"font": 20.0, "top": 2171}}
+{"id": "s02-057-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 57, "shape": 47131}, "text": "构造 Lc = ( 2, 3, 5, 6, 8, 8, 9, 11, 11, 15, 20 )", "level": 1, "extra": {"top": 2448}}
+{"id": "s02-057-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 57, "shape": 47128}, "text": "j", "level": 1, "extra": {"font": 20.0, "top": 2171}}
+{"id": "s02-057-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 57, "shape": 47126}, "text": "i", "level": 1, "extra": {"font": 20.0, "top": 1152}}
+{"id": "s02-057-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 57, "shape": 47123}, "text": "构造 Lc = ( 2, 3, 5, 6, 8, 8, 9, 11, 11, 15, 20 )", "level": 1, "extra": {"top": 2448}}
+{"id": "s02-057-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 57, "shape": 47120}, "text": "i", "level": 1, "extra": {"font": 20.0, "top": 1152}}
+{"id": "s02-057-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 57, "shape": 47118}, "text": "j", "level": 1, "extra": {"font": 20.0, "top": 2171}}
+{"id": "s02-057-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 57, "shape": 47115}, "text": "构造 Lc = ( 2, 3, 5, 6, 8, 8, 9, 11, 11, 15, 20 )", "level": 1, "extra": {"top": 2448}}
+{"id": "s02-058-12", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 58, "shape": 48137}, "text": "// 处理超长部分", "level": 2, "extra": {"font": 20.0, "top": 4953000}}
+{"id": "s02-058-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 58, "shape": 48130}, "text": "La_len = ListLength ( La );  Lb_len = ListLength ( Lb );", "level": 1, "extra": {"font": 20.0, "top": 1965325}}
+{"id": "s02-058-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 58, "shape": 48142}, "text": "void  MergeList ( List  La, List Lb, List &Lc )", "level": 1, "extra": {"font": 20.0, "top": 230}}
+{"id": "s02-058-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 58, "shape": 48142}, "text": "{", "level": 1, "extra": {"font": 20.0, "top": 230}}
+{"id": "s02-058-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 58, "shape": 48143}, "text": "}", "level": 1, "extra": {"font": 20.0, "top": 3446}}
+{"id": "s02-058-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 58, "shape": 48132}, "text": "InitList ( Lc );", "level": 1, "extra": {"font": 20.0, "top": 1127125}}
+{"id": "s02-058-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 58, "shape": 48133}, "text": "i = j = 1; k = 0;", "level": 1, "extra": {"font": 20.0, "top": 1584325}}
+{"id": "s02-058-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 58, "shape": 48134}, "text": "GetElem ( La, i, a ); GetElem ( Lb, j, b );", "level": 1, "extra": {"font": 20.0, "top": 3048000}}
+{"id": "s02-058-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 58, "shape": 48140}, "text": "}", "level": 1, "extra": {"font": 20.0, "top": 2764}}
+{"id": "s02-058-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 58, "shape": 48141}, "text": "while  ( ( i <= La_len ) && ( j <= Lb_len ) )    {", "level": 1, "extra": {"font": 20.0, "top": 1526}}
+{"id": "s02-058-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 58, "shape": 48138}, "text": "if  ( a <= b )    {  ListInsert( Lc, ++k, a ); ++i; }", "level": 1, "extra": {"font": 20.0, "top": 2150}}
+{"id": "s02-058-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 58, "shape": 48139}, "text": "else    {  ListInsert( Lc, ++k, b ); ++j; }", "level": 1, "extra": {"font": 20.0, "top": 2486}}
+{"id": "s02-059-5", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 59, "shape": 49155}, "text": "}   // 如果剩余 La", "level": 2, "extra": {"font": 20.0, "top": 914400}}
+{"id": "s02-059-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 59, "shape": 49154}, "text": "// 处理超长部分", "level": 1, "extra": {"top": 365125}}
+{"id": "s02-059-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 59, "shape": 49155}, "text": "while  ( i <= La_len )     {", "level": 1, "extra": {"font": 20.0, "top": 914400}}
+{"id": "s02-059-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 59, "shape": 49155}, "text": "GetElem ( La, i++, a );", "level": 1, "extra": {"font": 20.0, "top": 914400}}
+{"id": "s02-059-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 59, "shape": 49155}, "text": "ListInsert( Lc, ++k, a );", "level": 1, "extra": {"font": 20.0, "top": 914400}}
+{"id": "s02-059-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 59, "shape": 49155}, "text": "while  ( j <= Lb_len )     {", "level": 1, "extra": {"font": 20.0, "top": 914400}}
+{"id": "s02-059-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 59, "shape": 49155}, "text": "GetElem ( Lb, j++, b );", "level": 1, "extra": {"font": 20.0, "top": 914400}}
+{"id": "s02-059-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 59, "shape": 49155}, "text": "ListInsert( Lc, ++k, b );", "level": 1, "extra": {"font": 20.0, "top": 914400}}
+{"id": "s02-059-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 59, "shape": 49155}, "text": "}   // 如果剩余 Lb", "level": 1, "extra": {"font": 20.0, "top": 914400}}
+{"id": "s02-060-39", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 60, "shape": 50194}, "text": "算法结束！", "level": 2, "extra": {"font": 20.0, "top": 3264}}
+{"id": "s02-060-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50178}, "text": "例，La = ( 3, 5, 8 )", "level": 1, "extra": {"top": 207963}}
+{"id": "s02-060-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50178}, "text": "Lb = ( 2, 6, 8, 9, 15 )", "level": 1, "extra": {"top": 207963}}
+{"id": "s02-060-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 44035}, "text": "构造 Lc = ( 2, 3, 5, 6, 8, 8, 9, 15 )", "level": 1, "extra": {"top": 1066800}}
+{"id": "s02-060-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50299}, "text": "3", "level": 1, "extra": {"top": 1403}}
+{"id": "s02-060-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50300}, "text": "5", "level": 1, "extra": {"top": 1654}}
+{"id": "s02-060-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50301}, "text": "8", "level": 1, "extra": {"top": 1883}}
+{"id": "s02-060-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50302}, "text": "La", "level": 1, "extra": {"top": 1104}}
+{"id": "s02-060-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50285}, "text": "2", "level": 1, "extra": {"top": 1835}}
+{"id": "s02-060-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50286}, "text": "6", "level": 1, "extra": {"top": 2086}}
+{"id": "s02-060-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50287}, "text": "8", "level": 1, "extra": {"top": 2315}}
+{"id": "s02-060-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50288}, "text": "Lb", "level": 1, "extra": {"top": 1536}}
+{"id": "s02-060-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50291}, "text": "9", "level": 1, "extra": {"top": 2555}}
+{"id": "s02-060-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50292}, "text": "15", "level": 1, "extra": {"top": 2795}}
+{"id": "s02-060-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 44090}, "text": "Lc", "level": 1, "extra": {"top": 2286000}}
+{"id": "s02-060-15", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50277}, "text": "i", "level": 1, "extra": {"font": 20.0, "top": 1429}}
+{"id": "s02-060-16", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50275}, "text": "j", "level": 1, "extra": {"font": 20.0, "top": 1440}}
+{"id": "s02-060-17", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50274}, "text": "2", "level": 1, "extra": {"top": 1403}}
+{"id": "s02-060-18", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 44111}, "text": "首先，La_len = 3；Lb_len = 5；", "level": 1, "extra": {"top": 1676400}}
+{"id": "s02-060-19", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50269}, "text": "3", "level": 1, "extra": {"top": 1403}}
+{"id": "s02-060-20", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50266}, "text": "i", "level": 1, "extra": {"font": 20.0, "top": 1429}}
+{"id": "s02-060-21", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50264}, "text": "j", "level": 1, "extra": {"font": 20.0, "top": 1440}}
+{"id": "s02-060-22", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50257}, "text": "i", "level": 1, "extra": {"font": 20.0, "top": 1429}}
+{"id": "s02-060-23", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50255}, "text": "j", "level": 1, "extra": {"font": 20.0, "top": 1440}}
+{"id": "s02-060-24", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50254}, "text": "5", "level": 1, "extra": {"top": 1403}}
+{"id": "s02-060-25", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50246}, "text": "i", "level": 1, "extra": {"font": 20.0, "top": 1429}}
+{"id": "s02-060-26", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50244}, "text": "j", "level": 1, "extra": {"font": 20.0, "top": 1440}}
+{"id": "s02-060-27", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50243}, "text": "6", "level": 1, "extra": {"top": 1403}}
+{"id": "s02-060-28", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50235}, "text": "i", "level": 1, "extra": {"font": 20.0, "top": 1429}}
+{"id": "s02-060-29", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50233}, "text": "j", "level": 1, "extra": {"font": 20.0, "top": 1440}}
+{"id": "s02-060-30", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50232}, "text": "8", "level": 1, "extra": {"top": 1403}}
+{"id": "s02-060-31", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50225}, "text": "8", "level": 1, "extra": {"top": 1403}}
+{"id": "s02-060-32", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50222}, "text": "j", "level": 1, "extra": {"font": 20.0, "top": 1440}}
+{"id": "s02-060-33", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50220}, "text": "i", "level": 1, "extra": {"font": 20.0, "top": 1429}}
+{"id": "s02-060-34", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50212}, "text": "j", "level": 1, "extra": {"font": 20.0, "top": 1440}}
+{"id": "s02-060-35", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50211}, "text": "9", "level": 1, "extra": {"top": 1403}}
+{"id": "s02-060-36", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50203}, "text": "j", "level": 1, "extra": {"font": 20.0, "top": 1440}}
+{"id": "s02-060-37", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50202}, "text": "15", "level": 1, "extra": {"top": 3515}}
+{"id": "s02-060-38", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 60, "shape": 50196}, "text": "j", "level": 1, "extra": {"font": 20.0, "top": 1440}}
+{"id": "s02-061-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 61, "shape": 51202}, "text": "算法时间复杂度", "level": 2, "extra": {"font": 28.0, "top": 381000}}
+{"id": "s02-061-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 61, "shape": 51203}, "text": "算法2.1 合并线性表", "level": 1, "extra": {"top": 2209800}}
+{"id": "s02-061-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 61, "shape": 51204}, "text": "算法2.2 合并有序线性表", "level": 1, "extra": {"top": 3581400}}
+{"id": "s02-061-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 61, "shape": 51205}, "text": "O( ListLength(La)×ListLength(Lb) )", "level": 1, "extra": {"top": 2743200}}
+{"id": "s02-061-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 61, "shape": 51206}, "text": "O( ListLength(La) + ListLength(Lb) )", "level": 1, "extra": {"top": 4114800}}
+{"id": "s02-061-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 61, "shape": 51208}, "text": "前提:  GetElem() 和 ListInsert() 的执行时间与表长无关（？）", "level": 1, "extra": {"font": 20.0, "top": 720}}
+{"id": "s02-061-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 61, "shape": 51209}, "text": "LocateElem() 的执行时间与表长成正比", "level": 1, "extra": {"font": 20.0, "top": 1013}}
+{"id": "s02-062-12", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 62, "shape": 40967}, "text": "Lc = pc = La; //分别指向Lc链尾", "level": 2, "extra": {"font": 22.0, "top": 2316163}}
+{"id": "s02-062-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 62, "shape": 40962}, "text": "算法2.12   将两个有序单链表合并为一个有序单链表", "level": 1, "extra": {"top": 152400}}
+{"id": "s02-062-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 62, "shape": 40963}, "text": "pa = La->next;  pb = Lb->next; //分别指向第一个结点", "level": 1, "extra": {"font": 22.0, "top": 1935163}}
+{"id": "s02-062-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 62, "shape": 40964}, "text": "pc->next = pa ? pa : pb; //处理剩余部分", "level": 1, "extra": {"font": 22.0, "top": 5181600}}
+{"id": "s02-062-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 62, "shape": 40973}, "text": "while  ( pa && pb )  {", "level": 1, "extra": {"font": 22.0, "top": 1632}}
+{"id": "s02-062-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 62, "shape": 40974}, "text": "if  ( pa->data <= pb->data )   {", "level": 1, "extra": {"font": 22.0, "top": 1968}}
+{"id": "s02-062-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 62, "shape": 40975}, "text": "pc->next = pa; pc = pa; pa = pa->next;}", "level": 1, "extra": {"font": 22.0, "top": 2275}}
+{"id": "s02-062-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 62, "shape": 40976}, "text": "else  {  pc->next = pb; pc = pb; pb = pb->next; }", "level": 1, "extra": {"font": 22.0, "top": 2592}}
+{"id": "s02-062-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 62, "shape": 40977}, "text": "}", "level": 1, "extra": {"font": 22.0, "top": 2803}}
+{"id": "s02-062-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 62, "shape": 40971}, "text": "void   MergeList_L (LinkList &La, LinkList &Lb, LinkList &Lc)", "level": 1, "extra": {"font": 20.0, "top": 528}}
+{"id": "s02-062-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 62, "shape": 40971}, "text": "{", "level": 1, "extra": {"font": 20.0, "top": 528}}
+{"id": "s02-062-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 62, "shape": 40972}, "text": "}", "level": 1, "extra": {"font": 22.0, "top": 3686}}
+{"id": "s02-062-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 62, "shape": 40968}, "text": "free (Lb);", "level": 1, "extra": {"font": 22.0, "top": 5745163}}
+{"id": "s02-062-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 62, "shape": 40969}, "text": "思想:", "level": 1, "extra": {"font": 20.0, "top": 669925}}
+{"id": "s02-062-15", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 62, "shape": 40970}, "text": "通过比较不断后移指针合并链表。", "level": 1, "extra": {"font": 20.0, "top": 669925}}
+{"id": "s02-062-16", "src": "第02章+线性表.pptx", "type": "image", "loc": {"slide": 62, "shape": 58370}, "asset": "assets/cd87b76d.png"}
+{"id": "s02-063-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42117}, "text": "21", "level": 1, "extra": {"top": 1824}}
+{"id": "s02-063-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42118}, "text": "35", "level": 1, "extra": {"top": 1824}}
+{"id": "s02-063-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42120}, "text": "0", "level": 1, "extra": {"font": 20.0, "top": 1835}}
+{"id": "s02-063-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42121}, "text": "Lb", "level": 1, "extra": {"font": 20.0, "top": 1920}}
+{"id": "s02-063-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42084}, "text": "0", "level": 1, "extra": {"font": 20.0, "top": 779}}
+{"id": "s02-063-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42090}, "text": "6", "level": 1, "extra": {"top": 746}}
+{"id": "s02-063-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42091}, "text": "27", "level": 1, "extra": {"top": 753}}
+{"id": "s02-063-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42094}, "text": "La", "level": 1, "extra": {"font": 20.0, "top": 875}}
+{"id": "s02-063-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42107}, "text": "67", "level": 1, "extra": {"top": 753}}
+{"id": "s02-063-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42111}, "text": "89", "level": 1, "extra": {"top": 753}}
+{"id": "s02-063-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42083}, "text": "Lc", "level": 1, "extra": {"font": 20.0, "top": 326}}
+{"id": "s02-063-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42081}, "text": "pa", "level": 1, "extra": {"font": 20.0, "top": 326}}
+{"id": "s02-063-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42079}, "text": "pb", "level": 1, "extra": {"font": 20.0, "top": 1382}}
+{"id": "s02-063-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42077}, "text": ", pc", "level": 1, "extra": {"font": 20.0, "top": 326}}
+{"id": "s02-063-15", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42072}, "text": "pa", "level": 1, "extra": {"font": 20.0, "top": 326}}
+{"id": "s02-063-16", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42070}, "text": "pc", "level": 1, "extra": {"font": 20.0, "top": 326}}
+{"id": "s02-063-17", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42068}, "text": "pb", "level": 1, "extra": {"font": 20.0, "top": 1382}}
+{"id": "s02-063-18", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42063}, "text": "Lc", "level": 1, "extra": {"font": 20.0, "top": 326}}
+{"id": "s02-063-19", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42059}, "text": "pc", "level": 1, "extra": {"font": 20.0, "top": 326}}
+{"id": "s02-063-20", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42054}, "text": "pb", "level": 1, "extra": {"font": 20.0, "top": 1382}}
+{"id": "s02-063-21", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42050}, "text": "pa", "level": 1, "extra": {"font": 20.0, "top": 326}}
+{"id": "s02-063-22", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42046}, "text": "Lc", "level": 1, "extra": {"font": 20.0, "top": 326}}
+{"id": "s02-063-23", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42042}, "text": "pc", "level": 1, "extra": {"font": 20.0, "top": 326}}
+{"id": "s02-063-24", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42040}, "text": "pa", "level": 1, "extra": {"font": 20.0, "top": 326}}
+{"id": "s02-063-25", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42033}, "text": "pb", "level": 1, "extra": {"font": 20.0, "top": 326}}
+{"id": "s02-063-26", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42026}, "text": "Lc", "level": 1, "extra": {"font": 20.0, "top": 326}}
+{"id": "s02-063-27", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42022}, "text": "pb", "level": 1, "extra": {"font": 20.0, "top": 2726}}
+{"id": "s02-063-28", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42018}, "text": "pa", "level": 1, "extra": {"font": 20.0, "top": 326}}
+{"id": "s02-063-29", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42011}, "text": "pc", "level": 1, "extra": {"font": 20.0, "top": 326}}
+{"id": "s02-063-30", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 63, "shape": 42007}, "text": "Lc", "level": 1, "extra": {"font": 20.0, "top": 326}}
+{"id": "s02-064-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 64, "shape": 2}, "text": "习题", "level": 1}
+{"id": "s02-064-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 64, "shape": 3}, "text": "在单链表中，如果在结点p之后插入一个新结点s，其操作为（   ）。", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-064-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 64, "shape": 3}, "text": "（A）s->next=p->next; p->next=s;", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-064-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 64, "shape": 3}, "text": "（B）p->next=s; s->next=p->next;", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-064-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 64, "shape": 3}, "text": "（C）s->next=p; p->next=s->next;", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-064-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 64, "shape": 3}, "text": "（D）p->next=s; s->next=p;", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-065-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 65, "shape": 2}, "text": "习题", "level": 1}
+{"id": "s02-065-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 65, "shape": 3}, "text": "求单链表中当前结点的后继和前驱的时间复杂度分别是（　　　）", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-065-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 65, "shape": 3}, "text": "A．O（n）和O（1）", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-065-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 65, "shape": 3}, "text": "B．O（1）和O（1）", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-065-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 65, "shape": 3}, "text": "C．O（1）和O（n）", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-065-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 65, "shape": 3}, "text": "D．O(n)和O（n）", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-066-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 66, "shape": 2}, "text": "习题", "level": 1}
+{"id": "s02-066-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 66, "shape": 3}, "text": "在线性表的下列运算中，不改变数据元素之间结构关系的运算是（　　　）", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-066-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 66, "shape": 3}, "text": "A．插入", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-066-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 66, "shape": 3}, "text": "B．删除", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-066-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 66, "shape": 3}, "text": "C．排序", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-066-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 66, "shape": 3}, "text": "D．定位", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-067-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 67, "shape": 2}, "text": "习题", "level": 1}
+{"id": "s02-067-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 67, "shape": 3}, "text": "链表不具有的特点是（    ）", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-067-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 67, "shape": 3}, "text": "A．插入、删除不需要移动元素", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-067-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 67, "shape": 3}, "text": "B．可随机访问任一元素", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-067-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 67, "shape": 3}, "text": "C．不必事先估计存储空间", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-067-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 67, "shape": 3}, "text": "D．所需空间与线性长度成正比", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-068-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 68, "shape": 52226}, "text": "2.3.2   其他线性链表", "level": 2, "extra": {"font": 28.0, "top": 700088}}
+{"id": "s02-068-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 68, "shape": 52227}, "text": "静态链表", "level": 1, "extra": {"top": 1752600}}
+{"id": "s02-068-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 68, "shape": 52228}, "text": "循环链表", "level": 1, "extra": {"top": 2438400}}
+{"id": "s02-068-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 68, "shape": 52229}, "text": "双向链表", "level": 1, "extra": {"top": 3200400}}
+{"id": "s02-069-20", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 69, "shape": 53295}, "text": "数组序号", "level": 2, "extra": {"font": 20.0, "top": 316}}
+{"id": "s02-069-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 69, "shape": 53261}, "text": "zhao", "level": 1, "extra": {"font": 20.0, "top": 2657475}}
+{"id": "s02-069-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 69, "shape": 53262}, "text": "qian", "level": 1, "extra": {"font": 20.0, "top": 3022600}}
+{"id": "s02-069-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 69, "shape": 53263}, "text": "sun", "level": 1, "extra": {"font": 20.0, "top": 3438525}}
+{"id": "s02-069-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 69, "shape": 53264}, "text": "li", "level": 1, "extra": {"font": 20.0, "top": 3819525}}
+{"id": "s02-069-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 69, "shape": 53265}, "text": "zhou", "level": 1, "extra": {"font": 20.0, "top": 4183063}}
+{"id": "s02-069-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 69, "shape": 53266}, "text": "0", "level": 1, "extra": {"font": 20.0, "top": 2311400}}
+{"id": "s02-069-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 69, "shape": 53267}, "text": "1", "level": 1, "extra": {"font": 20.0, "top": 2676525}}
+{"id": "s02-069-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 69, "shape": 53268}, "text": "2", "level": 1, "extra": {"font": 20.0, "top": 3057525}}
+{"id": "s02-069-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 69, "shape": 53269}, "text": "3", "level": 1, "extra": {"font": 20.0, "top": 3438525}}
+{"id": "s02-069-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 69, "shape": 53270}, "text": "4", "level": 1, "extra": {"font": 20.0, "top": 3819525}}
+{"id": "s02-069-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 69, "shape": 53271}, "text": "5", "level": 1, "extra": {"font": 20.0, "top": 4200525}}
+{"id": "s02-069-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 69, "shape": 53272}, "text": "6", "level": 1, "extra": {"font": 20.0, "top": 4597400}}
+{"id": "s02-069-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 69, "shape": 53273}, "text": "1", "level": 1, "extra": {"font": 20.0, "top": 2295525}}
+{"id": "s02-069-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 69, "shape": 53274}, "text": "2", "level": 1, "extra": {"font": 20.0, "top": 2676525}}
+{"id": "s02-069-15", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 69, "shape": 53275}, "text": "3", "level": 1, "extra": {"font": 20.0, "top": 3057525}}
+{"id": "s02-069-16", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 69, "shape": 53276}, "text": "4", "level": 1, "extra": {"font": 20.0, "top": 3438525}}
+{"id": "s02-069-17", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 69, "shape": 53277}, "text": "5", "level": 1, "extra": {"font": 20.0, "top": 3819525}}
+{"id": "s02-069-18", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 69, "shape": 53278}, "text": "0", "level": 1, "extra": {"font": 20.0, "top": 4216400}}
+{"id": "s02-069-19", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 69, "shape": 53297}, "text": "头结点", "level": 1, "extra": {"font": 20.0, "top": 854}}
+{"id": "s02-069-21", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 69, "shape": 53293}, "text": "数据元素信息", "level": 1, "extra": {"font": 20.0, "top": 1670}}
+{"id": "s02-069-22", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 69, "shape": 53291}, "text": "指向下一个元素在数组中的相对位置", "level": 1, "extra": {"font": 20.0, "top": 1131}}
+{"id": "s02-069-23", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 69, "shape": 53286}, "text": "空表:", "level": 1, "extra": {"top": 3227}}
+{"id": "s02-069-24", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 69, "shape": 53289}, "text": "0", "level": 1, "extra": {"top": 3238}}
+{"id": "s02-069-25", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 69, "shape": 53290}, "text": "0", "level": 1, "extra": {"top": 3227}}
+{"id": "s02-069-26", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 69, "shape": 53284}, "text": "1.  静态链表(pp32)", "level": 1, "extra": {"font": 20.0, "top": 228600}}
+{"id": "s02-069-27", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 69, "shape": 53285}, "text": "某些语言不支持指针类型，通常使用一维数组描述单链表。", "level": 1, "extra": {"top": 762000}}
+{"id": "s02-070-24", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 70, "shape": 54288}, "text": "找到第i-1=3个结点，记住第i=4个结点的位置3", "level": 2, "extra": {"font": 20.0, "top": 1680}}
+{"id": "s02-070-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 70, "shape": 54305}, "text": "zhao", "level": 1, "extra": {"font": 20.0, "top": 1120}}
+{"id": "s02-070-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 70, "shape": 54306}, "text": "qian", "level": 1, "extra": {"font": 20.0, "top": 1350}}
+{"id": "s02-070-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 70, "shape": 54307}, "text": "sun", "level": 1, "extra": {"font": 20.0, "top": 1612}}
+{"id": "s02-070-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 70, "shape": 54308}, "text": "li", "level": 1, "extra": {"font": 20.0, "top": 1852}}
+{"id": "s02-070-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 70, "shape": 54309}, "text": "zhou", "level": 1, "extra": {"font": 20.0, "top": 2081}}
+{"id": "s02-070-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 70, "shape": 54310}, "text": "0", "level": 1, "extra": {"font": 20.0, "top": 902}}
+{"id": "s02-070-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 70, "shape": 54311}, "text": "1", "level": 1, "extra": {"font": 20.0, "top": 1132}}
+{"id": "s02-070-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 70, "shape": 54312}, "text": "2", "level": 1, "extra": {"font": 20.0, "top": 1372}}
+{"id": "s02-070-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 70, "shape": 54313}, "text": "3", "level": 1, "extra": {"font": 20.0, "top": 1612}}
+{"id": "s02-070-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 70, "shape": 54314}, "text": "4", "level": 1, "extra": {"font": 20.0, "top": 1852}}
+{"id": "s02-070-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 70, "shape": 54315}, "text": "5", "level": 1, "extra": {"font": 20.0, "top": 2092}}
+{"id": "s02-070-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 70, "shape": 54316}, "text": "6", "level": 1, "extra": {"font": 20.0, "top": 2342}}
+{"id": "s02-070-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 70, "shape": 54317}, "text": "1", "level": 1, "extra": {"font": 20.0, "top": 892}}
+{"id": "s02-070-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 70, "shape": 54318}, "text": "4", "level": 1, "extra": {"font": 20.0, "top": 1132}}
+{"id": "s02-070-15", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 70, "shape": 54319}, "text": "3", "level": 1, "extra": {"font": 20.0, "top": 1372}}
+{"id": "s02-070-16", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 70, "shape": 54320}, "text": "5", "level": 1, "extra": {"font": 20.0, "top": 1612}}
+{"id": "s02-070-17", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 70, "shape": 54321}, "text": "2", "level": 1, "extra": {"font": 20.0, "top": 1852}}
+{"id": "s02-070-18", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 70, "shape": 54322}, "text": "0", "level": 1, "extra": {"font": 20.0, "top": 2102}}
+{"id": "s02-070-19", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 70, "shape": 54275}, "text": "插入和删除操作", "level": 1, "extra": {"top": 304800}}
+{"id": "s02-070-20", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 70, "shape": 54276}, "text": "1)  在第i=4个结点前插入新元素 jin", "level": 1, "extra": {"font": 20.0, "top": 914400}}
+{"id": "s02-070-21", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 70, "shape": 54292}, "text": "添加新元素jin，并指向原第i=4个结点", "level": 1, "extra": {"font": 20.0, "top": 2400}}
+{"id": "s02-070-22", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 70, "shape": 74791}, "text": "jin         3", "level": 1, "extra": {"font": 20.0, "top": 3921125}}
+{"id": "s02-070-23", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 70, "shape": 54290}, "text": "修改第3个结点的指向", "level": 1, "extra": {"font": 20.0, "top": 3158}}
+{"id": "s02-070-25", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 70, "shape": 54287}, "text": "3", "level": 1, "extra": {"font": 20.0, "top": 1750}}
+{"id": "s02-070-26", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 70, "shape": 54283}, "text": "6", "level": 1, "extra": {"font": 20.0, "top": 1750}}
+{"id": "s02-071-22", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 71, "shape": 55322}, "text": "找到第2个结点，记住下一个结点的位置", "level": 2, "extra": {"font": 20.0, "top": 1680}}
+{"id": "s02-071-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55298}, "text": "2)   删除第2个结点", "level": 1, "extra": {"font": 20.0, "top": 533400}}
+{"id": "s02-071-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55340}, "text": "zhao", "level": 1, "extra": {"font": 20.0, "top": 1120}}
+{"id": "s02-071-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55341}, "text": "qian", "level": 1, "extra": {"font": 20.0, "top": 1350}}
+{"id": "s02-071-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55342}, "text": "sun", "level": 1, "extra": {"font": 20.0, "top": 1612}}
+{"id": "s02-071-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55343}, "text": "li", "level": 1, "extra": {"font": 20.0, "top": 1852}}
+{"id": "s02-071-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55344}, "text": "zhou", "level": 1, "extra": {"font": 20.0, "top": 2081}}
+{"id": "s02-071-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55345}, "text": "0", "level": 1, "extra": {"font": 20.0, "top": 902}}
+{"id": "s02-071-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55346}, "text": "1", "level": 1, "extra": {"font": 20.0, "top": 1132}}
+{"id": "s02-071-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55347}, "text": "2", "level": 1, "extra": {"font": 20.0, "top": 1372}}
+{"id": "s02-071-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55348}, "text": "3", "level": 1, "extra": {"font": 20.0, "top": 1612}}
+{"id": "s02-071-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55349}, "text": "4", "level": 1, "extra": {"font": 20.0, "top": 1852}}
+{"id": "s02-071-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55350}, "text": "5", "level": 1, "extra": {"font": 20.0, "top": 2092}}
+{"id": "s02-071-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55351}, "text": "6", "level": 1, "extra": {"font": 20.0, "top": 2342}}
+{"id": "s02-071-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55352}, "text": "1", "level": 1, "extra": {"font": 20.0, "top": 892}}
+{"id": "s02-071-15", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55353}, "text": "2", "level": 1, "extra": {"font": 20.0, "top": 1132}}
+{"id": "s02-071-16", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55354}, "text": "3", "level": 1, "extra": {"font": 20.0, "top": 1372}}
+{"id": "s02-071-17", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55355}, "text": "4", "level": 1, "extra": {"font": 20.0, "top": 1612}}
+{"id": "s02-071-18", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55356}, "text": "5", "level": 1, "extra": {"font": 20.0, "top": 1852}}
+{"id": "s02-071-19", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55357}, "text": "0", "level": 1, "extra": {"font": 20.0, "top": 2102}}
+{"id": "s02-071-20", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55325}, "text": "jin         4", "level": 1, "extra": {"font": 20.0, "top": 2470}}
+{"id": "s02-071-21", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55328}, "text": "6", "level": 1, "extra": {"font": 20.0, "top": 1750}}
+{"id": "s02-071-23", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55320}, "text": "找到第1个结点", "level": 1, "extra": {"font": 20.0, "top": 1680}}
+{"id": "s02-071-24", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55319}, "text": "3", "level": 1, "extra": {"font": 20.0, "top": 1281}}
+{"id": "s02-071-25", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55314}, "text": "3", "level": 1, "extra": {"font": 20.0, "top": 1281}}
+{"id": "s02-071-26", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55311}, "text": "修改指向", "level": 1, "extra": {"font": 20.0, "top": 1680}}
+{"id": "s02-071-27", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55308}, "text": "-1", "level": 1, "extra": {"font": 20.0, "top": 1281}}
+{"id": "s02-071-28", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 71, "shape": 55305}, "text": "结点空闲", "level": 1, "extra": {"font": 20.0, "top": 1680}}
+{"id": "s02-072-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 72, "shape": 269314}, "text": "静态链表", "level": 1}
+{"id": "s02-072-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 72, "shape": 56323}, "text": "typedef  struct{", "level": 1, "extra": {"top": 1989138}}
+{"id": "s02-072-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 72, "shape": 56323}, "text": "ElemType data;", "level": 1, "extra": {"top": 1989138}}
+{"id": "s02-072-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 72, "shape": 56323}, "text": "int              cur; //游标，指示器", "level": 1, "extra": {"top": 1989138}}
+{"id": "s02-072-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 72, "shape": 56323}, "text": "}component, SLinkList[MAXSIZE];", "level": 1, "extra": {"top": 1989138}}
+{"id": "s02-073-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 73, "shape": 270342}, "text": "i = s[i].cur; 指针后移操作", "level": 2, "extra": {"font": 25.0, "top": 620713}}
+{"id": "s02-073-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 73, "shape": 270342}, "text": "Malloc:  i = s[0].cur; 第一个可用结点位置", "level": 1, "extra": {"font": 25.0, "top": 620713}}
+{"id": "s02-073-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 73, "shape": 270342}, "text": "if(s[0].cur)  s[0].cur = s[i].cur;", "level": 1, "extra": {"font": 25.0, "top": 620713}}
+{"id": "s02-073-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 73, "shape": 270342}, "text": "Free:   //释放k结点", "level": 1, "extra": {"font": 25.0, "top": 620713}}
+{"id": "s02-073-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 73, "shape": 270342}, "text": "s[k].cur = s[0].cur; //插在前面", "level": 1, "extra": {"font": 25.0, "top": 620713}}
+{"id": "s02-073-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 73, "shape": 270342}, "text": "s[0].cur = k;", "level": 1, "extra": {"font": 25.0, "top": 620713}}
+{"id": "s02-073-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 73, "shape": 270342}, "text": "Insert: //将i插在r之后", "level": 1, "extra": {"font": 25.0, "top": 620713}}
+{"id": "s02-073-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 73, "shape": 270342}, "text": "s[i].cur = s[r].cur;", "level": 1, "extra": {"font": 25.0, "top": 620713}}
+{"id": "s02-073-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 73, "shape": 270342}, "text": "s[r].cur = i;", "level": 1, "extra": {"font": 25.0, "top": 620713}}
+{"id": "s02-073-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 73, "shape": 270342}, "text": "Delete: ;//p为k的直接前驱，释放k", "level": 1, "extra": {"font": 25.0, "top": 620713}}
+{"id": "s02-073-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 73, "shape": 270342}, "text": "s[p].cur = s[k].cur", "level": 1, "extra": {"font": 25.0, "top": 620713}}
+{"id": "s02-073-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 73, "shape": 270342}, "text": "Free(k);", "level": 1, "extra": {"font": 25.0, "top": 620713}}
+{"id": "s02-074-8", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 74, "shape": 58377}, "text": "空表:", "level": 2, "extra": {"top": 2208}}
+{"id": "s02-074-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 74, "shape": 58370}, "text": "2.  循环链表", "level": 1, "extra": {"top": 304800}}
+{"id": "s02-074-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 74, "shape": 58371}, "text": "表中最后一个节点的指针域指向头结点，形成一个环。", "level": 1, "extra": {"top": 914400}}
+{"id": "s02-074-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 74, "shape": 58399}, "text": "a1", "level": 1, "extra": {"top": 1643}}
+{"id": "s02-074-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 74, "shape": 58401}, "text": "…", "level": 1, "extra": {"top": 1621}}
+{"id": "s02-074-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 74, "shape": 58403}, "text": "an", "level": 1, "extra": {"top": 1643}}
+{"id": "s02-074-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 74, "shape": 58404}, "text": "Head", "level": 1, "extra": {"top": 1658}}
+{"id": "s02-074-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 74, "shape": 58394}, "text": "0", "level": 1, "extra": {"font": 20.0, "top": 1691}}
+{"id": "s02-074-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 74, "shape": 58380}, "text": "Head", "level": 1, "extra": {"top": 2352}}
+{"id": "s02-074-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 74, "shape": 76871}, "text": "从表的任意结点出发均可以找到表中的其他结点。", "level": 1, "extra": {"top": 4876800}}
+{"id": "s02-074-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 74, "shape": 76872}, "text": "优点:", "level": 1, "extra": {"top": 4894263}}
+{"id": "s02-075-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 75, "shape": 59394}, "text": "例，取循环链表第 i 个元素。", "level": 1, "extra": {"top": 1371600}}
+{"id": "s02-075-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 75, "shape": 59395}, "text": "p = L->next; j = 1;", "level": 1, "extra": {"font": 22.0, "top": 2743200}}
+{"id": "s02-075-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 75, "shape": 59404}, "text": "while   ( p <> L &&  j < i )  {", "level": 1, "extra": {"font": 22.0, "top": 1824}}
+{"id": "s02-075-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 75, "shape": 59405}, "text": "p = p->next; ++j;", "level": 1, "extra": {"font": 22.0, "top": 2112}}
+{"id": "s02-075-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 75, "shape": 59406}, "text": "}", "level": 1, "extra": {"font": 22.0, "top": 2304}}
+{"id": "s02-075-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 75, "shape": 59397}, "text": "if  ( p == L || j > i )   return  ERROR;", "level": 1, "extra": {"top": 4191000}}
+{"id": "s02-075-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 75, "shape": 59398}, "text": "e = p->data;", "level": 1, "extra": {"font": 22.0, "top": 4495800}}
+{"id": "s02-075-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 75, "shape": 59399}, "text": "return  OK;", "level": 1, "extra": {"font": 22.0, "top": 4953000}}
+{"id": "s02-075-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 75, "shape": 59402}, "text": "Status  GetElem_L ( LinkList  L, int  i, ElemType  &e )", "level": 1, "extra": {"font": 22.0, "top": 1680}}
+{"id": "s02-075-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 75, "shape": 59402}, "text": "{", "level": 1, "extra": {"font": 22.0, "top": 1680}}
+{"id": "s02-075-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 75, "shape": 59403}, "text": "}", "level": 1, "extra": {"font": 22.0, "top": 3763}}
+{"id": "s02-075-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 75, "shape": 59401}, "text": "操作与线性单链表基本一致，差别只是在于算法中的循环结束条件不是p是否为空，而是p是否等于头指针。", "level": 1, "extra": {"top": 152400}}
+{"id": "s02-076-8", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 76, "shape": 78902}, "text": "p = Tail2->next->next", "level": 2, "extra": {"top": 4648200}}
+{"id": "s02-076-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 76, "shape": 60418}, "text": "有时为了方便某些操作，通常在循环链表中设立尾指针。", "level": 1, "extra": {"top": 155575}}
+{"id": "s02-076-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 76, "shape": 60463}, "text": "…", "level": 1, "extra": {"top": 1189}}
+{"id": "s02-076-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 76, "shape": 60465}, "text": "Tail1", "level": 1, "extra": {"top": 1281}}
+{"id": "s02-076-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 76, "shape": 60444}, "text": "…", "level": 1, "extra": {"top": 2197}}
+{"id": "s02-076-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 76, "shape": 60446}, "text": "Tail2", "level": 1, "extra": {"top": 2289}}
+{"id": "s02-076-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 76, "shape": 78900}, "text": "Tail1->next = p", "level": 1, "extra": {"top": 5715000}}
+{"id": "s02-076-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 76, "shape": 78901}, "text": "Tail2->next = Tail1->next", "level": 1, "extra": {"top": 5181600}}
+{"id": "s02-076-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 76, "shape": 60431}, "text": "p", "level": 1, "extra": {"top": 1872}}
+{"id": "s02-076-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 76, "shape": 78916}, "text": "例如顺次合并两个线性表。", "level": 1, "extra": {"top": 762000}}
+{"id": "s02-077-4", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 77, "shape": 61445}, "text": "typedef   struct  DuLNode", "level": 2, "extra": {"font": 26.0, "top": 3581400}}
+{"id": "s02-077-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 77, "shape": 61442}, "text": "3.  双向链表", "level": 1, "extra": {"top": 228600}}
+{"id": "s02-077-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 77, "shape": 61443}, "text": "在循环链表中寻找结点的直接后继很简单，只需要O(1)；但要寻找结点的直接前趋就要从表头指针找起，需要O(n)。", "level": 1, "extra": {"top": 838200}}
+{"id": "s02-077-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 77, "shape": 61444}, "text": "类型表示:", "level": 1, "extra": {"top": 3352800}}
+{"id": "s02-077-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 77, "shape": 61445}, "text": "{", "level": 1, "extra": {"font": 26.0, "top": 3581400}}
+{"id": "s02-077-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 77, "shape": 61445}, "text": "ElemType                 data;", "level": 1, "extra": {"font": 26.0, "top": 3581400}}
+{"id": "s02-077-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 77, "shape": 61445}, "text": "struct  DuLNode      * prior;", "level": 1, "extra": {"font": 26.0, "top": 3581400}}
+{"id": "s02-077-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 77, "shape": 61445}, "text": "struct  DuLNode      * next;", "level": 1, "extra": {"font": 26.0, "top": 3581400}}
+{"id": "s02-077-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 77, "shape": 61445}, "text": "} DuLNode, * DuLinkList;", "level": 1, "extra": {"font": 26.0, "top": 3581400}}
+{"id": "s02-077-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 77, "shape": 61447}, "text": "双向链表的结点有两个指针域: 一个指向直接后继，一个指向直接前趋。", "level": 1, "extra": {"top": 1248}}
+{"id": "s02-077-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 77, "shape": 61455}, "text": "prior", "level": 1, "extra": {"top": 1994}}
+{"id": "s02-077-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 77, "shape": 61456}, "text": "data", "level": 1, "extra": {"top": 2005}}
+{"id": "s02-077-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 77, "shape": 61457}, "text": "next", "level": 1, "extra": {"top": 2005}}
+{"id": "s02-078-9", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 78, "shape": 62472}, "text": "空表:", "level": 2, "extra": {"top": 3312}}
+{"id": "s02-078-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 78, "shape": 62491}, "text": "A", "level": 1, "extra": {"top": 720}}
+{"id": "s02-078-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 78, "shape": 62494}, "text": "C", "level": 1, "extra": {"top": 720}}
+{"id": "s02-078-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 78, "shape": 62495}, "text": "Head", "level": 1, "extra": {"top": 728}}
+{"id": "s02-078-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 78, "shape": 62503}, "text": "B", "level": 1, "extra": {"top": 731}}
+{"id": "s02-078-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 78, "shape": 80940}, "text": "性质:  设d 是指向某个结点的指针，则有", "level": 1, "extra": {"top": 3810000}}
+{"id": "s02-078-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 78, "shape": 62486}, "text": "d", "level": 1, "extra": {"top": 1440}}
+{"id": "s02-078-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 78, "shape": 80944}, "text": "d->next->prior = d->prior->next = d", "level": 1, "extra": {"top": 4343400}}
+{"id": "s02-078-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 78, "shape": 80945}, "text": "操作:  只涉及单向的操作基本相同，但插入、删除操作变化很大。", "level": 1, "extra": {"top": 5045075}}
+{"id": "s02-078-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 78, "shape": 62473}, "text": "Head", "level": 1, "extra": {"top": 3397}}
+{"id": "s02-079-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 79, "shape": 63490}, "text": "1)  插入", "level": 1, "extra": {"top": 381000}}
+{"id": "s02-079-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 79, "shape": 63517}, "text": "A", "level": 1, "extra": {"top": 1045}}
+{"id": "s02-079-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 79, "shape": 63523}, "text": "B", "level": 1, "extra": {"top": 1056}}
+{"id": "s02-079-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 79, "shape": 63511}, "text": "X", "level": 1, "extra": {"top": 1776}}
+{"id": "s02-079-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 79, "shape": 63514}, "text": "s", "level": 1, "extra": {"top": 2001}}
+{"id": "s02-079-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 79, "shape": 63507}, "text": "p", "level": 1, "extra": {"top": 576}}
+{"id": "s02-079-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 79, "shape": 81965}, "text": "1.  找到要在之前插入的结点，p记录。", "level": 1, "extra": {"font": 20.0, "top": 3581400}}
+{"id": "s02-079-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 79, "shape": 81966}, "text": "2.  s->prior = p->prior ；", "level": 1, "extra": {"font": 20.0, "top": 4098925}}
+{"id": "s02-079-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 79, "shape": 81969}, "text": "3.  p->prior->next = s ；", "level": 1, "extra": {"font": 20.0, "top": 4572000}}
+{"id": "s02-079-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 79, "shape": 81976}, "text": "4.  s->next = p ；", "level": 1, "extra": {"font": 20.0, "top": 5045075}}
+{"id": "s02-079-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 79, "shape": 81980}, "text": "5.  p->prior = s ；", "level": 1, "extra": {"font": 20.0, "top": 5562600}}
+{"id": "s02-080-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 80, "shape": 64514}, "text": "2)  删除", "level": 1, "extra": {"top": 381000}}
+{"id": "s02-080-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 80, "shape": 64519}, "text": "A", "level": 1, "extra": {"top": 1828800}}
+{"id": "s02-080-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 80, "shape": 64522}, "text": "C", "level": 1, "extra": {"top": 1828800}}
+{"id": "s02-080-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 80, "shape": 64526}, "text": "B", "level": 1, "extra": {"top": 1846263}}
+{"id": "s02-080-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 80, "shape": 82995}, "text": "1.  找到要删除的结点，p记录。", "level": 1, "extra": {"font": 20.0, "top": 3200400}}
+{"id": "s02-080-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 80, "shape": 64547}, "text": "p", "level": 1, "extra": {"top": 576}}
+{"id": "s02-080-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 80, "shape": 82999}, "text": "2.  p->prior->next = p->next ；", "level": 1, "extra": {"font": 20.0, "top": 3733800}}
+{"id": "s02-080-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 80, "shape": 83004}, "text": "3.  p->next->prior = p->prior ；", "level": 1, "extra": {"font": 20.0, "top": 4251325}}
+{"id": "s02-080-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 80, "shape": 83011}, "text": "4.  free(p) ；", "level": 1, "extra": {"font": 20.0, "top": 4784725}}
+{"id": "s02-081-2", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 81, "shape": 65539}, "text": "Pn(X) = p0 + p1X + p2X2 + pn Xn", "level": 2, "extra": {"font": 36.0, "top": 1752600}}
+{"id": "s02-081-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 81, "shape": 65538}, "text": "2.4   一元多项式的表示和加法", "level": 1, "extra": {"font": 28.0, "top": 700088}}
+{"id": "s02-081-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 81, "shape": 65539}, "text": "线性表表示:", "level": 1, "extra": {"font": 36.0, "top": 1752600}}
+{"id": "s02-081-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 81, "shape": 65539}, "text": "P = (p0,  p1,  p2, ..., pn )", "level": 3, "extra": {"font": 36.0, "top": 1752600}}
+{"id": "s02-081-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 81, "shape": 65539}, "text": "Q = (q0, q1,  q2, ..., qm )", "level": 3, "extra": {"font": 36.0, "top": 1752600}}
+{"id": "s02-081-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 81, "shape": 65539}, "text": "Pn(X) + Qm(X) = ?", "level": 2, "extra": {"font": 36.0, "top": 1752600}}
+{"id": "s02-081-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 81, "shape": 65539}, "text": "但是对于形如", "level": 1, "extra": {"font": 36.0, "top": 1752600}}
+{"id": "s02-081-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 81, "shape": 65539}, "text": "S(x) = 1 + 3x10000 – 2x20000", "level": 1, "extra": {"font": 36.0, "top": 1752600}}
+{"id": "s02-081-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 81, "shape": 65539}, "text": "的多项式，上述表示方法是否合适？", "level": 1, "extra": {"font": 36.0, "top": 1752600}}
+{"id": "s02-081-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 81, "shape": 65539}, "text": "自学 p39", "level": 1, "extra": {"font": 36.0, "top": 1752600}}
+{"id": "s02-082-5", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 82, "shape": 66563}, "text": "可以下列线性表表示：", "level": 2, "extra": {"font": 40.0, "top": 3276600}}
+{"id": "s02-082-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 82, "shape": 66562}, "text": "一般情况下的一元稀疏多项式可写成", "level": 1, "extra": {"font": 36.0, "top": 298450}}
+{"id": "s02-082-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 82, "shape": 66562}, "text": "Pn(x) = p1xe1 + p2xe2 + ┄ + pmxem", "level": 1, "extra": {"font": 36.0, "top": 298450}}
+{"id": "s02-082-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 82, "shape": 66562}, "text": "其中：pi 是指数为ei 的项的非零系数，", "level": 1, "extra": {"font": 36.0, "top": 298450}}
+{"id": "s02-082-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 82, "shape": 66562}, "text": "0≤ e1 < e2 < ┄ < em = n", "level": 1, "extra": {"font": 36.0, "top": 298450}}
+{"id": "s02-082-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 82, "shape": 66563}, "text": "( (p1, e1), (p2, e2), ... , (pm,em) )", "level": 1, "extra": {"font": 40.0, "top": 3276600}}
+{"id": "s02-083-2", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 83, "shape": 67587}, "text": "例如:", "level": 2, "extra": {"font": 36.0, "top": 457200}}
+{"id": "s02-083-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 83, "shape": 67586}, "text": "P999(x) = 7x3 - 2x12 - 8x999", "level": 1, "extra": {"font": 36.0, "top": 1450975}}
+{"id": "s02-083-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 83, "shape": 67588}, "text": "可用线性表", "level": 1, "extra": {"font": 36.0, "top": 2597150}}
+{"id": "s02-083-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 83, "shape": 67588}, "text": "( (7, 3), (-2, 12), (-8, 999) )", "level": 1, "extra": {"font": 36.0, "top": 2597150}}
+{"id": "s02-083-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 83, "shape": 67588}, "text": "表示", "level": 1, "extra": {"font": 36.0, "top": 2597150}}
+{"id": "s02-084-4", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 84, "shape": 68611}, "text": "抽象数据类型一元多项式的定义", "level": 2, "extra": {"font": 36.0, "top": 188913}}
+{"id": "s02-084-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 84, "shape": 125954}, "text": "ADT Polynomial {", "level": 1, "extra": {"font": 32.0, "top": 685800}}
+{"id": "s02-084-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 84, "shape": 125954}, "text": "数据对象：", "level": 1, "extra": {"font": 32.0, "top": 685800}}
+{"id": "s02-084-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 84, "shape": 125954}, "text": "数据关系：", "level": 1, "extra": {"font": 32.0, "top": 685800}}
+{"id": "s02-084-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 84, "shape": 125956}, "text": "D＝{ ai | ai ∈TermSet, i=1,2,...,m,  m≥0", "level": 1, "extra": {"font": 32.0, "top": 2119313}}
+{"id": "s02-084-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 84, "shape": 125956}, "text": "TermSet 中的每个元素包含一个", "level": 1, "extra": {"font": 32.0, "top": 2119313}}
+{"id": "s02-084-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 84, "shape": 125956}, "text": "表示系数的实数和表示指数的整数 }", "level": 1, "extra": {"font": 32.0, "top": 2119313}}
+{"id": "s02-084-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 84, "shape": 125957}, "text": "R1＝{ <ai-1 ,ai >|ai-1 ,ai∈D,    i=2,...,n", "level": 1, "extra": {"font": 36.0, "top": 4857750}}
+{"id": "s02-084-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 84, "shape": 125957}, "text": "且ai-1中的指数值＜ai中的指数值 }", "level": 1, "extra": {"font": 36.0, "top": 4857750}}
+{"id": "s02-085-4", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 85, "shape": 69635}, "text": "基本操作：", "level": 2, "extra": {"font": 36.0, "top": 228600}}
+{"id": "s02-085-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 85, "shape": 69634}, "text": "CreatPolyn ( &P, m )", "level": 1, "extra": {"font": 36.0, "top": 685800}}
+{"id": "s02-085-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 85, "shape": 69634}, "text": "DestroyPolyn ( &P )", "level": 1, "extra": {"font": 36.0, "top": 685800}}
+{"id": "s02-085-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 85, "shape": 69634}, "text": "PrintPolyn ( P )", "level": 1, "extra": {"font": 36.0, "top": 685800}}
+{"id": "s02-085-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 85, "shape": 69636}, "text": "操作结果：输入 m 项的系数和指数，", "level": 1, "extra": {"font": 28.0, "top": 1560513}}
+{"id": "s02-085-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 85, "shape": 69636}, "text": "建立一元多项式 P。", "level": 1, "extra": {"font": 28.0, "top": 1560513}}
+{"id": "s02-085-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 85, "shape": 69637}, "text": "初始条件：一元多项式 P 已存在。", "level": 1, "extra": {"font": 28.0, "top": 3541713}}
+{"id": "s02-085-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 85, "shape": 69637}, "text": "操作结果：销毁一元多项式 P。", "level": 1, "extra": {"font": 28.0, "top": 3541713}}
+{"id": "s02-085-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 85, "shape": 69638}, "text": "初始条件：一元多项式 P 已存在。", "level": 1, "extra": {"font": 28.0, "top": 5538788}}
+{"id": "s02-085-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 85, "shape": 69638}, "text": "操作结果：打印输出一元多项式 P。", "level": 1, "extra": {"font": 28.0, "top": 5538788}}
+{"id": "s02-086-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 86, "shape": 70658}, "text": "PolynLength( P )", "level": 2, "extra": {"font": 36.0, "top": 228600}}
+{"id": "s02-086-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 86, "shape": 70658}, "text": "AddPolyn ( &Pa, &Pb )", "level": 1, "extra": {"font": 36.0, "top": 228600}}
+{"id": "s02-086-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 86, "shape": 70658}, "text": "SubtractPolyn ( &Pa, &Pb )", "level": 1, "extra": {"font": 36.0, "top": 228600}}
+{"id": "s02-086-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 86, "shape": 70658}, "text": "…   …", "level": 1, "extra": {"font": 36.0, "top": 228600}}
+{"id": "s02-086-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 86, "shape": 70658}, "text": "} ADT Polynomial", "level": 1, "extra": {"font": 36.0, "top": 228600}}
+{"id": "s02-086-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 86, "shape": 70659}, "text": "初始条件：一元多项式 P 已存在。", "level": 1, "extra": {"font": 28.0, "top": 1047750}}
+{"id": "s02-086-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 86, "shape": 70659}, "text": "操作结果：返回一元多项式 P 中的项数。", "level": 1, "extra": {"font": 28.0, "top": 1047750}}
+{"id": "s02-086-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 86, "shape": 70660}, "text": "初始条件：一元多项式 Pa 和 Pb 已存在。", "level": 1, "extra": {"font": 28.0, "top": 3013075}}
+{"id": "s02-086-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 86, "shape": 70660}, "text": "操作结果：完成多项式相加运算，即：", "level": 1, "extra": {"font": 28.0, "top": 3013075}}
+{"id": "s02-086-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 86, "shape": 70660}, "text": "Pa = Pa＋Pb，并销毁一元多项式 Pb。", "level": 1, "extra": {"font": 28.0, "top": 3013075}}
+{"id": "s02-087-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 87, "shape": 71682}, "text": "一元多项式的实现：", "level": 2, "extra": {"font": 36.0, "top": 341313}}
+{"id": "s02-087-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 87, "shape": 71683}, "text": "typedef struct", "level": 1, "extra": {"font": 32.0, "top": 3109913}}
+{"id": "s02-087-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 87, "shape": 71683}, "text": "{      // 项的表示", "level": 1, "extra": {"font": 32.0, "top": 3109913}}
+{"id": "s02-087-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 87, "shape": 71683}, "text": "float  coef;          // 系数", "level": 1, "extra": {"font": 32.0, "top": 3109913}}
+{"id": "s02-087-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 87, "shape": 71683}, "text": "int     expn;         // 指数", "level": 1, "extra": {"font": 32.0, "top": 3109913}}
+{"id": "s02-087-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 87, "shape": 71683}, "text": "} term, ElemType;", "level": 1, "extra": {"font": 32.0, "top": 3109913}}
+{"id": "s02-087-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 87, "shape": 71684}, "text": "// 用带表头结点的有序链表表示多项式", "level": 1, "extra": {"font": 32.0, "top": 1066800}}
+{"id": "s02-087-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 87, "shape": 71684}, "text": "typedef  OrderedLinkList   polynomial;", "level": 1, "extra": {"font": 32.0, "top": 1066800}}
+{"id": "s02-087-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 87, "shape": 71685}, "text": "结点的数据元素类型定义为:", "level": 1, "extra": {"font": 36.0, "top": 2552700}}
+{"id": "s02-088-10", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 88, "shape": 72707}, "text": "有序链表的两个操作：", "level": 2, "extra": {"font": 36.0, "top": 228600}}
+{"id": "s02-088-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 88, "shape": 72706}, "text": "Status LocateElem(LinkList L, ElemType e, Position &q,", "level": 1, "extra": {"font": 28.0, "top": 1171575}}
+{"id": "s02-088-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 88, "shape": 72706}, "text": "int (*comp)(ElemType, ElemType))", "level": 1, "extra": {"font": 28.0, "top": 1171575}}
+{"id": "s02-088-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 88, "shape": 72706}, "text": "// 定位L中令comp()0的元素e的位置q：", "level": 1, "extra": {"font": 28.0, "top": 1171575}}
+{"id": "s02-088-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 88, "shape": 72706}, "text": "//   1).  e的位置并返回TRUE，若e使得comp()=0", "level": 1, "extra": {"font": 28.0, "top": 1171575}}
+{"id": "s02-088-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 88, "shape": 72706}, "text": "//   2). 否则第一个e的前驱的位置并返回FALSE，", "level": 1, "extra": {"font": 28.0, "top": 1171575}}
+{"id": "s02-088-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 88, "shape": 72706}, "text": "//         这里e使得comp()>0。", "level": 1, "extra": {"font": 28.0, "top": 1171575}}
+{"id": "s02-088-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 88, "shape": 72706}, "text": "Status OrderInsert(LinkList &L, ElemType e,", "level": 1, "extra": {"font": 28.0, "top": 1171575}}
+{"id": "s02-088-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 88, "shape": 72706}, "text": "int (*comp)(ElemType, ElemType))", "level": 1, "extra": {"font": 28.0, "top": 1171575}}
+{"id": "s02-088-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 88, "shape": 72706}, "text": "// 按comp()的约定将e插入L中适当位置", "level": 1, "extra": {"font": 28.0, "top": 1171575}}
+{"id": "s02-089-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 89, "shape": 73730}, "text": "Status CreatPolyn ( polynomial &P, int m ) {", "level": 2, "extra": {"font": 32.0, "top": 152400}}
+{"id": "s02-089-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 89, "shape": 73730}, "text": "// 输入m项的系数和指数，建立表示一元多项式的有序链表P", "level": 1, "extra": {"font": 32.0, "top": 152400}}
+{"id": "s02-089-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 89, "shape": 73730}, "text": "} // CreatPolyn", "level": 1, "extra": {"font": 32.0, "top": 152400}}
+{"id": "s02-089-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 89, "shape": 73731}, "text": "InitList (P); h=GetHead(P); e.coef = 0.0;  e.expn = -1;", "level": 1, "extra": {"font": 28.0, "top": 1425575}}
+{"id": "s02-089-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 89, "shape": 73731}, "text": "SetCurElem (h, e);  // 设置头结点的数据元素", "level": 1, "extra": {"font": 28.0, "top": 1425575}}
+{"id": "s02-089-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 89, "shape": 73732}, "text": "for ( i=1; i<=m; ++i ) {  // 依次输入 m 个非零项", "level": 1, "extra": {"font": 28.0, "top": 2571750}}
+{"id": "s02-089-7", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 89, "shape": 73732}, "text": "}", "level": 1, "extra": {"font": 28.0, "top": 2571750}}
+{"id": "s02-089-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 89, "shape": 73732}, "text": "return OK;", "level": 1, "extra": {"font": 28.0, "top": 2571750}}
+{"id": "s02-089-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 89, "shape": 73733}, "text": "scanf (e.coef, e.expn);", "level": 1, "extra": {"font": 28.0, "top": 3108325}}
+{"id": "s02-089-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 89, "shape": 73733}, "text": "if (!LocateElem ( P, e, q, cmp) )", "level": 1, "extra": {"font": 28.0, "top": 3108325}}
+{"id": "s02-089-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 89, "shape": 73733}, "text": "if ( MakeNode (s, e ))  InsFirst(q, s);", "level": 1, "extra": {"font": 28.0, "top": 3108325}}
+{"id": "s02-089-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 89, "shape": 73734}, "text": "注意:", "level": 1, "extra": {"font": 28.0, "top": 5334000}}
+{"id": "s02-089-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 89, "shape": 73734}, "text": "1.如果输入次序不限，需要修改;", "level": 1, "extra": {"font": 28.0, "top": 5334000}}
+{"id": "s02-089-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 89, "shape": 73734}, "text": "2.指数相同的项只能输入一次。", "level": 1, "extra": {"font": 28.0, "top": 5334000}}
+{"id": "s02-090-7", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 90, "shape": 74754}, "text": "case -1: {  // 多项式PA中当前结点的指数值小", "level": 2, "extra": {"font": 20.0, "top": 152400}}
+{"id": "s02-090-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 90, "shape": 74754}, "text": "Status AddPolyn (polynomial &Pa, polynomial &Pb)", "level": 1, "extra": {"font": 20.0, "top": 152400}}
+{"id": "s02-090-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 90, "shape": 74754}, "text": "{  //  (pp43)利用两个多项式的结点构成“和多项式” Pa = Pa＋Pb", "level": 1, "extra": {"font": 20.0, "top": 152400}}
+{"id": "s02-090-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 90, "shape": 74754}, "text": "//          …  …", "level": 1, "extra": {"font": 20.0, "top": 152400}}
+{"id": "s02-090-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 90, "shape": 74754}, "text": "while (qa && qb) { // qa和qb均非空，指向两个多项式链表的当前结点", "level": 1, "extra": {"font": 20.0, "top": 152400}}
+{"id": "s02-090-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 90, "shape": 74754}, "text": "a = GetCurElem(qa); b = GetCurElem(qb);", "level": 1, "extra": {"font": 20.0, "top": 152400}}
+{"id": "s02-090-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 90, "shape": 74754}, "text": "switch (*cmp(a, b)) {", "level": 2, "extra": {"font": 20.0, "top": 152400}}
+{"id": "s02-090-8", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 90, "shape": 74754}, "text": "…  …       break;  }", "level": 2, "extra": {"font": 20.0, "top": 152400}}
+{"id": "s02-090-9", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 90, "shape": 74754}, "text": "case 0: {   // 两者的指数值相等", "level": 2, "extra": {"font": 20.0, "top": 152400}}
+{"id": "s02-090-10", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 90, "shape": 74754}, "text": "sum.coef= a.coef + b.coef ;", "level": 2, "extra": {"font": 20.0, "top": 152400}}
+{"id": "s02-090-11", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 90, "shape": 74754}, "text": "if ( sum.coef != 0.0 ) {SetCurElem(qa, sum);  ha = qa; }", "level": 2, "extra": {"font": 20.0, "top": 152400}}
+{"id": "s02-090-12", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 90, "shape": 74754}, "text": "…  …        break;", "level": 2, "extra": {"font": 20.0, "top": 152400}}
+{"id": "s02-090-13", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 90, "shape": 74754}, "text": "}", "level": 2, "extra": {"font": 20.0, "top": 152400}}
+{"id": "s02-090-14", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 90, "shape": 74754}, "text": "case 1: {  //多项式PB中当前结点的指数值小", "level": 2, "extra": {"font": 20.0, "top": 152400}}
+{"id": "s02-090-15", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 90, "shape": 74754}, "text": "…  …       break;  }", "level": 2, "extra": {"font": 20.0, "top": 152400}}
+{"id": "s02-090-16", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 90, "shape": 74754}, "text": "} // switch", "level": 2, "extra": {"font": 20.0, "top": 152400}}
+{"id": "s02-090-17", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 90, "shape": 74754}, "text": "} // while", "level": 1, "extra": {"font": 20.0, "top": 152400}}
+{"id": "s02-090-18", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 90, "shape": 74754}, "text": "…  …", "level": 1, "extra": {"font": 20.0, "top": 152400}}
+{"id": "s02-090-19", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 90, "shape": 74754}, "text": "} // AddPolyn", "level": 1, "extra": {"font": 20.0, "top": 152400}}
+{"id": "s02-091-4", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 91, "shape": 75779}, "text": "练习", "level": 1, "speaker_notes": "B， A"}
+{"id": "s02-091-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 91, "shape": 75778}, "text": "已知单链表A长度为m，单链表B长度为n，若将B联接在A的末尾，其时间复杂度应为(    ) 。", "level": 2, "extra": {"top": 1268413}}
+{"id": "s02-091-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 91, "shape": 75778}, "text": "A．O(1)       B．O(m)", "level": 1, "extra": {"top": 1268413}}
+{"id": "s02-091-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 91, "shape": 75778}, "text": "C．O(n)        D．O(m+n)", "level": 1, "extra": {"top": 1268413}}
+{"id": "s02-092-2", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 92, "shape": 76803}, "text": "在一个单链表HL中，若要删除由指针q所指向结点的后继结点，则执行（   ）。", "level": 2, "extra": {"font": 28.0, "top": 1600200}}
+{"id": "s02-092-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 92, "shape": 76803}, "text": "在需要经常查找结点的前驱与后继的场合中，使用(      )比较合适。   A．单链表     B．双链表    C．顺序表    D．循环链表", "level": 1, "extra": {"font": 28.0, "top": 1600200}}
+{"id": "s02-092-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 92, "shape": 76803}, "text": "A．p = q->next ;  p->next = q->next;", "level": 2, "extra": {"font": 28.0, "top": 1600200}}
+{"id": "s02-092-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 92, "shape": 76803}, "text": "B．p = q->next ;  q->next = p;", "level": 2, "extra": {"font": 28.0, "top": 1600200}}
+{"id": "s02-092-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 92, "shape": 76803}, "text": "C．p = q->next ;  q->next = p->next;", "level": 2, "extra": {"font": 28.0, "top": 1600200}}
+{"id": "s02-092-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 92, "shape": 76803}, "text": "D．q->next = q->next->next;  q->next = q;", "level": 2, "speaker_notes": "B\nC", "extra": {"font": 28.0, "top": 1600200}}
+{"id": "s02-093-1", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 93, "shape": 78851}, "text": "在(       )运算中，使用顺序表比链表好。  A．插入      B．删除", "level": 2, "extra": {"font": 24.0, "top": 1600200}}
+{"id": "s02-093-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 93, "shape": 78851}, "text": "C．根据序号查找  D．根据元素值查找", "level": 2, "extra": {"font": 24.0, "top": 1600200}}
+{"id": "s02-093-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 93, "shape": 78851}, "text": "带头结点的单链表head为空的判断条件是(      )。 A．head= =NULL", "level": 2, "extra": {"font": 24.0, "top": 1600200}}
+{"id": "s02-093-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 93, "shape": 78851}, "text": "B．head->next= =NULL", "level": 2, "extra": {"font": 24.0, "top": 1600200}}
+{"id": "s02-093-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 93, "shape": 78851}, "text": "C．head->next=head", "level": 2, "extra": {"font": 24.0, "top": 1600200}}
+{"id": "s02-093-6", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 93, "shape": 78851}, "text": "D．head!=NULL", "level": 2, "speaker_notes": "C\nB", "extra": {"font": 24.0, "top": 1600200}}
+{"id": "s02-094-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 94, "shape": 3}, "text": "将两个各有n个元素的有序表归并成一个有序表，其最少的比较次数是（   ）。", "level": 1, "extra": {"top": 548680}}
+{"id": "s02-094-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 94, "shape": 3}, "text": "(A)n    (B)2n－1   (C)2n    (D)n-1", "level": 1, "extra": {"top": 548680}}
+{"id": "s02-094-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 94, "shape": 3}, "text": "将两个各有n个元素的有序表归并成一个有序表，其最多的比较次数是（   ）。", "level": 1, "extra": {"top": 548680}}
+{"id": "s02-094-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 94, "shape": 3}, "text": "(A)n    (B)2n－1   (C)2n    (D)n-1", "level": 1, "speaker_notes": "A B", "extra": {"top": 548680}}
+{"id": "s02-095-2", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 95, "shape": 3}, "text": "A．rear->next= =head", "level": 2, "extra": {"top": 1600200}}
+{"id": "s02-095-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 95, "shape": 3}, "text": "非空的单循环链表的头指针为head,尾指针为rear，则下列条件成立的是（　　　）", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-095-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 95, "shape": 3}, "text": "B．rear->next->next= =head", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-095-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 95, "shape": 3}, "text": "C．head->next= =rear", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-095-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 95, "shape": 3}, "text": "D．head->next->next= =rear", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-096-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 96, "shape": 3}, "text": "已知指针p和q分别指向某单链表中第一个结点和最后一个结点。假设指针s指向另一个单链表中某个结点，则在s所指结点之后插入上述链表应执行的语句为(      )", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-096-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 96, "shape": 3}, "text": "A.q->next=s->next；s->next=p；", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-096-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 96, "shape": 3}, "text": "B.s->next=p；q->next=s->next；", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-096-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 96, "shape": 3}, "text": "C.p->next=s->next；s->next=q；", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-096-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 96, "shape": 3}, "text": "D.s->next=q；p->next=s->next；", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-097-2", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 97, "shape": 3}, "text": "A．无头结点的双向链表", "level": 2, "extra": {"top": 1600200}}
+{"id": "s02-097-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 97, "shape": 3}, "text": "若线性表的插入和删除操作频繁地在表头或表尾位置进行，则更适宜采用的存储结构为（　　　）", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-097-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 97, "shape": 3}, "text": "B．带尾指针的循环链表", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-097-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 97, "shape": 3}, "text": "C．无头结点的单链表", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-097-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 97, "shape": 3}, "text": "D．带头指针的循环链表", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-098-2", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 98, "shape": 3}, "text": "A．单链表", "level": 2, "extra": {"top": 1600200}}
+{"id": "s02-098-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 98, "shape": 3}, "text": "某线性表中最常用的操作是在最后一个元素之后插入一个元素和删除第一个元素，则采用（    ）存储方式最节省运算时间。", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-098-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 98, "shape": 3}, "text": "B．仅有头指针的单循环链表", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-098-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 98, "shape": 3}, "text": "C．双链表", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-098-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 98, "shape": 3}, "text": "D．仅有尾指针的单循环链表", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-099-2", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 99, "shape": 3}, "text": "A. 单链表", "level": 2, "extra": {"top": 1600200}}
+{"id": "s02-099-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 99, "shape": 3}, "text": "设一个链表最常用的操作是在末尾插入结点和删除尾结点，则选用(    )最节省时间。", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-099-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 99, "shape": 3}, "text": "B.单循环链表", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-099-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 99, "shape": 3}, "text": "C. 带尾指针的单循环链表", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-099-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 99, "shape": 3}, "text": "D.带头结点的双循环链表", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-100-2", "src": "第02章+线性表.pptx", "type": "title", "loc": {"slide": 100, "shape": 3}, "text": "A.head= =NULL", "level": 2, "extra": {"top": 1600200}}
+{"id": "s02-100-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 100, "shape": 3}, "text": "假设带头结点的单向循环链表的头指针为head,则该链表为空的判定条件是（　　　）", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-100-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 100, "shape": 3}, "text": "B.head–>next= =NULL", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-100-4", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 100, "shape": 3}, "text": "C.head!=NULL", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-100-5", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 100, "shape": 3}, "text": "D.head–>next= =head", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-101-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 101, "shape": 80899}, "text": "函数功能：", "level": 1, "extra": {"top": 1600200}}
+{"id": "s02-101-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 101, "shape": 80899}, "text": "对以带头结点的单链表作为存储结构的两个递增有序表（无值相同的数据元素）进行如下操作：将所有在Lb表中存在而La表中不存在的结点插入到La中，其中La和Lb分别为两个链表的头指针。", "level": 2, "extra": {"top": 1600200}}
+{"id": "s02-101-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 101, "shape": 80899}, "text": "要求：请在空缺处填入合适内容，使其成为一个完整的算法。", "level": 2, "extra": {"top": 1600200}}
+{"id": "s02-102-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 102, "shape": 81922}, "text": "void union (LinkList La, LinkList Lb){  //本算法的功能是将所有Lb表中存在而La表中不存在的结点插入到La表中  LinkList pre = La, q;  LinkList pa = La -> next;  LinkList pb = Lb -> next;  free (Lb);", "level": 1, "extra": {"font": 28.0, "top": 404813}}
+{"id": "s02-103-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 103, "shape": 82946}, "text": "while (pa && pb)  {    if (pa -> data <pb -> data)      {  pre = pa; pa = pa -> next;}    else", "level": 1, "extra": {"font": 24.0, "top": 404813}}
+{"id": "s02-103-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 103, "shape": 82946}, "text": "if (pa -> data > pb ->data)           {                 (1)       ;              pre = pb;              pb = pb -> next;                 (2)       ;           }         else           {              q = pb; pb = pb -> next; free (q);           }   }   if (pb)       (3)         ;", "level": 1, "extra": {"font": 24.0, "top": 404813}}
+{"id": "s02-103-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 103, "shape": 82946}, "text": "}", "level": 1, "speaker_notes": "（1）Pre->next = Pb\n(2)pre-next = pa\n(3)pre->next = pb", "extra": {"font": 24.0, "top": 404813}}
+{"id": "s02-104-1", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 104, "shape": 82946}, "text": "while (pa && pb)  {    if (pa -> data <pb -> data)      {  pre = pa; pa = pa -> next;}    else", "level": 1, "extra": {"font": 24.0, "top": 404813}}
+{"id": "s02-104-2", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 104, "shape": 82946}, "text": "if (pa -> data > pb ->data)           {                 (1) pre->next = pb       ;              pre = pb;              pb = pb -> next;                 (2) pre-next = pa      ;           }         else           {              q = pb; pb = pb -> next; free (q);           }   }   if (pb)       (3) pre->next = pb         ;", "level": 1, "extra": {"font": 24.0, "top": 404813}}
+{"id": "s02-104-3", "src": "第02章+线性表.pptx", "type": "bullet", "loc": {"slide": 104, "shape": 82946}, "text": "}", "level": 1, "speaker_notes": "（1）Pre->next = Pb\n(2)pre-next = pa\n(3)pre->next = pb", "extra": {"font": 24.0, "top": 404813}}

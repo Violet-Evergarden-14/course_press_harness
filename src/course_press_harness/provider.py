@@ -39,7 +39,7 @@ class ProviderConfig:
     model: str | None = None
     api_key: str | None = None
     base_url: str | None = None
-    max_tokens: int = 8000
+    max_tokens: int = 16000
     temperature: float = 0.2
     timeout: int = 300
     retries: int = 2
