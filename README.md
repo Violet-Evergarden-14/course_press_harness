@@ -122,6 +122,67 @@ render:
 | ⑧ gates | 确定性 | 通过 / 不通过 |
 | ⑨ review | 语义层 | findings 队列 |
 
+## 模型从哪来
+
+**这个仓库不包含任何 API 调用，也不需要 API key 就能跑完确定性部分。**
+摄取、切分、编排、渲染、门禁全在本地完成；只有"把草稿写成可读正文"和"审查"这两步需要模型。
+
+需要模型的地方，命令会**产出一个任务文件**而不是直接发请求：
+
+```
+.study/gaps/compose-<unit>.json      ← 任务：输入、规则、期望的答案格式
+.study/gaps/answers/<id>.json        ← 答案：谁填都行
+```
+
+三种填法，任选：
+
+**1. 让 agent 干（最省事）**
+
+在 `my-course/` 目录下打开 Claude Code / Codex / 任何能读写文件的 agent，说：
+
+> 读 `.study/gaps/*.json`，按每个文件的 `answer_format` 写出 `.study/gaps/answers/<id>.json`，
+> 遵守里面的 rules，不要新增字段。
+
+agent 用自己的额度调用自己的模型，harness 完全不碰网络。
+
+**2. 用脚本调 API**
+
+仓库带了一个标准库实现的脚本，只做两件事：把缺口喂给模型、把回答存成文件。
+
+```bash
+export ANTHROPIC_API_KEY=...          # 或 OPENAI_API_KEY
+python tools/fill_gaps.py --workspace my-course --kind compose_unit --limit 5
+
+# 只看会发送什么，不真正调用：
+python tools/fill_gaps.py --workspace my-course --dry-run
+
+# OpenAI 兼容端点（含本地 vLLM / Ollama）：
+python tools/fill_gaps.py --workspace my-course --provider openai     --base-url http://localhost:8000/v1 --model local-model
+```
+
+脚本会校验回答：出现 `answer_format` 里没声明的字段就整条丢弃，避免模型自由发挥混进正文。
+
+**3. 自己填**
+
+文件就是 JSON，打开写就行。特征明显的图、少量疑难段落，人工填往往比调模型快。
+
+填完执行：
+
+```bash
+study compose --apply          # 写回知识点
+study review apply             # 应用审查结论
+```
+
+### 为什么不在 CLI 里直接调 API
+
+三个理由：
+
+- **可复现**：模型输出落盘成文件，同一份答案重跑得到同一本书；直接调 API 则每次都不同。
+- **可选模型**：Claude、GPT、本地模型、人手都能填，工具不绑定任何供应商。
+- **可审计**：每个知识点能追到"这句是哪个模型、哪次调用写的"，审查时能分清来源。
+
+代价是你要多跑一步。`study auto` 会在结束时列出还差多少个缺口、哪些类型，填完再跑一次即可。
+
 ## 工作区
 
 ```
