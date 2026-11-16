@@ -117,3 +117,22 @@ def test_custom_preamble_is_used(tmp_path, sample_pptx):
     assert r"\documentclass{ctexart}" in tex
     assert "% my own style" in tex
     assert r"\section*{" in tex
+
+
+def test_math_is_rendered_by_katex(tmp_path, sample_pptx):
+    """Formulas must be typeset, not printed as plain text with carets."""
+    ws = _ws(tmp_path, sample_pptx)
+    units_dir = ws / ".study" / "knowledge" / "units"
+    target = sorted(units_dir.glob("*.md"))[0]
+    text = target.read_text(encoding="utf-8")
+    head, body = text.split("\n---\n", 1)
+    target.write_text(head + "\n---\n" + body.rstrip() +
+                      "\n\n第 $i$ 层至多有 $2^{i-1}$ 个结点。\n", encoding="utf-8")
+
+    main(["--workspace", str(ws), "render", "--format", "pdf"])
+    html = (ws / ".study" / "out" / "book.html").read_text(encoding="utf-8")
+    if not html_pdf.available_browser():
+        return
+    assert "katex" in html, "KaTeX stylesheet or markup missing"
+    if html_pdf.KATEX_DIR.exists():
+        assert "katex-html" in html, "formula was not rendered"

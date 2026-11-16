@@ -495,7 +495,7 @@ def _export(cfg: Config, p: dict[str, Path], fmt: str, units: list, outline: dic
         html = html_pdf.build_html(
             units, outline, title=title, profile=profile, templates=_templates(cfg),
             assets=p["assets"], figures=load_figures(cfg.workspace),
-            remedial=remediate.load(cfg.workspace))
+            remedial=remediate.load(cfg.workspace), out_dir=out)
         html_path = out / "book.html"
         html_path.write_text(html, encoding="utf-8", newline="\n")
         pdf, logs = html_pdf.print_pdf(html_path)

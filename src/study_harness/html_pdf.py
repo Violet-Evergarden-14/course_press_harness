@@ -14,6 +14,7 @@ this pipeline 18.0 / 21.7 at `line-height: 1.62`.
 
 from __future__ import annotations
 
+import json
 import re
 import shutil
 import subprocess
@@ -110,6 +111,61 @@ def sub_sup(text: str) -> str:
 
 
 TOKEN_OPEN, TOKEN_CLOSE = chr(7), chr(8)
+MATH_OPEN, MATH_CLOSE = chr(11), chr(12)
+MATH_RE = re.compile(r"\$\$(.+?)\$\$|\$(.+?)\$", re.S)
+
+KATEX_DIR = Path(__file__).resolve().parents[2] / "tools" / "node_modules" / "katex" / "dist"
+_math_queue: list[dict[str, Any]] = []
+
+
+def reset_math() -> None:
+    _math_queue.clear()
+
+
+def math_token(tex: str, display: bool) -> str:
+    """Park the formula and render it in one batch at the end.
+
+    KaTeX runs in node; calling it per line would spawn hundreds of processes, so the
+    formulas are collected first and rendered once.
+    """
+    idx = len(_math_queue)
+    _math_queue.append({"tex": tex, "display": display})
+    return f"{MATH_OPEN}{idx}{MATH_CLOSE}"
+
+
+def render_math_batch() -> list[str]:
+    if not _math_queue:
+        return []
+    script = Path(__file__).resolve().parents[2] / "tools" / "katex_render.js"
+    if not script.exists() or shutil.which("node") is None:
+        return []
+    try:
+        proc = subprocess.run(["node", str(script)], input=json.dumps(_math_queue),
+                              capture_output=True, text=True, encoding="utf-8",
+                              timeout=180)
+        return json.loads(proc.stdout or "[]")
+    except Exception:
+        return []
+
+
+def katex_css(out_dir: Path | None) -> str:
+    """Inline KaTeX's stylesheet, with fonts copied next to the document."""
+    css_file = KATEX_DIR / "katex.min.css"
+    if not css_file.exists():
+        return ""
+    css = css_file.read_text(encoding="utf-8")
+    if out_dir is None:
+        return css
+    src_fonts = KATEX_DIR / "fonts"
+    dst_fonts = out_dir / "katex-fonts"
+    if src_fonts.exists():
+        dst_fonts.mkdir(parents=True, exist_ok=True)
+        for f in src_fonts.iterdir():
+            target = dst_fonts / f.name
+            if not target.exists():
+                shutil.copyfile(f, target)
+        css = css.replace("url(fonts/", "url(katex-fonts/")
+    return css
 BS, LF = chr(92), chr(10)
 
 STANDALONE_TEMPLATE = (
@@ -187,6 +243,13 @@ def inline(text: str, *, assets: Path | None = None, figures: dict | None = None
         return esc(alias or numbers.get(target, target))
 
     text = REF_RE.sub(repl, text)
+
+    def _park_math(m: re.Match) -> str:
+        if m.group(1) is not None:
+            return math_token(m.group(1).strip(), True)
+        return math_token(m.group(2).strip(), False)
+
+    text = MATH_RE.sub(_park_math, text)
     # escape the prose but keep injected HTML (images) intact
     spans = text.split(TOKEN_OPEN)
     rebuilt = [esc(spans[0])]
@@ -274,15 +337,18 @@ def block(lines: list[str], *, assets: Path | None, figures: dict,
 def build_html(units: list[Unit], outline: dict[str, Any], *, title: str,
                profile: str = "learn", templates: TemplateSet | None = None,
                assets: Path | None = None, figures: dict | None = None,
-               remedial: dict[str, str] | None = None) -> str:
+               remedial: dict[str, str] | None = None,
+               out_dir: Path | None = None) -> str:
     templates = templates or TemplateSet()
+    reset_math()
     numbers = number_units(outline)
     by_id = {u.id: u for u in units}
     figures = figures or {}
     remedial = remedial or {}
 
+    css = CSS + "\n" + katex_css(out_dir)
     parts: list[str] = ["<!doctype html><html><head><meta charset='utf-8'>",
-                        f"<title>{esc(title)}</title><style>{CSS}</style></head><body>",
+                        f"<title>{esc(title)}</title><style>{css}</style></head><body>",
                         f"<h1 class='doc'>{esc(title)}</h1>"]
 
     toc: list[str] = ["<div class='toc'>"]
@@ -327,7 +393,14 @@ def build_html(units: list[Unit], outline: dict[str, Any], *, title: str,
                     body.append(block(lines, assets=assets, figures=figures, numbers=numbers))
 
     toc.append("</div>")
-    return "\n".join(parts + toc + body + ["</body></html>"])
+    html = "\n".join(parts + toc + body + ["</body></html>"])
+
+    rendered = render_math_batch()
+    for i, chunk in enumerate(rendered):
+        html = html.replace(f"{MATH_OPEN}{i}{MATH_CLOSE}", chunk)
+    # anything KaTeX could not render keeps its source text, never a blank gap
+    html = html.replace(MATH_OPEN, "").replace(MATH_CLOSE, "")
+    return html
 
 
 def available_browser() -> str | None:
