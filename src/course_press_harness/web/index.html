@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>course_press_harness</title>
+<style>
+  :root { --navy:#165496; --green:#1E6E46; --line:#D6DEE7; --bg:#F7F9FB; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+         background:var(--bg); color:#16283C; font-size:14px; }
+  header { background:#fff; border-bottom:1px solid var(--line); padding:14px 22px;
+           display:flex; align-items:baseline; gap:14px; }
+  header h1 { margin:0; font-size:17px; color:var(--navy); }
+  header .meta { color:#6B7A88; font-size:12.5px; }
+  main { display:grid; grid-template-columns: 360px 1fr; gap:16px; padding:16px 22px 40px; }
+  section { background:#fff; border:1px solid var(--line); border-radius:8px; padding:14px 16px; }
+  section h2 { margin:0 0 10px; font-size:13.5px; color:var(--navy); font-weight:600; }
+  label { display:block; margin:10px 0 4px; font-size:12.5px; color:#40556B; }
+  input[type=text], select, textarea { width:100%; padding:6px 8px; border:1px solid var(--line);
+          border-radius:5px; font-size:13px; font-family:inherit; background:#fff; }
+  textarea { resize:vertical; min-height:64px; }
+  .row { display:flex; gap:8px; }
+  .row > * { flex:1; }
+  button { border:1px solid var(--navy); background:var(--navy); color:#fff; padding:7px 14px;
+           border-radius:6px; font-size:13px; cursor:pointer; }
+  button.ghost { background:#fff; color:var(--navy); }
+  button:disabled { opacity:.5; cursor:not-allowed; }
+  .checks { display:flex; flex-wrap:wrap; gap:10px; margin-top:4px; }
+  .checks label { display:flex; align-items:center; gap:4px; margin:0; font-size:13px; }
+  #log { background:#0F1B26; color:#C9D6E2; font-family:Consolas,monospace; font-size:12px;
+         border-radius:6px; padding:10px; height:300px; overflow:auto; white-space:pre-wrap; }
+  #state { font-size:12.5px; color:#40556B; line-height:1.7; }
+  #downloads a { display:inline-block; margin:4px 8px 0 0; color:var(--navy); }
+  #chatlog { max-height:260px; overflow:auto; border:1px solid var(--line); border-radius:6px;
+             padding:10px; background:#FBFCFD; margin-bottom:8px; }
+  .msg { margin:0 0 8px; line-height:1.6; }
+  .msg b { color:var(--navy); }
+  .msg.user b { color:var(--green); }
+  .hint { color:#7A8A99; font-size:12px; margin-top:6px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>course_press_harness</h1>
+  <span class="meta" id="meta">正在读取状态…</span>
+</header>
+
+<main>
+  <!-- 左：输入与要求 -->
+  <div>
+    <section>
+      <h2>① 工作区与素材</h2>
+      <label>课程名称</label>
+      <input id="course" type="text" value="示例课程">
+      <div class="row" style="margin-top:8px">
+        <button class="ghost" onclick="initWorkspace()">创建工作区</button>
+      </div>
+
+      <label>上传素材（可多选：pptx / pdf / docx / txt / md / 录音）</label>
+      <input id="files" type="file" multiple>
+      <div class="row" style="margin-top:8px">
+        <button class="ghost" onclick="upload()">上传</button>
+      </div>
+      <div class="hint">上传后会自动登记为讲次，无需手改配置。</div>
+    </section>
+
+    <section style="margin-top:14px">
+      <h2>② 输出要求</h2>
+      <label>格式</label>
+      <div class="checks" id="formats">
+        <label><input type="checkbox" value="pdf" checked> PDF</label>
+        <label><input type="checkbox" value="md" checked> Markdown</label>
+        <label><input type="checkbox" value="docx"> Word</label>
+        <label><input type="checkbox" value="pptx"> PPT</label>
+        <label><input type="checkbox" value="tex"> LaTeX</label>
+      </div>
+
+      <label>视图</label>
+      <select id="profile">
+        <option value="learn">learn · 学习用（讲解完整）</option>
+        <option value="review">review · 复习用（结论前置）</option>
+      </select>
+
+      <label>文风要求（留空则由对话里说明）</label>
+      <textarea id="style" placeholder="例如：面向大二学生，每节 600~900 字，先讲为什么再讲是什么"></textarea>
+
+      <div class="row" style="margin-top:12px">
+        <button id="runBtn" onclick="run()">开始生成</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- 右：状态 + 日志 + 对话 -->
+  <div>
+    <section>
+      <h2>当前状态</h2>
+      <div id="state">—</div>
+      <div id="downloads"></div>
+    </section>
+
+    <section style="margin-top:14px">
+      <h2>进度</h2>
+      <div id="log"></div>
+    </section>
+
+    <section style="margin-top:14px">
+      <h2>对话（提要求 / 追问）</h2>
+      <div id="chatlog"></div>
+      <div class="row">
+        <input id="chatInput" type="text" placeholder="例如：换成复习版，输出 PDF 和 Word">
+        <button onclick="sendChat()">发送</button>
+      </div>
+      <div class="hint">模型会据此决定：直接生成、先补写更多内容，还是回答你的问题。</div>
+    </section>
+  </div>
+</main>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const log = (line) => {
+  const el = $("log");
+  el.textContent += line + "\n";
+  el.scrollTop = el.scrollHeight;
+};
+
+async function api(path, opts) {
+  const res = await fetch(path, opts);
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || res.statusText);
+  return data;
+}
+
+function renderState(payload) {
+  const p = payload.provider || {};
+  $("meta").textContent = payload.workspace
+    ? `工作区 ${payload.workspace} · 模型 ${p.name}` + (p.missing_key ? `（缺少 ${p.missing_key}）` : "")
+    : "尚未创建工作区";
+
+  const s = payload.state;
+  if (!s) { $("state").textContent = "—"; return; }
+  const gaps = Object.entries(s.open_gaps).map(([k, v]) => `${k}×${v}`).join("，") || "无";
+  $("state").innerHTML =
+    `素材 ${s.inputs.length} 个　知识点 ${s.units}（草稿 ${s.drafts}）<br>` +
+    `待填缺口：${gaps}　已填 ${s.answers}<br>` +
+    `已产出：${s.outputs.join("、") || "—"}`;
+  $("downloads").innerHTML = s.outputs
+    .map(n => `<a href="/files/${encodeURIComponent(n)}" download>↓ ${n}</a>`).join("");
+}
+
+async function refresh() {
+  try { renderState(await api("/api/state")); } catch (e) { $("meta").textContent = e.message; }
+}
+
+async function initWorkspace() {
+  try {
+    await api("/api/init", { method: "POST", headers: { "content-type": "application/json" },
+      body: JSON.stringify({ workspace: "workspace", course: $("course").value }) });
+    log("工作区已就绪");
+    refresh();
+  } catch (e) { log("错误：" + e.message); }
+}
+
+async function upload() {
+  const files = $("files").files;
+  if (!files.length) return log("先选择文件");
+  const fd = new FormData();
+  for (const f of files) fd.append("files", f, f.name);
+  try {
+    const data = await api("/api/upload", { method: "POST", body: fd });
+    log("已上传：" + data.saved.join("、"));
+    refresh();
+  } catch (e) { log("错误：" + e.message); }
+}
+
+async function run() {
+  const formats = [...document.querySelectorAll("#formats input:checked")].map(x => x.value);
+  if (!formats.length) return log("至少选一种输出格式");
+  $("runBtn").disabled = true;
+  try {
+    await api("/api/run", { method: "POST", headers: { "content-type": "application/json" },
+      body: JSON.stringify({ formats, profile: $("profile").value, style: $("style").value }) });
+    log("任务已提交");
+  } catch (e) { log("错误：" + e.message); }
+  finally { setTimeout(() => { $("runBtn").disabled = false; refresh(); }, 1500); }
+}
+
+async function sendChat() {
+  const message = $("chatInput").value.trim();
+  if (!message) return;
+  $("chatInput").value = "";
+  addMsg("user", message);
+  try {
+    const data = await api("/api/chat", { method: "POST", headers: { "content-type": "application/json" },
+      body: JSON.stringify({ message }) });
+    addMsg("bot", data.reply + (data.result && data.result.downloads ? "\n已生成：" + data.result.downloads.join("、") : ""));
+    if (data.state) renderState({ workspace: $("meta").textContent, state: data.state, provider: {} });
+  } catch (e) { addMsg("bot", "出错：" + e.message); }
+}
+
+function addMsg(who, text) {
+  const el = document.createElement("p");
+  el.className = "msg " + who;
+  el.innerHTML = `<b>${who === "user" ? "你" : "助手"}</b>　${text.replace(/</g, "&lt;")}`;
+  $("chatlog").appendChild(el);
+  $("chatlog").scrollTop = $("chatlog").scrollHeight;
+}
+
+const es = new EventSource("/api/events");
+es.onmessage = (e) => { log(e.data); if (/完成|出错|中止/.test(e.data)) refresh(); };
+es.onerror = () => { /* 断线由浏览器自动重连 */ };
+
+refresh();
+setInterval(refresh, 5000);
+</script>
+</body>
+</html>

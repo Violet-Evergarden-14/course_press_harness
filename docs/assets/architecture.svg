@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 600" width="1240" height="600"
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 620" width="1240" height="620"
      font-family="'Helvetica Neue','Arial','SimHei','Noto Sans CJK SC',sans-serif">
   <defs>
     <marker id="a" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
@@ -25,7 +25,7 @@
     </style>
   </defs>
 
-  <rect width="1240" height="600" fill="#FFFFFF"/>
+  <rect width="1240" height="620" fill="#FFFFFF"/>
 
   <!-- 输入 -->
   <text class="grp" x="40" y="32">输入素材（只读）</text>
@@ -125,7 +125,7 @@
   <text class="cap" x="536" y="396">缺口 / 答案</text>
 
   <rect class="frame" x="40" y="404" width="966" height="150" rx="4"/>
-  <text class="grp" x="56" y="426">语义层 · 模型或人工 · 结果一律落盘</text>
+  <text class="grp" x="56" y="426">语义层 · 结果一律落盘（可由人工填、脚本填、或服务层自动填）</text>
 
   <g>
     <rect class="box" x="80"  y="448" width="280" height="64" rx="3"/>
@@ -144,5 +144,6 @@
   <text class="mono" x="80" y="540">.study/gaps/&lt;id&gt;.json</text>
   <path class="flow" d="M262 540 L300 540"/>
   <text class="mono" x="308" y="540">.study/gaps/answers/&lt;id&gt;.json</text>
-  <text class="cap" x="640" y="540">命令行从不调用模型：任何 agent 或人都可以填写答案，结果可缓存、可复核。</text>
+  <text class="cap" x="56" y="576">服务层：study serve → 网页选素材与输出格式 · 对话提要求 · 自动调用模型填缺口 · 渲染成品</text>
+  <text class="cap" x="640" y="540">`study` 命令行从不调用模型；服务层（study serve）代为填答，产物等价。</text>
 </svg>

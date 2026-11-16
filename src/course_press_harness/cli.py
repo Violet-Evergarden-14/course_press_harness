@@ -848,6 +848,15 @@ def _merge_findings(review_dir: Path, new: list[dict[str, Any]]) -> None:
                     encoding="utf-8")
 
 
+def cmd_serve(args) -> int:
+    """启动服务模式：网页 + 对话 + 自动出成品。"""
+    from .server import serve as run_server
+
+    run_server(Path(args.workspace).resolve() if args.workspace else None,
+               host=args.host, port=args.port)
+    return EXIT_OK
+
+
 def cmd_doctor(args) -> int:
     cfg = _workspace(args)
     p = _paths(cfg)
@@ -1150,6 +1159,11 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--caption")
     p.add_argument("--desc", help="what the figure should show (request)")
     p.set_defaults(func=cmd_figure)
+
+    p = sub.add_parser("serve", help="start the web UI + chat + automatic generation")
+    p.add_argument("--host", default="127.0.0.1")
+    p.add_argument("--port", type=int, default=8765)
+    p.set_defaults(func=cmd_serve)
 
     p = sub.add_parser("doctor", help="self-check workspace and environment")
     p.set_defaults(func=cmd_doctor)

@@ -22,6 +22,7 @@ dev = ["pytest>=8.0"]
 
 [project.scripts]
 study = "course_press_harness.cli:main"
+cph = "course_press_harness.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
