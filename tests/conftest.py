@@ -33,7 +33,7 @@ def sample_pptx(tmp_path: Path) -> Path:
                 p = tf.add_paragraph()
                 p.text = b
 
-    slide("第06章 树和二叉树", ["课程封面", "学习重点"])
+    slide("第6章 示例专题", ["课程封面", "学习重点"])
     slide("6.1 树的定义和基本术语", ["树是 n 个结点的有限集", "n=0 时为空树", "结点的度指子树个数"])
     slide("6.1 树的定义和基本术语", ["森林是 m 棵互不相交的树的集合"])
     slide("6.2 二叉树", ["二叉树每个结点至多两棵子树", "第 i 层至多有 2^(i-1) 个结点"])
@@ -44,7 +44,7 @@ def sample_pptx(tmp_path: Path) -> Path:
     png.write_bytes(base64.b64decode(_ONE_PX_PNG))
     prs.slides[1].shapes.add_picture(str(png), Inches(0.5), Inches(5))
 
-    out = tmp_path / "第06章+树和二叉树.pptx"
+    out = tmp_path / "第6章+示例专题.pptx"
     prs.save(str(out))
     return out
 
@@ -56,7 +56,7 @@ def sample_docx(tmp_path: Path) -> Path:
     from docx.shared import Inches
 
     doc = Document()
-    doc.add_heading("第06章 树和二叉树", level=1)
+    doc.add_heading("第6章 示例专题", level=1)
     doc.add_paragraph("本章讨论树与二叉树的基本概念与遍历。")
 
     doc.add_heading("6.1 树的定义", level=2)
@@ -76,6 +76,6 @@ def sample_docx(tmp_path: Path) -> Path:
     png.write_bytes(base64.b64decode(_ONE_PX_PNG))
     doc.add_picture(str(png), width=Inches(0.5))
 
-    out = tmp_path / "第06章+树和二叉树.docx"
+    out = tmp_path / "第6章+示例专题.docx"
     doc.save(str(out))
     return out

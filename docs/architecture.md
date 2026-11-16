@@ -358,7 +358,7 @@ suspects: [full-binary-tree-leaves]
 {
   "parts": [
     {"kind": "front_matter", "title": "前言"},
-    {"kind": "lecture", "no": 6, "title": "树和二叉树",
+    {"kind": "lecture", "no": 6, "title": "示例专题",
      "sections": [
        {"title": "基本概念", "units": ["binary-tree-def", "binary-tree-terms"]},
        {"title": "性质", "units": ["binary-tree-layer-max", "full-binary-tree-leaves"]}
@@ -605,7 +605,7 @@ study explain --remove <unit>                              # 删除，原文自�
 
 ### D1 不做跨讲知识点合并
 
-**背景**：同一概念在不同讲次重复出现（第 2 讲讲线性表定义，第 4 讲再次提及），早期设计把它列为「整学期文档最常见的缺陷」，计划生成候选合并清单。
+**背景**：同一概念在不同讲次重复出现，早期设计把它列为「整学期文档最常见的缺陷」，计划生成候选合并清单。
 
 **决定**：不合并。只以 `info` 级提示列出重名知识点，由作者决定是否加交叉引用。
 

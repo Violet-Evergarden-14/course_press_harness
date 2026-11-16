@@ -32,7 +32,7 @@ uv venv .venv && uv pip install -e .
 # formulas are typeset with KaTeX, installed once for the checkout:
 (cd tools && npm install)
 mkdir my-course && cd my-course
-study init --course "数据结构"
+study init --course "示例课程"
 cp ~/slides/lecture-06.pptx inputs/
 $EDITOR study.config.yaml     # declare the lecture
 study auto            # build + review tasks + status; exit 5 means "needs you"
@@ -44,11 +44,11 @@ Minimal config:
 ```yaml
 schema_version: 1
 course:
-  name: 数据结构
+  name: 示例课程
   lang: zh
   lectures:
     - number: 6                 # use `number:`, not `no:` — YAML 1.1 reads `no` as false
-      title: 树和二叉树
+      title: 示例专题
       sources: [inputs/lecture-06.pptx]
 render:
   profile: learn                # learn | review

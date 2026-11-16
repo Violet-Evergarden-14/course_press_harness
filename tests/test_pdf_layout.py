@@ -32,11 +32,11 @@ def test_repeated_header_and_footer_are_furniture():
     adapter = PdfAdapter()
     pages = []
     for i in range(6):
-        pages.append([_line(5, 40, 560, "数据结构与算法 I"),
+        pages.append([_line(5, 40, 560, "示例课程讲义"),
                       _line(30, 40, 560, f"正文 {i}"),
                       _line(800, 40, 560, "第 3 页")])
     furniture = adapter._furniture(pages)
-    assert "数据结构与算法 I" in furniture
+    assert "示例课程讲义" in furniture
     assert "第 3 页" in furniture
     assert "正文 0" not in furniture
 

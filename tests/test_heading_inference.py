@@ -49,7 +49,7 @@ def sentence_deck(tmp_path: Path) -> Path:
 
 def _ws(tmp_path: Path, pptx: Path) -> Path:
     ws = tmp_path / "ws"
-    main(["--workspace", str(ws), "init", "--course", "数据结构"])
+    main(["--workspace", str(ws), "init", "--course", "示例课程"])
     (ws / "inputs").mkdir(exist_ok=True)
     (ws / "inputs" / pptx.name).write_bytes(pptx.read_bytes())
     cfg = yaml.safe_load((ws / "study.config.yaml").read_text(encoding="utf-8"))

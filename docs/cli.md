@@ -43,7 +43,7 @@ CI 中只允许 `0`。`5` 用于交互式流程，在 `--no-interactive` 下升�
 在当前目录建立工作区。
 
 ```bash
-study init --course "数据结构" --lang zh [--from-example templates/minimal]
+study init --course "示例课程" --lang zh [--from-example templates/minimal]
 ```
 
 产物：`study.config.yaml`、`inputs/`、`.study/`、`glossary.yaml`（空表）。已存在时不覆盖，除非 `--force`。
@@ -274,11 +274,11 @@ study migrate [--check] [--to SCHEMA_VERSION]
 schema_version: 1
 
 course:
-  name: 数据结构
+  name: 示例课程
   lang: zh
   lectures:
     # 用 number，不要用 no：YAML 1.1 会把裸键 `no` 解析为布尔 false
-    - {number: 6, title: 树和二叉树, sources: [inputs/lecture-06.pptx, inputs/rec-06.m4a]}
+    - {number: 6, title: 示例专题, sources: [inputs/lecture-06.pptx, inputs/rec-06.m4a]}
 
 render:
   profile: learn

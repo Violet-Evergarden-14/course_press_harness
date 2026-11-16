@@ -66,7 +66,7 @@ sort_key(unit) = (min_slide(unit), min_block_index(unit), id)
 4. 首个边界之前的内容（封面、序言）并入第一节
 5. 标题中的编号在渲染时剥离，避免「6.2.1 6.1 二叉树的定义」这类重复
 
-约束：`第6章 树和二叉树` 这类**章节级**标题不参与最浅层级判定——它描述的是整讲，不是某一节。
+约束：`第6章 示例专题` 这类**章节级**标题不参与最浅层级判定——它描述的是整讲，不是某一节。
 
 单级编号（`2. 链式存储结构`）同样不算结构信号：它在实践中是节内的列表项，若当作边界会把一讲切碎。只有含小数点的编号（`x.y`）参与层级计算。
 
@@ -157,7 +157,7 @@ sort_key(unit) = (min_slide(unit), min_block_index(unit), id)
   "parts": [
     {"kind": "front_matter", "title": "前言"},
     {
-      "kind": "lecture", "no": 6, "title": "树和二叉树",
+      "kind": "lecture", "no": 6, "title": "示例专题",
       "sections": [
         {"title": "基本概念", "units": ["binary-tree-def", "binary-tree-terms"]},
         {"title": "性质", "units": ["binary-tree-layer-max", "full-binary-tree-leaves"]}

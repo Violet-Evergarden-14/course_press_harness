@@ -5,8 +5,8 @@
 version: 1
 
 latex:
-  # 版式参数取自参考文档《人工智能引论 第 1–9 讲学习文档》：
-  # 宋体正文 + 黑体深蓝标题、1.5 倍行距、浅蓝表头无竖线、蓝/橙两级色块。
+  # 版式目标：宋体正文 + 黑体标题、1.5 倍行距、浅色表头无竖线、两级色块。
+  # 整段可替换：换成你自己的导言区即可，渲染器不读这里以外的样式。
   preamble: |
     \documentclass[11pt,a4paper,openany]{ctexbook}
     \usepackage{geometry}

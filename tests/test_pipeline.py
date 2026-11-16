@@ -12,12 +12,12 @@ from course_content_organization.cli import main
 
 def _workspace(tmp_path: Path, pptx: Path) -> Path:
     ws = tmp_path / "ws"
-    assert main(["--workspace", str(ws), "init", "--course", "数据结构"]) == 0
+    assert main(["--workspace", str(ws), "init", "--course", "示例课程"]) == 0
     inputs = ws / "inputs"
     inputs.mkdir(exist_ok=True)
     (inputs / pptx.name).write_bytes(pptx.read_bytes())
     cfg = yaml.safe_load((ws / "study.config.yaml").read_text(encoding="utf-8"))
-    cfg["course"]["lectures"] = [{"number": 6, "title": "树和二叉树",
+    cfg["course"]["lectures"] = [{"number": 6, "title": "示例专题",
                                   "sources": [f"inputs/{pptx.name}"]}]
     (ws / "study.config.yaml").write_text(
         yaml.safe_dump(cfg, allow_unicode=True, sort_keys=False), encoding="utf-8")
@@ -30,7 +30,7 @@ def test_build_without_model_produces_document(tmp_path: Path, sample_pptx: Path
     book = ws / ".study" / "out" / "book.md"
     assert book.exists(), "build must succeed with no model and no network"
     text = book.read_text(encoding="utf-8")
-    assert "第 6 讲 树和二叉树" in text
+    assert "第 6 讲 示例专题" in text
     assert rc in (0, 1)
 
 

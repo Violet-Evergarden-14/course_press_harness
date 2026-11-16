@@ -9,11 +9,11 @@ from course_content_organization.cli import main
 
 def _ws(tmp_path, pptx):
     ws = tmp_path / "ws"
-    main(["--workspace", str(ws), "init", "--course", "数据结构"])
+    main(["--workspace", str(ws), "init", "--course", "示例课程"])
     (ws / "inputs").mkdir(exist_ok=True)
     (ws / "inputs" / pptx.name).write_bytes(pptx.read_bytes())
     cfg = yaml.safe_load((ws / "study.config.yaml").read_text(encoding="utf-8"))
-    cfg["course"]["lectures"] = [{"number": 6, "title": "树和二叉树",
+    cfg["course"]["lectures"] = [{"number": 6, "title": "示例专题",
                                   "sources": [f"inputs/{pptx.name}"]}]
     (ws / "study.config.yaml").write_text(
         yaml.safe_dump(cfg, allow_unicode=True, sort_keys=False), encoding="utf-8")

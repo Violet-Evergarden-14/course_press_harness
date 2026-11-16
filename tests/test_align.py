@@ -106,7 +106,7 @@ def test_apply_to_blocks_moves_time_into_extra():
 
 
 def test_media_adapter_uses_sidecar_transcript(tmp_path: Path):
-    audio = tmp_path / "第06章 录音.m4a"
+    audio = tmp_path / "第6章 录音.m4a"
     audio.write_bytes(b"\x00" * 64)
     audio.with_suffix(".srt").write_text(SRT, encoding="utf-8")
 
@@ -116,21 +116,21 @@ def test_media_adapter_uses_sidecar_transcript(tmp_path: Path):
     speech = [b for b in result.blocks if b.type == "speech"]
     assert len(speech) == 4
     assert speech[0].loc["t"] == [0.0, 8.5]
-    assert result.capabilities["transcript"] == "第06章 录音.srt"
+    assert result.capabilities["transcript"] == "第6章 录音.srt"
 
 
 def test_pipeline_with_audio_puts_speech_in_the_unit(tmp_path, sample_pptx):
     ws = tmp_path / "ws"
-    main(["--workspace", str(ws), "init", "--course", "数据结构"])
+    main(["--workspace", str(ws), "init", "--course", "示例课程"])
     (ws / "inputs").mkdir(exist_ok=True)
     (ws / "inputs" / sample_pptx.name).write_bytes(sample_pptx.read_bytes())
 
-    audio = ws / "inputs" / "第06章 录音.m4a"
+    audio = ws / "inputs" / "第6章 录音.m4a"
     audio.write_bytes(b"\x00" * 64)
     audio.with_suffix(".srt").write_text(SRT, encoding="utf-8")
 
     cfg = yaml.safe_load((ws / "study.config.yaml").read_text(encoding="utf-8"))
-    cfg["course"]["lectures"] = [{"number": 6, "title": "树和二叉树",
+    cfg["course"]["lectures"] = [{"number": 6, "title": "示例专题",
                                   "sources": [f"inputs/{sample_pptx.name}",
                                               f"inputs/{audio.name}"]}]
     (ws / "study.config.yaml").write_text(
@@ -150,11 +150,11 @@ def test_pipeline_with_audio_puts_speech_in_the_unit(tmp_path, sample_pptx):
 
 def test_c_tier_writes_nothing_to_swallow_the_absence(tmp_path, sample_pptx):
     ws = tmp_path / "ws"
-    main(["--workspace", str(ws), "init", "--course", "数据结构"])
+    main(["--workspace", str(ws), "init", "--course", "示例课程"])
     (ws / "inputs").mkdir(exist_ok=True)
     (ws / "inputs" / sample_pptx.name).write_bytes(sample_pptx.read_bytes())
     cfg = yaml.safe_load((ws / "study.config.yaml").read_text(encoding="utf-8"))
-    cfg["course"]["lectures"] = [{"number": 6, "title": "树和二叉树",
+    cfg["course"]["lectures"] = [{"number": 6, "title": "示例专题",
                                   "sources": [f"inputs/{sample_pptx.name}"]}]
     (ws / "study.config.yaml").write_text(
         yaml.safe_dump(cfg, allow_unicode=True, sort_keys=False), encoding="utf-8")

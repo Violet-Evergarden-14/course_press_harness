@@ -14,11 +14,11 @@ from course_content_organization.latex import (available_engine, escape_tex, mar
 
 def _ws(tmp_path: Path, pptx: Path) -> Path:
     ws = tmp_path / "ws"
-    main(["--workspace", str(ws), "init", "--course", "数据结构"])
+    main(["--workspace", str(ws), "init", "--course", "示例课程"])
     (ws / "inputs").mkdir(exist_ok=True)
     (ws / "inputs" / pptx.name).write_bytes(pptx.read_bytes())
     cfg = yaml.safe_load((ws / "study.config.yaml").read_text(encoding="utf-8"))
-    cfg["course"]["lectures"] = [{"number": 6, "title": "树和二叉树",
+    cfg["course"]["lectures"] = [{"number": 6, "title": "示例专题",
                                   "sources": [f"inputs/{pptx.name}"]}]
     (ws / "study.config.yaml").write_text(
         yaml.safe_dump(cfg, allow_unicode=True, sort_keys=False), encoding="utf-8")
@@ -45,7 +45,7 @@ def test_txt_is_written_and_readable(tmp_path, sample_pptx):
     ws = _ws(tmp_path, sample_pptx)
     main(["--workspace", str(ws), "render", "--format", "txt"])
     text = (ws / ".study" / "out" / "book.txt").read_text(encoding="utf-8")
-    assert "树和二叉树" in text
+    assert "示例专题" in text
     assert "**" not in text, "markdown emphasis must not leak into plain text"
     assert "## " not in text
 
@@ -77,7 +77,7 @@ def test_tex_is_written_even_without_an_engine(tmp_path, sample_pptx):
     main(["--workspace", str(ws), "render", "--format", "tex"])
     tex = (ws / ".study" / "out" / "book.tex").read_text(encoding="utf-8")
     assert r"\documentclass" in tex and r"\begin{document}" in tex
-    assert "树和二叉树" in tex
+    assert "示例专题" in tex
     assert "textbf" not in tex.split(r"\begin{document}")[0] or True
 
 
