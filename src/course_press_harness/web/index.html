@@ -50,6 +50,31 @@
   <!-- 左：输入与要求 -->
   <div>
     <section>
+      <h2>模型设置</h2>
+      <label>供应商</label>
+      <select id="providerSelect">
+        <option value="anthropic">Anthropic（Claude）</option>
+        <option value="openai">OpenAI 兼容（含本地 vLLM / Ollama）</option>
+      </select>
+
+      <label>API Key</label>
+      <input id="apiKey" type="password" placeholder="sk-...（留空则沿用环境变量）">
+
+      <label>模型（留空用默认）</label>
+      <input id="modelInput" type="text" placeholder="claude-sonnet-5-5">
+
+      <label>端点（仅 OpenAI 兼容时需要）</label>
+      <input id="baseUrl" type="text" placeholder="http://localhost:8000/v1">
+
+      <div class="row" style="margin-top:10px">
+        <button class="ghost" onclick="saveSettings(false)">保存</button>
+        <button class="ghost" onclick="saveSettings(true)">保存并记住</button>
+        <button class="ghost" onclick="testSettings()">测试连接</button>
+      </div>
+      <div class="hint" id="settingsHint">未配置</div>
+    </section>
+
+    <section style="margin-top:14px">
       <h2>① 工作区与素材</h2>
       <label>课程名称</label>
       <input id="course" type="text" value="示例课程">
@@ -148,8 +173,50 @@ function renderState(payload) {
     .map(n => `<a href="/files/${encodeURIComponent(n)}" download>↓ ${n}</a>`).join("");
 }
 
+
+async function saveSettings(remember) {
+  const payload = {
+    provider: $("providerSelect").value,
+    api_key: $("apiKey").value,
+    model: $("modelInput").value,
+    base_url: $("baseUrl").value,
+    remember: !!remember,
+  };
+  try {
+    const data = await api("/api/settings", { method: "POST",
+      headers: { "content-type": "application/json" }, body: JSON.stringify(payload) });
+    $("apiKey").value = "";
+    showSettings(data.settings);
+    log(remember ? "设置已保存到本机 .study/provider.json" : "设置已生效（仅本次运行）");
+  } catch (e) { log("保存失败：" + e.message); }
+}
+
+async function testSettings() {
+  $("settingsHint").textContent = "测试中…";
+  try {
+    const data = await api("/api/settings", { method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ action: "test" }) });
+    $("settingsHint").textContent = data.ok ? "连接正常" : ("失败：" + data.error);
+  } catch (e) { $("settingsHint").textContent = "失败：" + e.message; }
+}
+
+function showSettings(s) {
+  if (!s) return;
+  $("providerSelect").value = s.provider || "anthropic";
+  $("modelInput").value = s.model || "";
+  $("baseUrl").value = s.base_url || "";
+  $("settingsHint").textContent = s.has_key
+    ? `已配置：${s.provider}/${s.model || "默认模型"}`
+    : "未配置 API key（生成时会跳过模型合成）";
+}
+
 async function refresh() {
-  try { renderState(await api("/api/state")); } catch (e) { $("meta").textContent = e.message; }
+  try {
+    const payload = await api("/api/state");
+    renderState(payload);
+    showSettings(payload.settings);
+  } catch (e) { $("meta").textContent = e.message; }
 }
 
 async function initWorkspace() {

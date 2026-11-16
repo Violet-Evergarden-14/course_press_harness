@@ -26,3 +26,6 @@ Thumbs.db
 # katex runtime, installed with `npm install` in tools/
 tools/node_modules/
 tools/package-lock.json
+
+# 网页里「保存并记住」写入的模型设置（含密钥）
+.study/provider.json

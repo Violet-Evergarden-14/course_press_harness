@@ -117,3 +117,59 @@ def test_server_serves_ui_and_state(tmp_path: Path):
     with urllib.request.urlopen(base + "/", timeout=5) as resp:
         html = resp.read().decode("utf-8")
     assert "course_press_harness" in html and "开始生成" in html
+
+
+def test_settings_endpoint_masks_the_key(tmp_path: Path):
+    ws = tmp_path / "ws"
+    port = 8801
+    threading.Thread(target=server.serve, args=(ws, "127.0.0.1", port), daemon=True).start()
+    base = f"http://127.0.0.1:{port}"
+
+    payload = {}
+    for _ in range(30):
+        try:
+            with urllib.request.urlopen(base + "/api/state", timeout=2) as resp:
+                payload = json.loads(resp.read())
+            break
+        except Exception:
+            time.sleep(0.2)
+
+    req = urllib.request.Request(base + "/api/settings", method="POST",
+                                 headers={"content-type": "application/json"},
+                                 data=json.dumps({"provider": "anthropic",
+                                                  "api_key": "sk-test-123",
+                                                  "model": "claude-sonnet-5-5"}).encode())
+    with urllib.request.urlopen(req, timeout=5) as resp:
+        settings = json.loads(resp.read())["settings"]
+
+    assert settings["has_key"] is True
+    assert "api_key" not in settings, "接口不能把密钥回传"
+    assert settings["model"] == "claude-sonnet-5-5"
+    assert server.provider_cfg().api_key == "sk-test-123"
+
+
+def test_settings_can_be_remembered_to_the_workspace(tmp_path: Path):
+    ws = tmp_path / "ws"
+    port = 8802
+    threading.Thread(target=server.serve, args=(ws, "127.0.0.1", port), daemon=True).start()
+    base = f"http://127.0.0.1:{port}"
+
+    for _ in range(30):
+        try:
+            with urllib.request.urlopen(base + "/api/state", timeout=2) as resp:
+                resp.read()
+            break
+        except Exception:
+            time.sleep(0.2)
+
+    req = urllib.request.Request(base + "/api/settings", method="POST",
+                                 headers={"content-type": "application/json"},
+                                 data=json.dumps({"provider": "openai", "api_key": "sk-x",
+                                                  "base_url": "http://localhost:8000/v1",
+                                                  "remember": True}).encode())
+    with urllib.request.urlopen(req, timeout=5) as resp:
+        resp.read()
+
+    saved = json.loads((ws / ".study" / "provider.json").read_text(encoding="utf-8"))
+    assert saved["provider"] == "openai"
+    assert saved["base_url"] == "http://localhost:8000/v1"

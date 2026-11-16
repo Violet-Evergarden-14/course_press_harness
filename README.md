@@ -189,9 +189,20 @@ study review apply             # 应用审查结论
 用服务模式——它把模型接进来，一条龙生成：
 
 ```bash
-export ANTHROPIC_API_KEY=...        # 或 OPENAI_API_KEY，也支持本地 OpenAI 兼容端点
 study serve --workspace my-course   # 打开 http://127.0.0.1:8765
 ```
+
+模型在**网页里配置**，不用碰环境变量：
+
+| 字段 | 说明 |
+|---|---|
+| 供应商 | Anthropic / OpenAI 兼容（含本地 vLLM、Ollama） |
+| API Key | 只保存在服务进程内存里；勾「保存并记住」才写入 `.study/provider.json`（已被 git 忽略） |
+| 模型 | 留空用默认（`claude-sonnet-5-5` / `gpt-4o`） |
+| 端点 | OpenAI 兼容服务需要，例如 `http://localhost:8000/v1` |
+
+面板上有「测试连接」，填错了会直接显示 401 之类的错误，不用等到生成时才发现。
+也可以用环境变量（`ANTHROPIC_API_KEY` / `OPENAI_API_KEY`）作为默认值。
 
 页面里能做四件事：
 

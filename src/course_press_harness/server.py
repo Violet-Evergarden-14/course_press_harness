@@ -114,6 +114,7 @@ class Handler(BaseHTTPRequestHandler):
             }
             if ws:
                 payload["state"] = agent.summarize(ws)
+            payload["settings"] = public_settings()
             return _json(self, payload)
         if path == "/api/events":
             return self._events()
@@ -192,6 +193,8 @@ class Handler(BaseHTTPRequestHandler):
             return self._run(body)
         if path == "/api/chat":
             return self._chat(body)
+        if path == "/api/settings":
+            return _settings(self, body)
         return _json(self, {"error": "not found"}, 404)
 
     def _init(self, body: bytes) -> None:
@@ -304,6 +307,83 @@ def _register_lectures(ws: Path, names: list[str]) -> None:
     publish(f"已登记 {len(lectures)} 个讲次")
 
 
+def public_settings() -> dict[str, Any]:
+    cfg = provider_cfg()
+    return {
+        "provider": cfg.name,
+        "model": cfg.model or "",
+        "base_url": cfg.base_url or "",
+        "has_key": bool(cfg.api_key),
+        "key_hint": ("已保存" if cfg.api_key else ""),
+    }
+
+
+def _settings(handler: BaseHTTPRequestHandler, body: bytes) -> None:
+    data = json.loads(body or b"{}")
+    action = data.get("action") or "save"
+
+    if action == "test":
+        try:
+            reply = provider.chat(provider_cfg(), system="只回答 ok",
+                                  messages=[{"role": "user", "content": "ping"}])
+            return _json(handler, {"ok": True, "reply": reply[:40]})
+        except provider.ProviderError as exc:
+            return _json(handler, {"ok": False, "error": str(exc)}, 400)
+
+    cfg = provider.ProviderConfig(
+        name=data.get("provider") or "anthropic",
+        model=(data.get("model") or "").strip() or None,
+        base_url=(data.get("base_url") or "").strip() or None,
+        api_key=(data.get("api_key") or "").strip() or None,
+    )
+    if not cfg.api_key:                      # 没填新 key 时沿用环境变量
+        cfg.api_key = provider.ProviderConfig.from_env(cfg.name).api_key
+
+    STATE["provider"] = cfg
+    publish(f"模型设置已更新：{cfg.name}/{cfg.resolved_model}"
+            + ("" if cfg.api_key else "（尚未填 API key）"))
+
+    if data.get("remember"):
+        _save_provider(cfg, STATE.get("workspace"))
+
+    return _json(handler, {"settings": public_settings()})
+
+
+def _provider_path(ws: Path | None) -> Path:
+    base = ws if ws else Path.cwd()
+    return base / ".study" / "provider.json"
+
+
+def _save_provider(cfg: provider.ProviderConfig, ws: Path | None) -> None:
+    """把设置写进工作区 .study/（已被 .gitignore 排除），重启后自动读回。"""
+    path = _provider_path(ws)
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps({
+            "provider": cfg.name, "model": cfg.model,
+            "base_url": cfg.base_url, "api_key": cfg.api_key,
+        }, ensure_ascii=False, indent=2), encoding="utf-8")
+        publish(f"设置已保存到 {path}")
+    except Exception as exc:  # noqa: BLE001
+        publish(f"保存设置失败：{exc}")
+
+
+def _load_provider(ws: Path | None) -> None:
+    path = _provider_path(ws)
+    if not path.exists():
+        return
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return
+    STATE["provider"] = provider.ProviderConfig(
+        name=data.get("provider") or "anthropic",
+        model=data.get("model"), base_url=data.get("base_url"),
+        api_key=data.get("api_key"),
+    )
+    publish(f"已从 {path.name} 读回模型设置")
+
+
 def provider_cfg() -> provider.ProviderConfig:
     cfg = STATE.get("provider")
     if cfg is None:
@@ -330,6 +410,7 @@ def serve(workspace: Path | None, host: str = "127.0.0.1", port: int = 8765) -> 
                 cli_main(["--workspace", str(workspace), "init"])
         STATE["workspace"] = workspace
 
+    _load_provider(STATE.get("workspace"))
     httpd = ThreadingHTTPServer((host, port), Handler)
     print(f"course_press_harness 服务已启动：http://{host}:{port}")
     print(f"工作区：{STATE['workspace'] or '（尚未创建，可在页面里建）'}")
