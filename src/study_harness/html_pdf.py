@@ -28,29 +28,30 @@ CSS = """
 @page { size: A4; margin: 22mm 22mm 20mm; }
 html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 body {
-  font-family: "SimSun", "Songti SC", serif;
+  /* Latin first, CJK fallback: SimSun's Latin glyphs are what looked ugly */
+  font-family: "Times New Roman", "SimSun", "Songti SC", serif;
   font-size: 11pt; line-height: 1.62; color: #000; margin: 0;
   text-align: justify;
 }
-h1.doc { font-family: "SimHei", sans-serif; font-size: 22pt; color: #165496; margin: 0 0 6pt; }
-h1.part { font-family: "SimHei", sans-serif; font-size: 18pt; font-weight: bold;
+h1.doc { font-family: "Arial", "SimHei", sans-serif; font-size: 22pt; color: #165496; margin: 0 0 6pt; }
+h1.part { font-family: "Arial", "SimHei", sans-serif; font-size: 18pt; font-weight: bold;
           color: #165496; margin: 20pt 0 12pt; letter-spacing: 0.5pt;
           page-break-before: always; }
-h2.sec  { font-family: "SimHei", sans-serif; font-size: 13.5pt; font-weight: bold;
+h2.sec  { font-family: "Arial", "SimHei", sans-serif; font-size: 13.5pt; font-weight: bold;
           color: #165496; margin: 15pt 0 6pt; letter-spacing: 0.3pt; }
 /* third level: same family, but black and smaller -- the reference does the same,
    and it is what keeps 章/节/小节 readable as three distinct ranks */
-h3.unit { font-family: "SimHei", sans-serif; font-size: 11.5pt; font-weight: bold;
+h3.unit { font-family: "Arial", "SimHei", sans-serif; font-size: 11.5pt; font-weight: bold;
           color: #1E6E46; margin: 11pt 0 4pt; }
 /* fourth level: clearly below h3 — smaller and sans, but readable; grey made it
    look like a disabled label rather than a heading */
-h4.sub  { font-family: "SimHei", sans-serif; font-size: 10.5pt; font-weight: bold;
+h4.sub  { font-family: "Arial", "SimHei", sans-serif; font-size: 10.5pt; font-weight: bold;
           color: #165496; margin: 7pt 0 2pt; letter-spacing: 0.2pt; }
 p { margin: 0 0 3pt; text-indent: 2em; }
 ul, ol { margin: 2pt 0 4pt; padding-left: 2em; }
 li { margin: 0 0 2pt; }
 table { border-collapse: collapse; width: 100%; margin: 6pt 0 8pt; font-size: 10pt; }
-thead th { background: #E2E9F2; color: #165496; font-family: "SimHei", sans-serif;
+thead th { background: #E2E9F2; color: #165496; font-family: "Arial", "SimHei", sans-serif;
            font-weight: bold; text-align: left; padding: 4pt 6pt; }
 tbody td { padding: 3pt 6pt; border-bottom: 0.5pt solid #ddd; vertical-align: top; }
 table, thead th { border-top: 0.8pt solid #333; border-bottom: 0.8pt solid #333; }
@@ -59,16 +60,17 @@ table.three thead th:last-child { width: 42%; }
 tr { page-break-inside: avoid; }
 .box { margin: 8pt 0; border: 0.6pt solid #9CC0E0; background: #E8F1FA;
        border-radius: 7pt; page-break-inside: avoid; overflow: hidden; }
-.box > .head { background: #5C88B6; color: #fff; font-family: "SimHei", sans-serif;
+.box > .head { background: #5C88B6; color: #fff; font-family: "Arial", "SimHei", sans-serif;
                font-size: 10pt; font-weight: bold; padding: 3pt 8pt; }
 .box > .body { padding: 6pt 9pt 4pt; }
 .box > .body p { text-indent: 0; margin: 0 0 3pt; }
 .box.warn { border-color: #F4B183; background: #FDF0E6; }
 .box.warn > .head { background: #BF6000; }
 pre { background: #f6f6f6; border: 0.5pt solid #ddd; padding: 6pt 8pt; font-size: 9.5pt;
-      line-height: 1.35; white-space: pre-wrap; page-break-inside: avoid; }
-code { font-family: "Consolas", monospace; font-size: 9.5pt; background: #f2f2f2;
-       padding: 0 2pt; }
+      line-height: 1.35; white-space: pre-wrap; page-break-inside: avoid;
+      font-family: Consolas, "Cascadia Mono", "Courier New", monospace; }
+code { font-family: Consolas, "Cascadia Mono", "Courier New", monospace; font-size: 9.5pt;
+       background: #f2f2f2; padding: 0 2pt; }
 figure { margin: 8pt 0; text-align: center; page-break-inside: avoid; }
 figure svg, figure img { max-width: 100%; }
 figcaption { font-size: 9.5pt; color: #444; margin-top: 3pt; text-indent: 0; }
