@@ -191,13 +191,17 @@ def auto_run(workspace: Path, opts: RunOptions, cfg: provider.ProviderConfig,
         log(f"② 跳过模型合成：缺少 {cfg.missing_key()}（先用确定性草稿出书）")
     elif opts.compose_units:
         kinds = ("compose_unit", "image_semantics") if opts.fill_images else ("compose_unit",)
-        log(f"② 调用模型合成（{cfg.name}/{cfg.resolved_model}）")
+        # 先让 compose 生成缺口文件，否则没有东西可填——这一步之前漏了
+        log("② 生成写作任务")
+        _run_cli(workspace, "compose", "--limit", str(opts.max_units), log=log)
+
+        log(f"③ 调用模型合成（{cfg.name}/{cfg.resolved_model}）")
         stats = fill_gaps(workspace, cfg, kinds=kinds, limit=opts.max_units, log=log)
         log(f"   合成 {stats['filled']}，失败 {stats['failed']}")
         if stats["filled"]:
             _run_cli(workspace, "compose", "--apply", log=log)
 
-    log("③ 重新编排并渲染")
+    log("④ 重新编排并渲染")
     _run_cli(workspace, "build", log=log)
     formats = ",".join(opts.formats) if opts.formats else "pdf"
     for fmt in formats.split(","):

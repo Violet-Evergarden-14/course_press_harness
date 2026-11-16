@@ -42,6 +42,18 @@ FIGURE_RULES = [
     "重画时图中文字用中文术语，与正文一致，且不标注出处。",
 ]
 
+PACKAGED_STYLE = Path(__file__).resolve().parent / "data" / "default.style.md"
+REPO_STYLE = Path(__file__).resolve().parents[2] / "templates" / "compose" / "default.style.md"
+
+
+def default_style() -> str:
+    """仓库自带的写作要求。用户没填时用它，保证"不填也能出书"。"""
+    for candidate in (PACKAGED_STYLE, REPO_STYLE):
+        if candidate.exists():
+            return candidate.read_text(encoding="utf-8")
+    return "面向学生的详细学习资料：先讲为什么，再讲是什么，给出可复现的例子。"
+
+
 STYLE_HINT = (
     "写作要求由使用者提供（study.config.yaml 的 compose.style）：文风、详略、"
     "保留什么舍弃什么，都按使用者的说明来。这里不预设任何风格，也不提供样例。"

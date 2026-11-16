@@ -745,10 +745,8 @@ def cmd_compose(args) -> int:
                             encoding="utf-8")
         print("style 已写入 study.config.yaml（compose.style）")
     if not style.strip():
-        print("error: 缺少写作要求（compose.style）。写作层不预设文风，也不提供样例。\n"
-              "  用 --style '<你的要求>' 传入，或写入 study.config.yaml 的 compose.style。",
-              file=sys.stderr)
-        return EXIT_USAGE
+        style = compose_mod.default_style()
+        print("未指定文风，使用默认模板 templates/compose/default.style.md")
 
     targets = [u for u in units if u.draft] if not args.all else units
     if args.only:

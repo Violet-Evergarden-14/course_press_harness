@@ -254,6 +254,9 @@ def check_unformatted_math(units: list[Unit], report: GateReport) -> None:
             for line in lines:
                 # strip maths that is already formatted
                 stripped = re.sub(r"\$[^$]*\$", "", line)
+                # 代码行里的 = ; -> 是语法，不是公式
+                if any(tok in stripped for tok in (";", "->", "{", "}", "==", "++")):
+                    continue
                 for pattern in UNFORMATTED_MATH:
                     m = pattern.search(stripped)
                     if m:
