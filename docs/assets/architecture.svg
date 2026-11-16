@@ -1,112 +1,148 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 560" width="1060" height="560" font-family="'SimHei','Noto Sans CJK SC',sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 600" width="1240" height="600"
+     font-family="'Helvetica Neue','Arial','SimHei','Noto Sans CJK SC',sans-serif">
   <defs>
-    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 0 L 10 5 L 0 10 z" fill="#5A6B7B"/>
+    <marker id="a" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#243447"/>
+    </marker>
+    <marker id="ad" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#5B6B7C"/>
+    </marker>
+    <marker id="ad-start" viewBox="0 0 10 10" refX="0.5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M10,0 L0,5 L10,10 z" fill="#5B6B7C"/>
     </marker>
     <style>
-      .title { font-size: 15px; fill: #165496; font-weight: bold; }
-      .lane  { font-size: 13px; fill: #5A6B7B; }
-      .box   { fill: #E8F1FA; stroke: #9CC0E0; stroke-width: 1; rx: 7; }
-      .boxs  { fill: #EAF6EF; stroke: #7FB89A; stroke-width: 1; rx: 7; }
-      .boxo  { fill: #FFFFFF; stroke: #C9D6E2; stroke-width: 1; rx: 7; }
-      .name  { font-size: 13px; fill: #1F3864; font-weight: bold; }
-      .nameg { font-size: 13px; fill: #1E6E46; font-weight: bold; }
-      .sub   { font-size: 11px; fill: #4A4A4A; }
-      .pill  { fill: #F4F7FA; stroke: #C9D6E2; stroke-width: 1; rx: 12; }
-      .pillt { font-size: 11.5px; fill: #33475B; }
-      .flow  { stroke: #5A6B7B; stroke-width: 1.3; fill: none; marker-end: url(#arrow); }
-      .note  { font-size: 11.5px; fill: #6B7A88; }
+      .grp    { font-size: 11.5px; font-style: italic; fill: #5B6B7C; }
+      .box    { fill: #FFFFFF; stroke: #243447; stroke-width: 1.1; }
+      .boxd   { fill: #F4F7FA; stroke: #243447; stroke-width: 1.1; }
+      .name   { font-size: 12.5px; font-weight: bold; fill: #16283C; text-anchor: middle; }
+      .sub    { font-size: 10.5px; fill: #5B6B7C; text-anchor: middle; }
+      .mono   { font-size: 10.5px; font-family: Consolas, monospace; fill: #5B6B7C; }
+      .flow   { stroke: #243447; stroke-width: 1.1; fill: none; marker-end: url(#a); }
+      .dash   { stroke: #5B6B7C; stroke-width: 1; fill: none; stroke-dasharray: 4 3;
+                marker-end: url(#ad); marker-start: url(#ad-start); }
+      .frame  { fill: none; stroke: #9CB3C7; stroke-width: 1; stroke-dasharray: 6 4; }
+      .cap    { font-size: 10px; fill: #5B6B7C; }
     </style>
   </defs>
 
-  <rect width="1060" height="560" fill="#FFFFFF"/>
+  <rect width="1240" height="600" fill="#FFFFFF"/>
 
   <!-- 输入 -->
-  <text class="title" x="40" y="42">① 输入</text>
+  <text class="grp" x="40" y="32">输入素材（只读）</text>
   <g>
-    <rect class="pill" x="40"  y="56" width="86" height="26"/><text class="pillt" x="58"  y="74">PPTX</text>
-    <rect class="pill" x="134" y="56" width="86" height="26"/><text class="pillt" x="154" y="74">PDF</text>
-    <rect class="pill" x="228" y="56" width="86" height="26"/><text class="pillt" x="246" y="74">DOCX</text>
-    <rect class="pill" x="322" y="56" width="86" height="26"/><text class="pillt" x="340" y="74">TXT/MD</text>
-    <rect class="pill" x="416" y="56" width="86" height="26"/><text class="pillt" x="428" y="74">课堂录音</text>
-    <rect class="pill" x="510" y="56" width="86" height="26"/><text class="pillt" x="522" y="74">学生手记</text>
+    <rect class="box" x="40"  y="44" width="150" height="40" rx="3"/>
+    <text class="name" x="115" y="69">PPTX</text>
+    <rect class="box" x="204" y="44" width="150" height="40" rx="3"/>
+    <text class="name" x="279" y="69">PDF</text>
+    <rect class="box" x="368" y="44" width="150" height="40" rx="3"/>
+    <text class="name" x="443" y="69">DOCX</text>
+    <rect class="box" x="532" y="44" width="150" height="40" rx="3"/>
+    <text class="name" x="607" y="69">TXT / MD</text>
+    <rect class="box" x="696" y="44" width="150" height="40" rx="3"/>
+    <text class="name" x="771" y="69">课堂录音</text>
+    <rect class="box" x="860" y="44" width="150" height="40" rx="3"/>
+    <text class="name" x="935" y="69">学生手记</text>
   </g>
 
-  <!-- 确定性主干 -->
-  <text class="title" x="40" y="126">② 确定性主干（离线可跑，不调用模型）</text>
-
-  <g>
-    <rect class="box" x="40"  y="142" width="118" height="62"/>
-    <text class="name" x="58" y="166">ingest</text>
-    <text class="sub"  x="58" y="186">格式 → 块</text>
-
-    <rect class="box" x="176" y="142" width="118" height="62"/>
-    <text class="name" x="194" y="166">probe</text>
-    <text class="sub"  x="194" y="186">能力清单</text>
-
-    <rect class="box" x="312" y="142" width="118" height="62"/>
-    <text class="name" x="330" y="166">align</text>
-    <text class="sub"  x="330" y="186">录音 ↔ 页</text>
-
-    <rect class="box" x="448" y="142" width="118" height="62"/>
-    <text class="name" x="466" y="166">units</text>
-    <text class="sub"  x="466" y="186">切分知识点</text>
-
-    <rect class="box" x="584" y="142" width="118" height="62"/>
-    <text class="name" x="602" y="166">outline</text>
-    <text class="sub"  x="602" y="186">骨架与编号</text>
-
-    <rect class="box" x="720" y="142" width="118" height="62"/>
-    <text class="name" x="738" y="166">render</text>
-    <text class="sub"  x="738" y="186">装配文档</text>
-
-    <rect class="box" x="856" y="142" width="118" height="62"/>
-    <text class="name" x="874" y="166">gates</text>
-    <text class="sub"  x="874" y="186">结构校验</text>
-  </g>
-
-  <path class="flow" d="M158 173 H176"/><path class="flow" d="M294 173 H312"/>
-  <path class="flow" d="M430 173 H448"/><path class="flow" d="M566 173 H584"/>
-  <path class="flow" d="M702 173 H720"/><path class="flow" d="M838 173 H856"/>
+  <path class="flow" d="M525 84 L525 114"/>
 
   <!-- IR -->
-  <rect class="boxo" x="40" y="232" width="934" height="40"/>
-  <text class="name" x="56" y="257">中间表示 IR</text>
-  <text class="sub"  x="150" y="257">每个块带位置（slide · page · para · 时间戳），知识点 id 由位置派生，按内容哈希缓存；成书只是把知识点投影出来</text>
+  <rect class="boxd" x="345" y="114" width="360" height="66" rx="3"/>
+  <text class="name" x="525" y="140">中间表示 IR</text>
+  <text class="sub" x="525" y="160">每块带定位符 · 按内容哈希缓存 · 逐块可溯源</text>
 
-  <!-- 语义层 -->
-  <text class="title" x="40" y="312">③ 语义层（模型或人工，结果落盘为缺口文件）</text>
+  <path class="flow" d="M525 180 L525 206"/>
+
+  <!-- 确定性层 -->
+  <rect class="frame" x="40" y="208" width="1000" height="172" rx="4"/>
+  <text class="grp" x="56" y="230">确定性层 · 离线 · 不调用模型</text>
 
   <g>
-    <rect class="boxs" x="40" y="328" width="200" height="62"/>
-    <text class="nameg" x="58" y="352">compose</text>
-    <text class="sub"   x="58" y="372">把草稿写成可读正文</text>
+    <rect class="box" x="64"  y="256" width="124" height="64" rx="3"/>
+    <text class="name" x="126" y="282">ingest</text>
+    <text class="sub"  x="126" y="301">解析为块</text>
 
-    <rect class="boxs" x="262" y="328" width="200" height="62"/>
-    <text class="nameg" x="280" y="352">review</text>
-    <text class="sub"   x="280" y="372">证据支撑 / 对抗审查</text>
+    <rect class="box" x="202" y="256" width="124" height="64" rx="3"/>
+    <text class="name" x="264" y="282">probe</text>
+    <text class="sub"  x="264" y="301">能力探测</text>
 
-    <rect class="boxs" x="484" y="328" width="200" height="62"/>
-    <text class="nameg" x="502" y="352">remediate</text>
-    <text class="sub"   x="502" y="372">按需补丁，可删除</text>
+    <rect class="box" x="340" y="256" width="124" height="64" rx="3"/>
+    <text class="name" x="402" y="282">align</text>
+    <text class="sub"  x="402" y="301">录音 ↔ 页</text>
 
-    <rect class="boxs" x="706" y="328" width="268" height="62"/>
-    <text class="nameg" x="724" y="352">gaps 协议</text>
-    <text class="sub"   x="724" y="372">.study/gaps/*.json → answers/*.json</text>
+    <rect class="box" x="478" y="256" width="124" height="64" rx="3"/>
+    <text class="name" x="540" y="282">units</text>
+    <text class="sub"  x="540" y="301">切分知识点</text>
+
+    <rect class="box" x="616" y="256" width="124" height="64" rx="3"/>
+    <text class="name" x="678" y="282">outline</text>
+    <text class="sub"  x="678" y="301">骨架与编号</text>
+
+    <rect class="box" x="754" y="256" width="124" height="64" rx="3"/>
+    <text class="name" x="816" y="282">render</text>
+    <text class="sub"  x="816" y="301">装配文档</text>
+
+    <rect class="box" x="892" y="256" width="124" height="64" rx="3"/>
+    <text class="name" x="954" y="282">gates</text>
+    <text class="sub"  x="954" y="301">结构校验</text>
   </g>
+
+  <path class="flow" d="M188 288 L202 288"/>
+  <path class="flow" d="M326 288 L340 288"/>
+  <path class="flow" d="M464 288 L478 288"/>
+  <path class="flow" d="M602 288 L616 288"/>
+  <path class="flow" d="M740 288 L754 288"/>
+  <path class="flow" d="M878 288 L892 288"/>
 
   <!-- 输出 -->
-  <text class="title" x="40" y="440">④ 产物</text>
+  <text class="grp" x="1060" y="230">产物</text>
   <g>
-    <rect class="pill" x="40"  y="454" width="96" height="26"/><text class="pillt" x="62"  y="472">book.md</text>
-    <rect class="pill" x="144" y="454" width="96" height="26"/><text class="pillt" x="166" y="472">book.html</text>
-    <rect class="pill" x="248" y="454" width="110" height="26"/><text class="pillt" x="270" y="472">book.pdf</text>
-    <rect class="pill" x="366" y="454" width="96" height="26"/><text class="pillt" x="388" y="472">book.tex</text>
-    <rect class="pill" x="470" y="454" width="96" height="26"/><text class="pillt" x="492" y="472">book.docx</text>
-    <rect class="pill" x="574" y="454" width="96" height="26"/><text class="pillt" x="596" y="472">book.pptx</text>
+    <rect class="box" x="1060" y="244" width="140" height="32" rx="3"/>
+    <text class="name" x="1130" y="265">markdown</text>
+    <rect class="box" x="1060" y="284" width="140" height="32" rx="3"/>
+    <text class="name" x="1130" y="305">PDF</text>
+    <rect class="box" x="1060" y="324" width="140" height="32" rx="3"/>
+    <text class="name" x="1130" y="345">LaTeX</text>
+    <rect class="box" x="1060" y="364" width="140" height="32" rx="3"/>
+    <text class="name" x="1130" y="385">DOCX</text>
+    <rect class="box" x="1060" y="404" width="140" height="32" rx="3"/>
+    <text class="name" x="1130" y="425">PPTX</text>
+    <rect class="box" x="1060" y="444" width="140" height="32" rx="3"/>
+    <text class="name" x="1130" y="465">TXT</text>
   </g>
 
-  <!-- 边界说明 -->
-  <rect x="40" y="504" width="934" height="34" fill="#FBFDFF" stroke="#C9D6E2" stroke-width="1" rx="7"/>
-  <text class="note" x="56" y="525">约定：命令行从不调用模型；语义层产物一律写文件，可缓存、可复核、可人工替换——因此同一份输入永远产出同一本书。</text>
+  <path class="flow" d="M1016 288 L1028 288"/>
+  <path d="M1028 260 L1028 460" stroke="#243447" stroke-width="1.1" fill="none"/>
+  <path class="flow" d="M1028 260 L1060 260"/>
+  <path class="flow" d="M1028 300 L1060 300"/>
+  <path class="flow" d="M1028 340 L1060 340"/>
+  <path class="flow" d="M1028 380 L1060 380"/>
+  <path class="flow" d="M1028 420 L1060 420"/>
+  <path class="flow" d="M1028 460 L1060 460"/>
+
+  <!-- 语义层 -->
+  <path class="dash" d="M525 380 L525 404"/>
+  <text class="cap" x="536" y="396">缺口 / 答案</text>
+
+  <rect class="frame" x="40" y="404" width="966" height="150" rx="4"/>
+  <text class="grp" x="56" y="426">语义层 · 模型或人工 · 结果一律落盘</text>
+
+  <g>
+    <rect class="box" x="80"  y="448" width="280" height="64" rx="3"/>
+    <text class="name" x="220" y="474">compose</text>
+    <text class="sub"  x="220" y="493">草稿 → 可读正文</text>
+
+    <rect class="box" x="400" y="448" width="280" height="64" rx="3"/>
+    <text class="name" x="540" y="474">review</text>
+    <text class="sub"  x="540" y="493">证据支撑 / 对抗审查</text>
+
+    <rect class="box" x="720" y="448" width="280" height="64" rx="3"/>
+    <text class="name" x="860" y="474">remediate</text>
+    <text class="sub"  x="860" y="493">按需补丁 · 可删除</text>
+  </g>
+
+  <text class="mono" x="80" y="540">.study/gaps/&lt;id&gt;.json</text>
+  <path class="flow" d="M262 540 L300 540"/>
+  <text class="mono" x="308" y="540">.study/gaps/answers/&lt;id&gt;.json</text>
+  <text class="cap" x="640" y="540">命令行从不调用模型：任何 agent 或人都可以填写答案，结果可缓存、可复核。</text>
 </svg>
